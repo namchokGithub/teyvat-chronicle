@@ -21,6 +21,7 @@ Instructions for AI coding agents working on Teyvat Chronicle.
 - `pnpm exec vitest run src/timeline/projection.test.ts`: focused timeline projection test.
 - `pnpm exec vitest run src/content/workflow.test.ts`: focused Back Office draft/publish flow test.
 - `pnpm exec vitest run src/features/explorer/explorer.test.ts`: focused public filtering and deep-link flow test.
+- `pnpm exec vitest run src/timeline/layout.test.ts`: focused card placement test.
 - `pnpm exec eslint src` and `pnpm exec prettier --check <files>`: code checks.
 - `pnpm build`: typecheck and production build when warranted by the change.
 
@@ -29,6 +30,7 @@ Instructions for AI coding agents working on Teyvat Chronicle.
 - `docs/REQUIREMENT.md`: product requirements, proposed data model, and draft roadmap.
 - `docs/image/REQUIREMENT/`: images referenced by the requirements.
 - `src/timeline/`: mock chronology, timeline types, and the break-aware projection.
+- `src/timeline/layout.ts`: stable card row placement at the minimum supported zoom.
 - `src/App.tsx`: public/Back Office route switch; `src/styles.css`: shared visual theme.
 - `public/images/events/`: local illustrative event art.
 - `src/lib/firebase.ts`: optional Firebase app initialization; no live project is connected.
