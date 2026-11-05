@@ -1,6 +1,6 @@
 # Progress
 
-อ้างอิง [REQUIREMENT.md](REQUIREMENT.md) ส่วน Roadmap การพัฒนาเบื้องต้น (Draft) สถานะด้านล่างเป็นภาพรวมสำหรับติดตามงาน ยังไม่ใช่ขอบเขตหรือกำหนดส่งที่ยืนยันแล้ว Phase 1 ใช้ mock data; Phase 2 มี Back Office สำหรับพัฒนาในเครื่องและโค้ดเชื่อม Firebase แต่ยังไม่ได้ทดสอบกับ project จริง
+อ้างอิง [REQUIREMENT.md](REQUIREMENT.md) ส่วน Roadmap การพัฒนาเบื้องต้น (Draft) สถานะด้านล่างเป็นภาพรวมสำหรับติดตามงาน ยังไม่ใช่ขอบเขตหรือกำหนดส่งที่ยืนยันแล้ว เมื่อไม่มี Firebase project หน้า public ใช้ mock data; เมื่อกำหนด Firebase แล้วจะอ่านเฉพาะข้อมูลที่ publish แต่ยังไม่ได้ทดสอบกับ project จริง
 
 สถานะที่ใช้: `Not started` · `In progress` · `Done`
 
@@ -10,7 +10,7 @@
 | ------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------- |
 | [Phase 1 — Foundation & Timeline Engine](#phase-1--foundation--timeline-engine) | In progress | แอปและ timeline จาก mock data พร้อม; รอ Firebase จริงและตรวจหน้าจอด้วยตา        |
 | [Phase 2 — Database & Back Office](#phase-2--database--back-office)             | In progress | schema, CRUD และ draft/publish ในเครื่องพร้อม; รอ Firebase จริงและฟอร์มเฉพาะงาน |
-| [Phase 3 — Public Explorer](#phase-3--public-explorer)                          | Not started | ให้ผู้ใช้ค้นหา กรอง และสำรวจ timeline                                           |
+| [Phase 3 — Public Explorer](#phase-3--public-explorer)                          | In progress | ค้นหา กรอง และ deep link ได้ในโค้ด; รอข้อมูลจริงและตรวจหน้าจอ                   |
 | [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)                 | Not started | ปรับการใช้งาน การจัดวาง และประสิทธิภาพ                                          |
 | [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features)            | Not started | เพิ่มเครื่องมือสำรวจ lore ขั้นสูง                                               |
 
@@ -40,14 +40,22 @@
 - [ ] ตรวจการมีอยู่ของ timeline/source/character/era/region ที่อ้างถึง และจัดการผลกระทบเมื่อลบ record ที่ถูกอ้างอิง
 - [ ] ทำ Media Library และการตั้งค่า theme/default viewer ให้ใช้งานจริง; Cloud Storage upload ยังเป็นตัวเลือก
 - [ ] ตรวจหน้าจอ Back Office ด้วยตา รวมถึง mobile, keyboard, error state และ Firebase sign-in
-- [ ] เชื่อม published Firestore content เข้ากับ public explorer เมื่อเข้าสู่ Phase 3; ตอนนี้ public timeline ยังแสดง mock data
+- [x] เตรียม public loader ให้ query เฉพาะ `status == published` และแปลงข้อมูลร่วมกับ timeline engine (รอทดสอบ Firestore จริงใน Phase 3)
 
 ## Phase 3 — Public Explorer
 
-**สถานะ:** Not started
+**สถานะ:** In progress
 
-- ทำ landing page, search, filter และมุมมอง world, character, era/region บนข้อมูลร่วมกัน
-- เพิ่ม deep link ของ event, responsive UI และการแสดงระดับความแน่นอนของ lore
+- [x] ปรับ landing page ให้เข้าสู่ archive และมีทางลัดไปยังยุคสมัย
+- [x] เพิ่ม MiniSearch, ตัวกรอง lore certainty และมุมมอง world, character, era/region จากชุด event เดียวกัน
+- [x] แสดงข้อมูลตัวละครที่เลือกและเหตุการณ์ที่เชื่อมผ่าน `characterIds` หรือ published relationship
+- [x] แยก event ที่ไม่ทราบเวลาออกจากแกนเวลา โดยยังเปิดรายละเอียดได้
+- [x] เพิ่ม event deep link ผ่าน query string พร้อมคง search/filter ใน URL และแสดงแหล่งอ้างอิงที่ publish ในรายละเอียด
+- [x] เตรียม Firestore public loader ให้ query เฉพาะข้อมูล `published`; ไม่มี Firebase จะใช้ mock data ที่ติดป้ายตัวอย่าง
+- [ ] ทดสอบ query, สิทธิ์อ่าน draft/published, แหล่งอ้างอิง และ deep link กับ Firebase project จริง
+- [ ] ตรวจหน้า public ด้วยตาที่ 360px และ 1280px รวมถึงผลค้นหาว่าง, event ไม่ทราบเวลา, dialog และการย้อน URL
+- [ ] เพิ่มข้อมูล lore และประวัติตัวละครที่มีแหล่งอ้างอิงจริง แทนข้อมูลตัวอย่าง
+- [ ] ตรวจคุณภาพการค้นหาภาษาไทยและข้อมูลจำนวนมากเมื่อมีชุดข้อมูลจริง
 
 ## Phase 4 — Interaction & Polish
 
