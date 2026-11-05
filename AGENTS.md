@@ -13,17 +13,24 @@ Instructions for AI coding agents working on Teyvat Chronicle.
 - Proposed timeline: custom SVG + HTML with D3 Scale and D3 Zoom; Motion for animation.
 - Proposed app/data tools: Zustand, TanStack Query, Firebase Firestore and Authentication, Zod, React Hook Form, and MiniSearch.
 - Hosting options in the requirement: GitHub Pages or Firebase Hosting. Cloud Storage for back office uploads is optional.
-- These are requirement proposals, not proof that a dependency or service is configured. Check the repository before using one.
+- Some tools are now installed for Phase 1. Check `package.json` before using a dependency; the other requirement proposals are not yet implemented.
 
 ## Commands
 
-- No application commands are configured yet; this repository currently has no `package.json`. Check the available scripts after setup instead of assuming a command works.
+- `pnpm dev`: run the local Vite app.
+- `pnpm exec vitest run src/timeline/projection.test.ts`: focused timeline projection test.
+- `pnpm exec eslint src` and `pnpm exec prettier --check <files>`: code checks.
+- `pnpm build`: typecheck and production build when warranted by the change.
 
 ## Project Structure
 
 - `docs/REQUIREMENT.md`: product requirements, proposed data model, and draft roadmap.
 - `docs/image/REQUIREMENT/`: images referenced by the requirements.
-- `src/`, `public/images/`, and Firebase collections are planned structures, not present directories or deployed resources.
+- `src/timeline/`: mock chronology, timeline types, and the break-aware projection.
+- `src/App.tsx` and `src/styles.css`: Phase 1 public timeline UI and theme.
+- `public/images/events/`: local illustrative event art.
+- `src/lib/firebase.ts`: optional Firebase app initialization; no live project is connected.
+- Firebase collections remain proposed resources, not deployed data.
 - Proposed Firestore collections: `timelines`, `events`, `characters`, `eras`, `regions`, `sources`, `relationships`, and `settings`.
 
 ## Architecture Rules

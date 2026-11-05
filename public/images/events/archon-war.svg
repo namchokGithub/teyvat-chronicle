@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-labelledby="title">
+  <title id="title">Mountain and celestial rings</title>
+  <defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#3e3b5b"/><stop offset="1" stop-color="#a4949f"/></linearGradient></defs>
+  <path fill="url(#sky)" d="M0 0h800v400H0z"/>
+  <circle cx="400" cy="170" r="118" fill="none" stroke="#ead19c" stroke-width="2" opacity=".7"/><circle cx="400" cy="170" r="81" fill="none" stroke="#ead19c" opacity=".5"/>
+  <path d="M400 39v259M271 169h258" stroke="#ead19c" opacity=".28"/><path d="m0 330 143-145 96 98 158-167 118 133 102-68 183 137v82H0z" fill="#4b5065"/>
+  <path d="m0 359 164-99 119 72 124-111 135 103 127-80 131 98v58H0z" fill="#303d51"/>
+  <path d="m240 283 158-167 118 133-118-76z" fill="#c7b5bd" opacity=".55"/>
+  <path d="M0 386h800" stroke="#e7cf9d" stroke-width="6" opacity=".75"/>
+  <g fill="#e9d4a7"><circle cx="75" cy="66" r="2"/><circle cx="166" cy="39" r="2"/><circle cx="632" cy="65" r="2"/><circle cx="720" cy="123" r="2"/></g>
+</svg>
