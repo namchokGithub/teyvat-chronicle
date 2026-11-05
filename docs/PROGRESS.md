@@ -11,7 +11,7 @@
 | [Phase 1 — Foundation & Timeline Engine](#phase-1--foundation--timeline-engine) | In progress | แอปและ timeline จาก mock data พร้อม; รอ Firebase จริงและตรวจหน้าจอด้วยตา        |
 | [Phase 2 — Database & Back Office](#phase-2--database--back-office)             | In progress | schema, CRUD และ draft/publish ในเครื่องพร้อม; รอ Firebase จริงและฟอร์มเฉพาะงาน |
 | [Phase 3 — Public Explorer](#phase-3--public-explorer)                          | In progress | ค้นหา กรอง และ deep link ได้ในโค้ด; รอข้อมูลจริงและตรวจหน้าจอ                   |
-| [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)                 | Not started | ปรับการใช้งาน การจัดวาง และประสิทธิภาพ                                          |
+| [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)                 | In progress | focus/relationship และจัดแถว card ในโค้ดแล้ว; รอตรวจภาพและข้อมูลจริง            |
 | [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features)            | Not started | เพิ่มเครื่องมือสำรวจ lore ขั้นสูง                                               |
 
 ## Phase 1 — Foundation & Timeline Engine
@@ -59,10 +59,15 @@
 
 ## Phase 4 — Interaction & Polish
 
-**สถานะ:** Not started
+**สถานะ:** In progress
 
-- เพิ่ม animation, focus character และการเน้นความสัมพันธ์ของเหตุการณ์
-- ปรับ auto layout ไม่ให้ card ทับกัน พร้อม performance และ accessibility
+- [x] เพิ่ม focus mode ให้ character timeline แสดงเหตุการณ์อื่นจางลง พร้อม Previous/Next ตามลำดับเวลา
+- [x] เน้น event ที่เชื่อมกันด้วยเส้นและรายการลิงก์ในรายละเอียด โดยใช้ published relationship เดียวกัน
+- [x] จัดแถว card อัตโนมัติจากตำแหน่งเวลาที่ระดับซูมต่ำสุด เพื่อลดการทับกันโดยไม่ย้ายแถวระหว่างซูม
+- [x] เพิ่มการเคลื่อนไหวอย่างจำกัด พร้อมรองรับ `prefers-reduced-motion`
+- [x] ลดการอัปเดต React ระหว่าง zoom/pan ด้วย `requestAnimationFrame`; เพิ่มการใช้ Arrow keys, +/− และ Home บน timeline
+- [ ] ตรวจหน้าจอและ interaction ในเบราว์เซอร์จริงที่ 360px/1280px รวมถึง focus, hover, keyboard, dialog และ reduced motion (เครื่องมือเบราว์เซอร์ในเซสชันนี้เปิด local tab ไม่สำเร็จ)
+- [ ] ทดสอบการจัดแถวและประสิทธิภาพกับข้อมูล Firestore จำนวนมากก่อนสรุป Phase 4 ว่าเสร็จ
 
 ## Phase 5 — Advanced Lore Features
 

@@ -17,3 +17,7 @@ The editor uses the same navy, parchment, and aged gold tokens. A fixed navigati
 ## Public explorer extension
 
 Three view tabs and compact filters sit between the opening section and the shared timeline. Character selection reveals a small archive profile; era and region selection reuses the same time axis. Certainty badges use gold, teal, and violet, while date precision remains written separately. Empty results and undated events have explicit places outside the axis. The timeline remains the main visual focus.
+
+## Interaction extension
+
+Character focus dims context records while keeping them keyboard reachable; hover, focus, and the event dialog surface related records. Card rows are assigned at the minimum zoom and remain stable during zoom and pan. Motion is limited to the introduction and emphasis transitions, with reduced-motion settings removing those effects. The timeline exposes visible controls and keyboard shortcuts for equivalent navigation.

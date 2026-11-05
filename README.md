@@ -8,6 +8,8 @@ An interactive Genshin Impact lore timeline explorer, connecting Teyvat's histor
 
 The public explorer now supports search, world/character/era-region views, lore certainty filters, source details, and event deep links. Phase 2 provides a development-only local Back Office and code for Firestore, owner authentication, and draft/publish management. No Firebase project is connected yet, so public pages use clearly labeled sample records. See [Progress](docs/PROGRESS.md) for remaining work and later phases.
 
+Phase 4 interaction work adds character focus, related event navigation, stable card placement, and keyboard timeline controls. Visual and large-data verification remain open.
+
 ## Run locally
 
 Requires Node.js and pnpm.

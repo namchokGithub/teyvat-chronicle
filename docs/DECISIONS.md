@@ -17,3 +17,7 @@ Content records are validated with Zod before storage. Published events require 
 All public views filter one event collection through a shared timeline renderer. With Firebase configured, public queries request only published documents, matching the Firestore rules; data errors surface instead of silently switching to sample lore. Without Firebase configuration, a labeled sample archive keeps the explorer usable. The primary timeline is `teyvat-history` when published, otherwise the first published timeline by sort order.
 
 Unknown event times stay out of the numeric axis and appear in a separate list. Published relationships supplement direct character links. Public details display only published sources and entities. Search and filters use URL query parameters, including `event` for shareable event links; MiniSearch indexes local public data with a substring fallback for text its tokenizer does not match.
+
+## 2026-11-05 — Stable card placement and focus context
+
+The timeline assigns card rows using projected dates at the minimum supported zoom. The assignment stays stable while panning or zooming, and extra rows are added when crowded dates cannot fit in the existing rows. Character focus keeps the world view as context and dims events without that character; it never changes the underlying event set. Published event-to-event relationships drive both the visual connector and the textual links in event details. Zoom updates are scheduled once per animation frame to avoid synchronously rendering for every pointer event.

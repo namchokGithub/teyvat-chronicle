@@ -25,12 +25,20 @@ export type PublicSource = {
   url: string;
   kind: string;
 };
+export type EventRelation = {
+  id: string;
+  fromId: string;
+  toId: string;
+  relation: string;
+  importance: "major" | "supporting" | "minor";
+};
 export type PublicArchive = {
   timeline: TimelineData & { id: string; title: string };
   characters: NamedRecord[];
   eras: NamedRecord[];
   regions: NamedRecord[];
   sources: PublicSource[];
+  eventRelations: EventRelation[];
   sample: boolean;
 };
 
@@ -67,6 +75,22 @@ export const sampleArchive: PublicArchive = {
     { id: "liyue", name: "Liyue" },
   ],
   sources: [],
+  eventRelations: [
+    {
+      id: "war-to-nations",
+      fromId: "archon-war",
+      toId: "seven-nations",
+      relation: "precedes",
+      importance: "major",
+    },
+    {
+      id: "ancient-to-lost",
+      fromId: "early-civilizations",
+      toId: "lost-kingdoms",
+      relation: "related history",
+      importance: "supporting",
+    },
+  ],
   sample: true,
 };
 
@@ -164,6 +188,22 @@ export function buildPublishedArchive(
         sortOrder: item.sortOrder,
       };
     });
+  const publicEventIds = new Set(events.map((item) => item.id));
+  const eventRelations: EventRelation[] = relationships
+    .filter(
+      (item) =>
+        item.fromType === "event" &&
+        item.toType === "event" &&
+        publicEventIds.has(item.fromId) &&
+        publicEventIds.has(item.toId),
+    )
+    .map((item) => ({
+      id: item.id,
+      fromId: item.fromId,
+      toId: item.toId,
+      relation: item.relation,
+      importance: item.importance,
+    }));
 
   return {
     timeline: {
@@ -192,6 +232,7 @@ export function buildPublishedArchive(
       url: item.url.startsWith("https://") ? item.url : "",
       kind: item.kind,
     })),
+    eventRelations,
     sample: false,
   };
 }

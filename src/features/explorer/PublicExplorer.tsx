@@ -9,6 +9,8 @@ import {
 import {
   ArrowDownRight,
   ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
   Compass,
   Grip,
   Link2,
@@ -18,8 +20,16 @@ import {
   Search,
   X,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+} from "react";
 import { getFirebaseApp } from "../../lib/firebase";
+import { layoutEventCards } from "../../timeline/layout";
 import type { TimelineEvent } from "../../timeline/model";
 import {
   createTimelineProjection,
@@ -36,7 +46,10 @@ import {
 import { readExplorerUrl, writeExplorerUrl } from "./url";
 
 const CONTENT_WIDTH = 1840;
-const LANES = [100, 250, 500];
+const MIN_ZOOM = 0.72;
+const ROW_HEIGHT = 280;
+const CARD_TOP = 105;
+const CARD_HEIGHT = 250;
 const loreLabels = {
   confirmed: "Confirmed",
   inferred: "Inferred",
@@ -56,21 +69,51 @@ function EventDialog({
   event,
   archive,
   onClose,
+  focusEvents,
+  onSelect,
 }: {
   event: TimelineEvent | null;
   archive: PublicArchive;
   onClose: () => void;
+  focusEvents: TimelineEvent[];
+  onSelect: (id: string) => void;
 }) {
-  const [copied, setCopied] = useState(false);
+  const [copiedId, setCopiedId] = useState("");
   const sources = event
     ? archive.sources.filter((source) => event.sourceIds.includes(source.id))
+    : [];
+  const focusIndex = event
+    ? focusEvents.findIndex((item) => item.id === event.id)
+    : -1;
+  const relatedEvents = event
+    ? archive.eventRelations
+        .filter(
+          (relation) =>
+            relation.fromId === event.id || relation.toId === event.id,
+        )
+        .map((relation) => ({
+          relation,
+          target: archive.timeline.events.find(
+            (item) =>
+              item.id ===
+              (relation.fromId === event.id ? relation.toId : relation.fromId),
+          ),
+        }))
+        .filter(
+          (
+            item,
+          ): item is {
+            relation: typeof item.relation;
+            target: TimelineEvent;
+          } => !!item.target,
+        )
     : [];
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
+      setCopiedId(event?.id ?? "");
     } catch {
-      setCopied(false);
+      setCopiedId("");
     }
   }
   return (
@@ -133,6 +176,21 @@ function EventDialog({
                     .join(", ")}
                 </p>
               )}
+              {relatedEvents.length > 0 && (
+                <div className="dialog-related-events">
+                  <h3>Connected events</h3>
+                  {relatedEvents.map(({ relation, target }) => (
+                    <button
+                      key={relation.id}
+                      onClick={() => onSelect(target.id)}
+                    >
+                      <span>{relation.relation}</span>
+                      <strong>{target.title}</strong>
+                      <ArrowUpRight size={15} />
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className="dialog-sources">
                 <h3>Sources</h3>
                 {sources.length > 0 ? (
@@ -163,8 +221,28 @@ function EventDialog({
                 )}
               </div>
               <button className="copy-link" onClick={copyLink}>
-                <Link2 size={15} /> {copied ? "Link copied" : "Copy event link"}
+                <Link2 size={15} />{" "}
+                {copiedId === event.id ? "Link copied" : "Copy event link"}
               </button>
+              {focusIndex !== -1 && focusEvents.length > 1 && (
+                <div className="dialog-step">
+                  <button
+                    disabled={focusIndex === 0}
+                    onClick={() => onSelect(focusEvents[focusIndex - 1].id)}
+                  >
+                    <ChevronLeft size={15} /> Previous
+                  </button>
+                  <span>
+                    {focusIndex + 1} / {focusEvents.length}
+                  </span>
+                  <button
+                    disabled={focusIndex === focusEvents.length - 1}
+                    onClick={() => onSelect(focusEvents[focusIndex + 1].id)}
+                  >
+                    Next <ChevronRight size={15} />
+                  </button>
+                </div>
+              )}
               {archive.sample && (
                 <div className="dialog-note">
                   Sample chronology · dates and links are illustrative
@@ -183,11 +261,17 @@ function Filters({
   filters,
   onChange,
   count,
+  focusMode,
+  onFocusChange,
+  onStep,
 }: {
   archive: PublicArchive;
   filters: ExplorerFilters;
   onChange: (next: ExplorerFilters) => void;
   count: number;
+  focusMode: boolean;
+  onFocusChange: (active: boolean) => void;
+  onStep: (direction: -1 | 1) => void;
 }) {
   const searchRef = useRef<HTMLInputElement>(null);
   function setView(view: ViewMode) {
@@ -350,6 +434,29 @@ function Filters({
               <span>
                 {count} linked {count === 1 ? "event" : "events"}
               </span>
+              <div className="focus-controls">
+                <button
+                  className={focusMode ? "active" : ""}
+                  aria-pressed={focusMode}
+                  onClick={() => onFocusChange(!focusMode)}
+                >
+                  Focus mode {focusMode ? "on" : "off"}
+                </button>
+                <button
+                  onClick={() => onStep(-1)}
+                  disabled={count === 0}
+                  aria-label="Previous character event"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+                <button
+                  onClick={() => onStep(1)}
+                  disabled={count === 0}
+                  aria-label="Next character event"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              </div>
             </div>
           ) : null;
         })()}
@@ -362,16 +469,23 @@ function Timeline({
   events,
   view,
   onSelect,
+  focusCharacterId,
+  selectedEventId,
 }: {
   archive: PublicArchive;
   events: TimelineEvent[];
   view: ViewMode;
   onSelect: (id: string) => void;
+  focusCharacterId: string;
+  selectedEventId: string;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const zoomRef = useRef<ZoomBehavior<HTMLDivElement, unknown> | null>(null);
   const [transform, setTransform] = useState<ZoomTransform>(zoomIdentity);
   const [viewportWidth, setViewportWidth] = useState(1100);
+  const [hoveredId, setHoveredId] = useState("");
+  const frameRef = useRef<number | null>(null);
+  const latestTransformRef = useRef<ZoomTransform>(zoomIdentity);
   const projection = useMemo(
     () =>
       createTimelineProjection(
@@ -382,10 +496,33 @@ function Timeline({
       ),
     [archive],
   );
-  const dated = events.filter(
-    (event): event is TimelineEvent & { start: number } => event.start !== null,
+  const dated = useMemo(
+    () =>
+      events.filter(
+        (event): event is TimelineEvent & { start: number } =>
+          event.start !== null,
+      ),
+    [events],
   );
-  const undated = events.filter((event) => event.start === null);
+  const undated = useMemo(
+    () => events.filter((event) => event.start === null),
+    [events],
+  );
+  const layout = useMemo(
+    () => layoutEventCards(dated, projection.x, MIN_ZOOM),
+    [dated, projection],
+  );
+  const axisY = CARD_TOP + layout.laneCount * ROW_HEIGHT + 18;
+  const surfaceHeight = axisY + 90;
+  const activeId = selectedEventId || hoveredId;
+  const connectedIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const relation of archive.eventRelations) {
+      if (relation.fromId === activeId) ids.add(relation.toId);
+      if (relation.toId === activeId) ids.add(relation.fromId);
+    }
+    return ids;
+  }, [archive.eventRelations, activeId]);
   const span = archive.timeline.end - archive.timeline.start;
   const tickStep =
     span > 8000 ? 1000 : span > 2500 ? 500 : span > 900 ? 200 : 100;
@@ -404,15 +541,23 @@ function Timeline({
     );
     observer.observe(viewport);
     const behavior = zoom<HTMLDivElement, unknown>()
-      .scaleExtent([0.72, 3])
+      .scaleExtent([MIN_ZOOM, 3])
       .filter((event) => !(event.target as Element).closest("button"))
-      .on("zoom", (event) => setTransform(event.transform));
+      .on("zoom", (event) => {
+        latestTransformRef.current = event.transform;
+        if (frameRef.current === null)
+          frameRef.current = requestAnimationFrame(() => {
+            setTransform(latestTransformRef.current);
+            frameRef.current = null;
+          });
+      });
     zoomRef.current = behavior;
     const selection = select<HTMLDivElement, unknown>(viewport);
     selection.call(behavior);
     selection.call(behavior.transform, zoomIdentity.translate(-340, 0));
     return () => {
       observer.disconnect();
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
       selection.on(".zoom", null);
       zoomRef.current = null;
     };
@@ -440,6 +585,25 @@ function Timeline({
         zoomIdentity.translate(-340, 0),
       );
   };
+  function onViewportKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.target !== event.currentTarget) return;
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      shiftBy(180);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      shiftBy(-180);
+    } else if (event.key === "+" || event.key === "=") {
+      event.preventDefault();
+      applyZoom(1.3);
+    } else if (event.key === "-") {
+      event.preventDefault();
+      applyZoom(1 / 1.3);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      reset();
+    }
+  }
   const bands = archive.eras.filter(
     (era): era is typeof era & { start: number; end: number } =>
       era.start !== null &&
@@ -530,7 +694,12 @@ function Timeline({
           className="timeline-viewport"
           ref={viewportRef}
           tabIndex={0}
-          aria-label="Interactive timeline. Use controls to pan or zoom, then Tab to explore events."
+          onKeyDown={onViewportKeyDown}
+          aria-keyshortcuts="ArrowLeft ArrowRight + - Home"
+          aria-label="Interactive timeline. Use Left and Right arrows to pan, plus or minus to zoom, Home to reset, and Tab to open events."
+          style={
+            { height: surfaceHeight, "--axis-y": `${axisY}px` } as CSSProperties
+          }
         >
           <div className="timeline-surface" style={{ width: viewportWidth }}>
             {bands.map((era, index) => (
@@ -580,6 +749,39 @@ function Timeline({
                 <small>{item.label}</small>
               </div>
             ))}
+            <svg
+              className="relation-overlay"
+              width={viewportWidth}
+              height={surfaceHeight}
+              aria-hidden="true"
+            >
+              {activeId &&
+                archive.eventRelations
+                  .filter(
+                    (relation) =>
+                      relation.fromId === activeId ||
+                      relation.toId === activeId,
+                  )
+                  .map((relation) => {
+                    const from = dated.find(
+                      (event) => event.id === relation.fromId,
+                    );
+                    const to = dated.find(
+                      (event) => event.id === relation.toId,
+                    );
+                    if (!from || !to) return null;
+                    const x1 = screenX(from.start);
+                    const x2 = screenX(to.start);
+                    const curveY =
+                      axisY - 44 - Math.min(70, Math.abs(x2 - x1) / 9);
+                    return (
+                      <path
+                        key={relation.id}
+                        d={`M ${x1} ${axisY} Q ${(x1 + x2) / 2} ${curveY} ${x2} ${axisY}`}
+                      />
+                    );
+                  })}
+            </svg>
             {dated.map((event) => {
               const x = screenX(event.start);
               const rangeWidth =
@@ -588,9 +790,15 @@ function Timeline({
                   : 0;
               return (
                 <div
-                  className={`event-position lane-${event.lane}`}
+                  className={`event-position ${focusCharacterId && !event.characterIds.includes(focusCharacterId) && !connectedIds.has(event.id) ? "is-muted" : ""} ${activeId === event.id || connectedIds.has(event.id) ? "is-related" : ""}`}
                   key={event.id}
-                  style={{ left: x, top: LANES[event.lane] }}
+                  style={
+                    {
+                      left: x,
+                      "--card-top": `${CARD_TOP + (layout.laneById.get(event.id) ?? 0) * ROW_HEIGHT}px`,
+                      "--card-height": `${CARD_HEIGHT}px`,
+                    } as CSSProperties
+                  }
                 >
                   <div className={`event-stem stem-${event.accent}`} />
                   <span className={`event-node node-${event.accent}`} />
@@ -603,6 +811,10 @@ function Timeline({
                   <button
                     className={`event-card card-${event.accent}`}
                     onClick={() => onSelect(event.id)}
+                    onMouseEnter={() => setHoveredId(event.id)}
+                    onMouseLeave={() => setHoveredId("")}
+                    onFocus={() => setHoveredId(event.id)}
+                    onBlur={() => setHoveredId("")}
                   >
                     {event.image && (
                       <img className="event-image" src={event.image} alt="" />
@@ -682,6 +894,7 @@ export default function PublicExplorer() {
   const [loading, setLoading] = useState(!!app);
   const [loadError, setLoadError] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
+  const [focusMode, setFocusMode] = useState(true);
 
   useEffect(() => {
     if (!app) return;
@@ -728,6 +941,17 @@ export default function PublicExplorer() {
     () => (archive && index ? selectEvents(archive, filters, index) : []),
     [archive, filters, index],
   );
+  const contextEvents = useMemo(() => {
+    if (
+      !archive ||
+      !index ||
+      filters.view !== "character" ||
+      !filters.characterId ||
+      !focusMode
+    )
+      return visible;
+    return selectEvents(archive, { ...filters, view: "world" }, index);
+  }, [archive, index, filters, focusMode, visible]);
   const selected =
     archive?.timeline.events.find((event) => event.id === eventId) ?? null;
   function updateFilters(next: ExplorerFilters) {
@@ -753,6 +977,17 @@ export default function PublicExplorer() {
       "",
       writeExplorerUrl(new URL(window.location.href), filters, ""),
     );
+  }
+  function stepCharacter(direction: -1 | 1) {
+    if (visible.length === 0) return;
+    const current = visible.findIndex((event) => event.id === eventId);
+    const next =
+      current === -1
+        ? direction === 1
+          ? 0
+          : visible.length - 1
+        : Math.max(0, Math.min(visible.length - 1, current + direction));
+    openEvent(visible[next].id);
   }
 
   return (
@@ -863,6 +1098,9 @@ export default function PublicExplorer() {
               filters={filters}
               onChange={updateFilters}
               count={visible.length}
+              focusMode={focusMode}
+              onFocusChange={setFocusMode}
+              onStep={stepCharacter}
             />
           ) : (
             <div className="explorer-state">
@@ -877,9 +1115,15 @@ export default function PublicExplorer() {
         {archive && !loading && !loadError && (
           <Timeline
             archive={archive}
-            events={visible}
+            events={contextEvents}
             view={filters.view}
             onSelect={openEvent}
+            focusCharacterId={
+              focusMode && filters.view === "character"
+                ? filters.characterId
+                : ""
+            }
+            selectedEventId={eventId}
           />
         )}
         {archive && eventId && !selected && !loading && (
@@ -896,7 +1140,13 @@ export default function PublicExplorer() {
         <a href="#bo">Back Office</a>
       </footer>
       {archive && (
-        <EventDialog event={selected} archive={archive} onClose={closeEvent} />
+        <EventDialog
+          event={selected}
+          archive={archive}
+          onClose={closeEvent}
+          focusEvents={filters.view === "character" ? visible : []}
+          onSelect={openEvent}
+        />
       )}
     </div>
   );

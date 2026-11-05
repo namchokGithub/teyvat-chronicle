@@ -63,6 +63,16 @@ describe("published explorer flow", () => {
       fromId: character.id,
       toId: event.id,
     });
+    const eventRelation = relationshipSchema.parse({
+      ...draftTemplate("relationships"),
+      id: "cataclysm-undated",
+      status: "published",
+      fromType: "event",
+      fromId: event.id,
+      toType: "event",
+      toId: undated.id,
+      relation: "connected history",
+    });
     const archive = buildPublishedArchive({
       timelines: [timeline],
       events: [event, draft, undated],
@@ -70,7 +80,7 @@ describe("published explorer flow", () => {
       eras: [],
       regions: [],
       sources: [source],
-      relationships: [relationship],
+      relationships: [relationship, eventRelation],
     });
     expect(archive).not.toBeNull();
     if (!archive) return;
@@ -81,6 +91,9 @@ describe("published explorer flow", () => {
     ]);
     expect(archive.timeline.events[0].characterIds).toContain("dainsleif");
     expect(archive.timeline.events[1].start).toBeNull();
+    expect(archive.eventRelations).toMatchObject([
+      { fromId: "cataclysm", toId: "undated-record" },
+    ]);
     const filters = {
       ...defaultFilters,
       view: "character" as const,
