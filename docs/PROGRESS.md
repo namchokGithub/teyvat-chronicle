@@ -1,18 +1,18 @@
 # Progress
 
-อ้างอิง [REQUIREMENT.md](REQUIREMENT.md) ส่วน Roadmap การพัฒนาเบื้องต้น (Draft) สถานะด้านล่างเป็นภาพรวมสำหรับติดตามงาน ยังไม่ใช่ขอบเขตหรือกำหนดส่งที่ยืนยันแล้ว Phase 1 มีแอปและ mock data แล้ว แต่ยังไม่เชื่อมต่อ Firebase จริง
+อ้างอิง [REQUIREMENT.md](REQUIREMENT.md) ส่วน Roadmap การพัฒนาเบื้องต้น (Draft) สถานะด้านล่างเป็นภาพรวมสำหรับติดตามงาน ยังไม่ใช่ขอบเขตหรือกำหนดส่งที่ยืนยันแล้ว Phase 1 ใช้ mock data; Phase 2 มี Back Office สำหรับพัฒนาในเครื่องและโค้ดเชื่อม Firebase แต่ยังไม่ได้ทดสอบกับ project จริง
 
 สถานะที่ใช้: `Not started` · `In progress` · `Done`
 
 ## Open work index
 
-| งาน                                                                             | สถานะ       | เป้าหมายคร่าว ๆ                                                          |
-| ------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------ |
-| [Phase 1 — Foundation & Timeline Engine](#phase-1--foundation--timeline-engine) | In progress | แอปและ timeline จาก mock data พร้อม; รอ Firebase จริงและตรวจหน้าจอด้วยตา |
-| [Phase 2 — Database & Back Office](#phase-2--database--back-office)             | Not started | จัดการข้อมูล lore และ workflow การเผยแพร่                                |
-| [Phase 3 — Public Explorer](#phase-3--public-explorer)                          | Not started | ให้ผู้ใช้ค้นหา กรอง และสำรวจ timeline                                    |
-| [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)                 | Not started | ปรับการใช้งาน การจัดวาง และประสิทธิภาพ                                   |
-| [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features)            | Not started | เพิ่มเครื่องมือสำรวจ lore ขั้นสูง                                        |
+| งาน                                                                             | สถานะ       | เป้าหมายคร่าว ๆ                                                                 |
+| ------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------- |
+| [Phase 1 — Foundation & Timeline Engine](#phase-1--foundation--timeline-engine) | In progress | แอปและ timeline จาก mock data พร้อม; รอ Firebase จริงและตรวจหน้าจอด้วยตา        |
+| [Phase 2 — Database & Back Office](#phase-2--database--back-office)             | In progress | schema, CRUD และ draft/publish ในเครื่องพร้อม; รอ Firebase จริงและฟอร์มเฉพาะงาน |
+| [Phase 3 — Public Explorer](#phase-3--public-explorer)                          | Not started | ให้ผู้ใช้ค้นหา กรอง และสำรวจ timeline                                           |
+| [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)                 | Not started | ปรับการใช้งาน การจัดวาง และประสิทธิภาพ                                          |
+| [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features)            | Not started | เพิ่มเครื่องมือสำรวจ lore ขั้นสูง                                               |
 
 ## Phase 1 — Foundation & Timeline Engine
 
@@ -28,11 +28,19 @@
 
 ## Phase 2 — Database & Back Office
 
-**สถานะ:** Not started
+**สถานะ:** In progress
 
-- ออกแบบ Firestore schema และตั้งค่า Authentication สำหรับ back office ส่วนตัว
-- จัดการ event, character, era, region, source และความสัมพันธ์ระหว่างข้อมูล
-- ทำ timeline editor และ workflow draft/publish
+- [x] กำหนด Zod schema สำหรับ timeline, event, character, era, region, source, relationship และ settings โดยแยกความแน่นอนของเวลาออกจาก lore status
+- [x] ทำ repository สำหรับ Firestore และ local sandbox เฉพาะ development; Back Office จัดการ record ในทุก collection ผ่าน JSON editor ได้
+- [x] ทำ overview จำนวน record และปุ่ม save, publish, move to draft, delete พร้อม validation และการยืนยันก่อนลบ
+- [x] เตรียม Firebase Authentication แบบ email/password, ตรวจ owner document และ Firestore Rules ที่จำกัดสิทธิ์เขียน
+- [x] รองรับการกำหนด breaks และ lane ของ timeline ใน schema และ JSON editor
+- [ ] เมื่อมี Firebase project: เปิด Authentication, สร้าง owner, deploy rules และทดสอบ CRUD/สิทธิ์ owner ด้วยข้อมูลจริงตาม [คู่มือตั้งค่า](FIREBASE-SETUP.md)
+- [ ] ทำฟอร์มเฉพาะสำหรับ event, character, timeline/break และการเลือก entity ที่เชื่อมกัน แทนการแก้ JSON โดยตรง
+- [ ] ตรวจการมีอยู่ของ timeline/source/character/era/region ที่อ้างถึง และจัดการผลกระทบเมื่อลบ record ที่ถูกอ้างอิง
+- [ ] ทำ Media Library และการตั้งค่า theme/default viewer ให้ใช้งานจริง; Cloud Storage upload ยังเป็นตัวเลือก
+- [ ] ตรวจหน้าจอ Back Office ด้วยตา รวมถึง mobile, keyboard, error state และ Firebase sign-in
+- [ ] เชื่อม published Firestore content เข้ากับ public explorer เมื่อเข้าสู่ Phase 3; ตอนนี้ public timeline ยังแสดง mock data
 
 ## Phase 3 — Public Explorer
 

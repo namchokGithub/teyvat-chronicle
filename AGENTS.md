@@ -19,6 +19,7 @@ Instructions for AI coding agents working on Teyvat Chronicle.
 
 - `pnpm dev`: run the local Vite app.
 - `pnpm exec vitest run src/timeline/projection.test.ts`: focused timeline projection test.
+- `pnpm exec vitest run src/content/workflow.test.ts`: focused Back Office draft/publish flow test.
 - `pnpm exec eslint src` and `pnpm exec prettier --check <files>`: code checks.
 - `pnpm build`: typecheck and production build when warranted by the change.
 
@@ -30,6 +31,9 @@ Instructions for AI coding agents working on Teyvat Chronicle.
 - `src/App.tsx` and `src/styles.css`: Phase 1 public timeline UI and theme.
 - `public/images/events/`: local illustrative event art.
 - `src/lib/firebase.ts`: optional Firebase app initialization; no live project is connected.
+- `src/content/`: Phase 2 Zod schemas, templates, and local/Firestore repositories.
+- `src/features/bo/`: Back Office UI, local development sandbox, and owner sign-in gate.
+- `firestore.rules`: proposed server-side access policy; it has not been deployed or verified against a real project.
 - Firebase collections remain proposed resources, not deployed data.
 - Proposed Firestore collections: `timelines`, `events`, `characters`, `eras`, `regions`, `sources`, `relationships`, and `settings`.
 

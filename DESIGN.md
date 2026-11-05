@@ -9,3 +9,7 @@ Phase 1 presents the public chronicle as a quiet archival atlas. The timeline is
 - **Interaction:** pointer drag and wheel zoom share the same view state as visible pan, zoom, and reset buttons. Event details use an accessible dialog. Reduced-motion settings remove transitions.
 
 Runtime colors and type choices live in `src/styles.css`. This is the Phase 1 visual baseline, not a final brand system.
+
+## Back Office extension
+
+The editor uses the same navy, parchment, and aged gold tokens. A fixed navigation rail groups the content collections; on narrow screens it becomes a horizontal section list. The working area keeps record selection separate from editing, shows save/publish results in text, and confirms deletion in a dialog. The current JSON editor is a temporary code-first surface; dedicated content forms remain open work.
