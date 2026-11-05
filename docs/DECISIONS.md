@@ -11,3 +11,9 @@ Firebase initialization is optional and never runs without all required environm
 The `#bo` route uses browser storage only in Vite development mode when Firebase is unconfigured. It is explicitly labeled as a sandbox and does not feed the public timeline. Production never enables this local editor. With Firebase configured, the editor requires email/password authentication and an `owners/{uid}` document created outside the client. Firestore rules, not route visibility, enforce owner writes and published-only public reads. The first owner document cannot be created by client rules. This avoids presenting a local demo login as real access control.
 
 Content records are validated with Zod before storage. Published events require a timeline, source, and description. A generic JSON editor keeps all collections usable while dedicated forms and reference checks remain open work.
+
+## 2026-11-05 — Public explorer data and URL state
+
+All public views filter one event collection through a shared timeline renderer. With Firebase configured, public queries request only published documents, matching the Firestore rules; data errors surface instead of silently switching to sample lore. Without Firebase configuration, a labeled sample archive keeps the explorer usable. The primary timeline is `teyvat-history` when published, otherwise the first published timeline by sort order.
+
+Unknown event times stay out of the numeric axis and appear in a separate list. Published relationships supplement direct character links. Public details display only published sources and entities. Search and filters use URL query parameters, including `event` for shareable event links; MiniSearch indexes local public data with a substring fallback for text its tokenizer does not match.

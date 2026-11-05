@@ -1,0 +1,197 @@
+import type { z } from "zod";
+import {
+  eventSchema,
+  timelineSchema,
+  characterSchema,
+  eraSchema,
+  regionSchema,
+  sourceSchema,
+  relationshipSchema,
+} from "../../content/schema";
+import { mockTimeline } from "../../timeline/mock-data";
+import type { TimelineData, TimelineEvent } from "../../timeline/model";
+import { createTimelineProjection } from "../../timeline/projection";
+
+export type NamedRecord = {
+  id: string;
+  name: string;
+  description?: string;
+  start?: number | null;
+  end?: number | null;
+};
+export type PublicSource = {
+  id: string;
+  title: string;
+  url: string;
+  kind: string;
+};
+export type PublicArchive = {
+  timeline: TimelineData & { id: string; title: string };
+  characters: NamedRecord[];
+  eras: NamedRecord[];
+  regions: NamedRecord[];
+  sources: PublicSource[];
+  sample: boolean;
+};
+
+export const sampleArchive: PublicArchive = {
+  timeline: { ...mockTimeline, id: "teyvat-history", title: "World timeline" },
+  characters: [
+    {
+      id: "dainsleif",
+      name: "Dainsleif",
+      description:
+        "Sample character entry. Add sourced biography in the Back Office.",
+    },
+    {
+      id: "venti",
+      name: "Venti",
+      description:
+        "Sample character entry. Add sourced biography in the Back Office.",
+    },
+    {
+      id: "zhongli",
+      name: "Zhongli",
+      description:
+        "Sample character entry. Add sourced biography in the Back Office.",
+    },
+  ],
+  eras: [
+    { id: "ancient", name: "Ancient Teyvat", start: -5600, end: -2850 },
+    { id: "gods", name: "Age of gods", start: -2850, end: -1000 },
+    { id: "recent", name: "Recent history", start: -1000, end: 100 },
+  ],
+  regions: [
+    { id: "khaenriah", name: "Khaenri'ah" },
+    { id: "mondstadt", name: "Mondstadt" },
+    { id: "liyue", name: "Liyue" },
+  ],
+  sources: [],
+  sample: true,
+};
+
+export type PublishedRecords = {
+  timelines: z.infer<typeof timelineSchema>[];
+  events: z.infer<typeof eventSchema>[];
+  characters: z.infer<typeof characterSchema>[];
+  eras: z.infer<typeof eraSchema>[];
+  regions: z.infer<typeof regionSchema>[];
+  sources: z.infer<typeof sourceSchema>[];
+  relationships: z.infer<typeof relationshipSchema>[];
+};
+
+function publicImage(value: string | null): string | undefined {
+  if (!value) return undefined;
+  if (value.startsWith("/images/"))
+    return `${import.meta.env.BASE_URL}${value.slice(1)}`;
+  if (value.startsWith("https://")) return value;
+  return undefined;
+}
+
+export function buildPublishedArchive(
+  records: PublishedRecords,
+): PublicArchive | null {
+  const timelines = records.timelines
+    .filter((item) => item.status === "published")
+    .sort((a, b) => a.sortOrder - b.sortOrder);
+  const main =
+    timelines.find((item) => item.id === "teyvat-history") ?? timelines[0];
+  if (!main) return null;
+
+  // Invalid break geometry should surface as a data error before rendering.
+  createTimelineProjection(main.start, main.end, 1840, main.breaks);
+  const eras = records.eras.filter((item) => item.status === "published");
+  const sources = records.sources.filter((item) => item.status === "published");
+  const characters = records.characters.filter(
+    (item) => item.status === "published",
+  );
+  const regions = records.regions.filter((item) => item.status === "published");
+  const relationships = records.relationships.filter(
+    (item) => item.status === "published",
+  );
+  const publicCharacterIds = new Set(characters.map((item) => item.id));
+  const publicEraIds = new Set(eras.map((item) => item.id));
+  const publicRegionIds = new Set(regions.map((item) => item.id));
+  const publicSourceIds = new Set(sources.map((item) => item.id));
+
+  const events: TimelineEvent[] = records.events
+    .filter(
+      (item) =>
+        item.status === "published" && item.timelineIds.includes(main.id),
+    )
+    .map((item) => {
+      const linkedCharacters = relationships
+        .filter(
+          (link) =>
+            (link.fromType === "character" &&
+              link.toType === "event" &&
+              link.toId === item.id) ||
+            (link.toType === "character" &&
+              link.fromType === "event" &&
+              link.fromId === item.id),
+        )
+        .map((link) =>
+          link.fromType === "character" ? link.fromId : link.toId,
+        );
+      const era = eras.find((entry) => item.eraIds.includes(entry.id));
+      const image = publicImage(item.display.image);
+      return {
+        id: item.id,
+        title: item.title.en,
+        era: era?.name.en ?? "Unassigned era",
+        kind: item.type,
+        start: item.time.start,
+        end: item.time.end,
+        lane: Math.min(item.display.lane, 2) as 0 | 1 | 2,
+        summary: item.description.en.slice(0, 105),
+        detail: item.description.en,
+        image,
+        imageAlt: image ? `Illustration for ${item.title.en}` : undefined,
+        accent:
+          item.loreStatus === "confirmed"
+            ? "gold"
+            : item.loreStatus === "inferred"
+              ? "teal"
+              : "violet",
+        precision: item.time.type,
+        loreStatus: item.loreStatus,
+        characterIds: [
+          ...new Set([...item.characterIds, ...linkedCharacters]),
+        ].filter((id) => publicCharacterIds.has(id)),
+        eraIds: item.eraIds.filter((id) => publicEraIds.has(id)),
+        regionIds: item.regionIds.filter((id) => publicRegionIds.has(id)),
+        sourceIds: item.sourceIds.filter((id) => publicSourceIds.has(id)),
+        sortOrder: item.sortOrder,
+      };
+    });
+
+  return {
+    timeline: {
+      id: main.id,
+      title: main.title.en,
+      start: main.start,
+      end: main.end,
+      breaks: main.breaks,
+      events,
+    },
+    characters: characters.map((item) => ({
+      id: item.id,
+      name: item.name.en,
+      description: item.biography.en,
+    })),
+    eras: eras.map((item) => ({
+      id: item.id,
+      name: item.name.en,
+      start: item.start,
+      end: item.end,
+    })),
+    regions: regions.map((item) => ({ id: item.id, name: item.name.en })),
+    sources: sources.map((item) => ({
+      id: item.id,
+      title: item.title,
+      url: item.url.startsWith("https://") ? item.url : "",
+      kind: item.kind,
+    })),
+    sample: false,
+  };
+}

@@ -10,9 +10,9 @@ describe("sample timeline placement", () => {
       1840,
       mockTimeline.breaks,
     );
-    const positions = mockTimeline.events.map((event) =>
-      projection.x(event.start),
-    );
+    const positions = mockTimeline.events
+      .filter((event) => event.start !== null)
+      .map((event) => projection.x(event.start!));
     const gap = mockTimeline.breaks[0];
 
     expect(positions).toEqual([...positions].sort((a, b) => a - b));
@@ -21,7 +21,7 @@ describe("sample timeline placement", () => {
     );
     expect(
       projection.x(mockTimeline.events[2].end!) -
-        projection.x(mockTimeline.events[2].start),
+        projection.x(mockTimeline.events[2].start!),
     ).toBeGreaterThan(0);
     expect(projection.x(mockTimeline.end)).toBeCloseTo(projection.width);
   });
