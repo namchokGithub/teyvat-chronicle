@@ -16,7 +16,7 @@ import {
   RotateCcw,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { mockTimeline } from "./timeline/mock-data";
 import type { TimelineEvent } from "./timeline/model";
 import {
@@ -351,7 +351,7 @@ function Timeline() {
   );
 }
 
-function App() {
+function PublicApp() {
   return (
     <div className="app-shell">
       <header className="site-header">
@@ -410,9 +410,30 @@ function App() {
       <footer className="site-footer">
         <span>✦ Teyvat Chronicle</span>
         <span>Phase 1 prototype · sample chronology</span>
+        <a href="#bo">Back Office</a>
       </footer>
     </div>
   );
 }
 
-export default App;
+const BackOffice = lazy(() => import("./features/bo/BackOffice"));
+
+export default function App() {
+  const [isBackOffice, setIsBackOffice] = useState(
+    window.location.hash === "#bo",
+  );
+
+  useEffect(() => {
+    const onHashChange = () => setIsBackOffice(window.location.hash === "#bo");
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  return isBackOffice ? (
+    <Suspense fallback={<div className="bo-gate">Loading Back Office…</div>}>
+      <BackOffice />
+    </Suspense>
+  ) : (
+    <PublicApp />
+  );
+}

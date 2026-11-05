@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/owners/$(request.auth.uid));
+    }
+
+    // Create the first owner document manually in the Firebase console.
+    // No client is allowed to grant itself owner access.
+    match /owners/{ownerId} {
+      allow get: if request.auth != null && request.auth.uid == ownerId;
+      allow list, write: if false;
+    }
+
+    match /{collectionName}/{documentId} {
+      function isContentCollection() {
+        return collectionName in ['timelines', 'events', 'characters', 'eras', 'regions', 'sources', 'relationships'];
+      }
+      allow get, list: if isContentCollection() && (isOwner() || resource.data.status == 'published');
+      allow create, update: if isContentCollection() && isOwner() &&
+        request.resource.data.id == documentId &&
+        request.resource.data.status in ['draft', 'published'];
+      allow delete: if isContentCollection() && isOwner();
+    }
+
+    match /settings/{documentId} {
+      allow read: if isOwner();
+      allow create, update: if isOwner() && request.resource.data.id == documentId;
+      allow delete: if isOwner();
+    }
+  }
+}
