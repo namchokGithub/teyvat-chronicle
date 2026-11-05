@@ -1,0 +1,103 @@
+import type { TimelineData } from "./model";
+
+// Dates and descriptions are illustrative mock content, not verified lore.
+const imageBase = import.meta.env.BASE_URL;
+
+export const mockTimeline: TimelineData = {
+  start: -5600,
+  end: 100,
+  breaks: [
+    {
+      start: -4050,
+      end: -2850,
+      width: 84,
+      label: "A long silence in the record",
+    },
+  ],
+  events: [
+    {
+      id: "early-civilizations",
+      title: "Age of early civilizations",
+      era: "Ancient Teyvat",
+      kind: "range",
+      start: -5450,
+      end: -4700,
+      lane: 0,
+      summary: "Traces of the oldest known cultures.",
+      detail:
+        "This sample range demonstrates how a long era appears on the chronicle. Its placement is illustrative and should be replaced with sourced lore.",
+      image: `${imageBase}images/events/ancient-civilizations.svg`,
+      imageAlt: "Illustrated ruins beneath a starry sky",
+      accent: "gold",
+      precision: "approximate",
+    },
+    {
+      id: "lost-kingdoms",
+      title: "Lost kingdoms",
+      era: "Ancient Teyvat",
+      kind: "point",
+      start: -4500,
+      lane: 1,
+      summary: "Stories preserved in scattered ruins.",
+      detail:
+        "A sample point event placed between the ancient eras and the compressed gap. Final event dates and sources belong to the content phase.",
+      accent: "teal",
+      precision: "approximate",
+    },
+    {
+      id: "archon-war",
+      title: "The Archon War",
+      era: "Age of gods",
+      kind: "range",
+      start: -2600,
+      end: -1950,
+      lane: 0,
+      summary: "An age of conflict and changing powers.",
+      detail:
+        "This sample event shows a time range and an image card. Exact boundaries and source references will be established with the lore data model.",
+      image: `${imageBase}images/events/archon-war.svg`,
+      imageAlt: "Illustrated mountain and golden celestial rings",
+      accent: "violet",
+      precision: "approximate",
+    },
+    {
+      id: "seven-nations",
+      title: "The seven nations",
+      era: "Age of gods",
+      kind: "point",
+      start: -1700,
+      lane: 2,
+      summary: "A new chapter in the world’s history.",
+      detail:
+        "This is illustrative content for testing timeline placement and event detail presentation.",
+      accent: "gold",
+      precision: "approximate",
+    },
+    {
+      id: "cataclysm",
+      title: "The Cataclysm",
+      era: "Recent history",
+      kind: "point",
+      start: -500,
+      lane: 1,
+      summary: "A rupture felt across Teyvat.",
+      detail:
+        "A sample event placed roughly five centuries before the present. It is here to demonstrate a point event and an event detail dialog.",
+      accent: "violet",
+      precision: "approximate",
+    },
+    {
+      id: "present-day",
+      title: "The present day",
+      era: "Current era",
+      kind: "point",
+      start: 0,
+      lane: 0,
+      summary: "The chronicle is still being written.",
+      detail:
+        "The current era anchors the right edge of this sample timeline. New sourced events will be added in later phases.",
+      accent: "teal",
+      precision: "exact",
+    },
+  ],
+};

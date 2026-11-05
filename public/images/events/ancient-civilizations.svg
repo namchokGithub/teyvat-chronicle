@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-labelledby="title">
+  <title id="title">Ruins beneath a starry sky</title>
+  <defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#263947"/><stop offset="1" stop-color="#65777a"/></linearGradient><linearGradient id="stone" x2="0" y2="1"><stop stop-color="#c6ad80"/><stop offset="1" stop-color="#726d68"/></linearGradient></defs>
+  <path fill="url(#sky)" d="M0 0h800v400H0z"/>
+  <g fill="#ddcaa6" opacity=".8"><circle cx="68" cy="63" r="2"/><circle cx="173" cy="41" r="1.5"/><circle cx="267" cy="86" r="2"/><circle cx="375" cy="47" r="1.5"/><circle cx="622" cy="52" r="2"/><circle cx="711" cy="102" r="1.5"/><circle cx="752" cy="44" r="2"/></g>
+  <circle cx="525" cy="122" r="65" fill="none" stroke="#e3c996" stroke-opacity=".65"/><circle cx="525" cy="122" r="42" fill="none" stroke="#e3c996" stroke-opacity=".4"/>
+  <path d="M0 312 141 226l96 45 123-92 91 67 138-94 211 136v112H0z" fill="#394d55"/>
+  <path d="M0 350 175 283l115 39 138-85 107 47 128-62 137 76v102H0z" fill="#253c45"/>
+  <g fill="url(#stone)"><path d="M149 245h33v120h-33zM136 234h60v17h-60zM226 237h29v117h-29zM213 225h55v17h-55zM334 229h42v147h-42zM322 219h66v18h-66zM613 215h35v154h-35zM600 205h60v18h-60z"/><path d="M105 350h610v50H105z"/></g>
+  <path d="M142 325h48m24 12h62m51-37h70m198 18h74" stroke="#e0c89b" stroke-width="3" opacity=".55"/>
+</svg>
