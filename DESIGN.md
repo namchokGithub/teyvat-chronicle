@@ -12,7 +12,7 @@ Runtime colors and type choices live in `src/styles.css`. This is the Phase 1 vi
 
 ## Back Office extension
 
-The editor uses the same navy, parchment, and aged gold tokens. A fixed navigation rail groups the content collections; on narrow screens it becomes a horizontal section list. The working area keeps record selection separate from editing, shows save/publish results in text, and confirms deletion in a dialog. The current JSON editor is a temporary code-first surface; dedicated content forms remain open work.
+The editor uses the same navy, parchment, and aged gold tokens. A fixed navigation rail groups the content collections; on narrow screens it becomes a horizontal section list. The working area keeps record selection separate from editing, shows save/publish results in text, and confirms deletion in a dialog. Dedicated forms group content, time, display, and linked records. Existing IDs remain visible but locked; Save and Publish continue to use the same validation path.
 
 ## Public explorer extension
 

@@ -39,6 +39,8 @@ import {
   importSnapshotAddOnly,
   parseSnapshot,
 } from "../../content/transfer";
+import { RecordForm } from "./RecordForm";
+import { normalizeFormRecord, type DraftRecord } from "./formModel";
 
 const collections = Object.keys(collectionLabels) as CollectionName[];
 type Section = CollectionName | "dashboard";
@@ -70,15 +72,39 @@ function Editor({
     {},
   );
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [draftText, setDraftText] = useState("");
-  const [savedText, setSavedText] = useState("");
+  const [draftRecord, setDraftRecord] = useState<DraftRecord | null>(null);
+  const [savedRecord, setSavedRecord] = useState<DraftRecord | null>(null);
+  const [references, setReferences] = useState<
+    Partial<Record<CollectionName, ContentRecord[]>>
+  >({});
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
-  const dirty = draftText !== savedText;
+  const errorRef = useRef<HTMLParagraphElement>(null);
+  const dirty = JSON.stringify(draftRecord) !== JSON.stringify(savedRecord);
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus();
+  }, [error]);
+
+  useEffect(() => {
+    let live = true;
+    Promise.all(
+      collections.map(async (name) => [name, await store.list(name)] as const),
+    )
+      .then((entries) => {
+        if (live) setReferences(Object.fromEntries(entries));
+      })
+      .catch((cause) => {
+        if (live) setError(errorMessage(cause));
+      });
+    return () => {
+      live = false;
+    };
+  }, [store]);
 
   useEffect(() => {
     if (!dirty) return;
@@ -140,8 +166,8 @@ function Editor({
     setLoading(next !== "dashboard");
     setItems([]);
     setSelectedId(null);
-    setDraftText("");
-    setSavedText("");
+    setDraftRecord(null);
+    setSavedRecord(null);
     setMessage("");
     setError("");
   }
@@ -151,14 +177,11 @@ function Editor({
       setError("Save or reset your changes before opening another record.");
       return;
     }
-    const text = JSON.stringify(
-      record ?? draftTemplate(section as CollectionName),
-      null,
-      2,
-    );
+    const next = (record ??
+      draftTemplate(section as CollectionName)) as DraftRecord;
     setSelectedId(record?.id ?? null);
-    setDraftText(text);
-    setSavedText(text);
+    setDraftRecord(next);
+    setSavedRecord(next);
     setMessage("");
     setError("");
   }
@@ -166,21 +189,16 @@ function Editor({
   async function refresh(collectionName: CollectionName) {
     const results = await store.list(collectionName);
     setItems(results.sort((a, b) => a.id.localeCompare(b.id)));
+    setReferences((current) => ({ ...current, [collectionName]: results }));
   }
 
   async function saveRecord(nextStatus?: "draft" | "published") {
-    if (section === "dashboard") return;
+    if (section === "dashboard" || !draftRecord) return;
     setBusy(true);
     setError("");
     setMessage("");
     try {
-      const candidate: unknown = JSON.parse(draftText);
-      if (
-        !candidate ||
-        typeof candidate !== "object" ||
-        Array.isArray(candidate)
-      )
-        throw new Error("Record must be a JSON object.");
+      const candidate = normalizeFormRecord(section, draftRecord);
       const value: Record<string, unknown> = {
         ...candidate,
         ...(nextStatus ? { status: nextStatus } : {}),
@@ -194,10 +212,9 @@ function Editor({
           "That ID already exists. Open the record or choose another ID.",
         );
       const saved = await store.save(section, value);
-      const text = JSON.stringify(saved, null, 2);
       setSelectedId(saved.id);
-      setDraftText(text);
-      setSavedText(text);
+      setDraftRecord(saved);
+      setSavedRecord(saved);
       await refresh(section);
       setMessage(
         nextStatus === "published"
@@ -222,8 +239,8 @@ function Editor({
       await refresh(section);
       if (selectedId === deleteId) {
         setSelectedId(null);
-        setDraftText("");
-        setSavedText("");
+        setDraftRecord(null);
+        setSavedRecord(null);
       }
       setMessage("Record deleted.");
       setDeleteId(null);
@@ -281,16 +298,7 @@ function Editor({
     }
   }
 
-  const selectedStatus = (() => {
-    try {
-      const value = JSON.parse(draftText);
-      return value.status === "draft" || value.status === "published"
-        ? value.status
-        : null;
-    } catch {
-      return null;
-    }
-  })();
+  const selectedStatus = draftRecord?.status;
 
   return (
     <div className="bo-shell">
@@ -372,7 +380,12 @@ function Editor({
           </p>
         )}
         {error && (
-          <p className="bo-feedback error" role="alert">
+          <p
+            className="bo-feedback error"
+            role="alert"
+            ref={errorRef}
+            tabIndex={-1}
+          >
             {error}
           </p>
         )}
@@ -490,7 +503,7 @@ function Editor({
               )}
             </section>
             <section className="bo-editor" aria-label="Record editor">
-              {draftText ? (
+              {draftRecord ? (
                 <>
                   <div className="bo-editor-head">
                     <div>
@@ -510,62 +523,65 @@ function Editor({
                     )}
                   </div>
                   <p className="bo-editor-help">
-                    Edit the structured record below. Keep its ID as a lowercase
-                    slug. Validation runs before saving; published events need a
-                    source and timeline.
+                    Complete the fields below. Validation runs before saving;
+                    published events need a source, timeline, and description.
+                    {dirty && <strong> Unsaved changes.</strong>}
                   </p>
-                  <label htmlFor="record-json" className="bo-field-label">
-                    Record JSON {dirty && <span>Unsaved changes</span>}
-                  </label>
-                  <textarea
-                    id="record-json"
-                    className="bo-json"
-                    value={draftText}
-                    onChange={(event) => setDraftText(event.target.value)}
-                    spellCheck={false}
-                    aria-describedby="record-help"
-                  />
-                  <p id="record-help" className="bo-editor-help">
-                    Use numeric years for known times and null for unknown
-                    times. A timeline break has start, end, width, and label.
-                  </p>
-                  <div className="bo-actions">
-                    <button
-                      className="bo-secondary"
-                      onClick={() => {
-                        setDraftText(savedText);
-                        setError("");
-                      }}
-                      disabled={!dirty || busy}
-                    >
-                      Reset changes
-                    </button>
-                    <button
-                      className="bo-secondary"
-                      onClick={() => saveRecord()}
-                      disabled={busy}
-                    >
-                      <Save size={16} /> Save
-                    </button>
-                    {section !== "settings" &&
-                      (selectedStatus === "published" ? (
-                        <button
-                          className="bo-primary"
-                          onClick={() => saveRecord("draft")}
-                          disabled={busy}
-                        >
-                          Move to draft
-                        </button>
-                      ) : (
-                        <button
-                          className="bo-primary"
-                          onClick={() => saveRecord("published")}
-                          disabled={busy}
-                        >
-                          <Send size={16} /> Publish
-                        </button>
-                      ))}
-                  </div>
+                  <form
+                    noValidate
+                    onSubmit={(event) => {
+                      event.preventDefault();
+                      void saveRecord();
+                    }}
+                  >
+                    <RecordForm
+                      collection={section}
+                      value={draftRecord}
+                      references={references}
+                      existing={selectedId !== null}
+                      onChange={setDraftRecord}
+                    />
+                    <div className="bo-actions">
+                      <button
+                        type="button"
+                        className="bo-secondary"
+                        onClick={() => {
+                          setDraftRecord(savedRecord);
+                          setError("");
+                        }}
+                        disabled={!dirty || busy}
+                      >
+                        Reset changes
+                      </button>
+                      <button
+                        type="submit"
+                        className="bo-secondary"
+                        disabled={busy}
+                      >
+                        <Save size={16} /> Save
+                      </button>
+                      {section !== "settings" &&
+                        (selectedStatus === "published" ? (
+                          <button
+                            type="button"
+                            className="bo-primary"
+                            onClick={() => saveRecord("draft")}
+                            disabled={busy}
+                          >
+                            Move to draft
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="bo-primary"
+                            onClick={() => saveRecord("published")}
+                            disabled={busy}
+                          >
+                            <Send size={16} /> Publish
+                          </button>
+                        ))}
+                    </div>
+                  </form>
                 </>
               ) : (
                 <div className="bo-editor-placeholder">

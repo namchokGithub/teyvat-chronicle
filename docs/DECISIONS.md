@@ -27,3 +27,7 @@ The timeline assigns card rows using projected dates at the minimum supported zo
 Optional event `spoilerLevel` values 0–3 and `requiredQuestIds` preserve older records at level 0. The public viewer starts at level 0 with no completed quests. One filter path determines timeline, deep-link detail, relationship explorer, comparison, and story visibility. Spoiler preferences stay in the current page session and are omitted from shared URLs, so opening a deep link never unlocks hidden details automatically. These labels are provisional until a sourced quest/version catalog exists.
 
 Backups serialize all content collections with a format version. Import validates every record and checks every collection for duplicate IDs before writing. Import is add-only and available only in the local development sandbox; Firebase is export-only until conflict and recovery rules are defined.
+
+## 2026-11-06 — Back Office form editing
+
+The Back Office now edits the existing content records through dedicated fields for each collection rather than a JSON textarea. Draft form state may contain numeric input strings until Save or Publish, when one normalization step restores numbers and nullable values before the unchanged Zod/store validation. Reference selectors load records from the same store and retain missing IDs visibly instead of silently dropping them. This preserves existing Firestore documents and the publish workflow while allowing editors to manage timeline breaks and links without writing JSON.

@@ -6,12 +6,12 @@
 
 ## Open work index
 
-| งาน                                                                  | สถานะ       | เป้าหมายคร่าว ๆ                                                      |
-| -------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------- |
-| [Phase 2 — Database & Back Office](#phase-2--database--back-office)  | In progress | schema และ CRUD พร้อม; รอทดสอบสิทธิ์/ข้อมูลจริงและฟอร์มเฉพาะงาน      |
-| [Phase 3 — Public Explorer](#phase-3--public-explorer)               | In progress | ค้นหา กรอง และ deep link ได้ในโค้ด; รอข้อมูลจริงและตรวจหน้าจอ        |
-| [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)      | In progress | focus/relationship และจัดแถว card ในโค้ดแล้ว; รอตรวจภาพและข้อมูลจริง |
-| [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features) | In progress | เครื่องมือสำรวจและ JSON backup ในโค้ดพร้อม; รอข้อมูลจริงและตรวจ UI   |
+| งาน                                                                  | สถานะ       | เป้าหมายคร่าว ๆ                                                         |
+| -------------------------------------------------------------------- | ----------- | ----------------------------------------------------------------------- |
+| [Phase 2 — Database & Back Office](#phase-2--database--back-office)  | In progress | ฟอร์มทุก collection พร้อม; รอทดสอบสิทธิ์/ข้อมูลจริงและ reference checks |
+| [Phase 3 — Public Explorer](#phase-3--public-explorer)               | In progress | ค้นหา กรอง และ deep link ได้ในโค้ด; รอข้อมูลจริงและตรวจหน้าจอ           |
+| [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)      | In progress | focus/relationship และจัดแถว card ในโค้ดแล้ว; รอตรวจภาพและข้อมูลจริง    |
+| [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features) | In progress | เครื่องมือสำรวจและ JSON backup ในโค้ดพร้อม; รอข้อมูลจริงและตรวจ UI      |
 
 ## Phase 1 — Foundation & Timeline Engine
 
@@ -31,12 +31,12 @@
 **สถานะ:** In progress
 
 - [x] กำหนด Zod schema สำหรับ timeline, event, character, era, region, source, relationship และ settings โดยแยกความแน่นอนของเวลาออกจาก lore status
-- [x] ทำ repository สำหรับ Firestore และ local sandbox เฉพาะ development; Back Office จัดการ record ในทุก collection ผ่าน JSON editor ได้
+- [x] ทำ repository สำหรับ Firestore และ local sandbox เฉพาะ development; Back Office จัดการ record ในทุก collection ผ่านฟอร์มได้
 - [x] ทำ overview จำนวน record และปุ่ม save, publish, move to draft, delete พร้อม validation และการยืนยันก่อนลบ
 - [x] เตรียม Firebase Authentication แบบ email/password, ตรวจ owner document และ Firestore Rules ที่จำกัดสิทธิ์เขียน
-- [x] รองรับการกำหนด breaks และ lane ของ timeline ใน schema และ JSON editor
-- [ ] เมื่อมี Firebase project: เปิด Authentication, สร้าง owner, deploy rules และทดสอบ CRUD/สิทธิ์ owner ด้วยข้อมูลจริงตาม [คู่มือตั้งค่า](FIREBASE-SETUP.md)
-- [ ] ทำฟอร์มเฉพาะสำหรับ event, character, timeline/break และการเลือก entity ที่เชื่อมกัน แทนการแก้ JSON โดยตรง
+- [x] รองรับการกำหนด breaks และ lane ของ timeline ใน schema และฟอร์ม
+- [ ] ทดสอบ Authentication, owner, rules และ CRUD/สิทธิ์ owner กับ Firebase project จริงตาม [คู่มือตั้งค่า](FIREBASE-SETUP.md)
+- [x] ทำฟอร์มสำหรับทุก collection รวม event, character, timeline/break, source และตัวเลือก entity ที่เชื่อมกัน แทนการแก้ JSON โดยตรง
 - [ ] ตรวจการมีอยู่ของ timeline/source/character/era/region ที่อ้างถึง และจัดการผลกระทบเมื่อลบ record ที่ถูกอ้างอิง
 - [ ] ทำ Media Library และการตั้งค่า theme/default viewer ให้ใช้งานจริง; Cloud Storage upload ยังเป็นตัวเลือก
 - [ ] ตรวจหน้าจอ Back Office ด้วยตา รวมถึง mobile, keyboard, error state และ Firebase sign-in
@@ -79,7 +79,7 @@
 - [x] เพิ่ม `spoilerLevel` (0–3) และ `requiredQuestIds` แบบ optional ใน event schema; public filter คุม event, deep link, ความสัมพันธ์ และ Story Mode โดย URL ไม่ปลด spoiler ให้ผู้รับลิงก์
 - [x] เพิ่ม JSON backup สำหรับทุก collection และนำเข้าแบบ add-only ใน local Back Office หลังตรวจ schema ทั้งไฟล์; Firebase ยัง export ได้อย่างเดียว
 - [ ] ทดสอบหน้าจอ 360px/1280px และ keyboard flow ของเครื่องมือสำรวจ, spoiler controls, Story Mode และ import/export ด้วยตา
-- [ ] ตรวจ UI audit แบบ strict: บันทึกเจ้าของ native select และแก้ validation/textarea ใน Back Office (4 รายการจากการตรวจปัจจุบัน)
+- [ ] ตรวจ UI audit แบบ strict: บันทึกเจ้าของ native select และกำหนด validation ของฟอร์มเข้าสู่ระบบ Back Office (4 รายการจากการตรวจปัจจุบัน)
 - [ ] กำหนดชื่อระดับ spoiler และ quest catalog จริงให้สัมพันธ์กับ Archon Quest/Version ก่อนใส่ข้อมูล lore จริง
 - [ ] ทดสอบการอ่านข้อมูลที่มี spoiler กับ Firebase จริง รวมถึงสิทธิ์และประสิทธิภาพของข้อมูลจำนวนมาก
 - [ ] ถ้าต้องการนำเข้า Firebase หรือเขียนทับข้อมูลเดิม ให้กำหนดนโยบาย conflict, preview และ recovery ก่อนเปิดใช้งาน
