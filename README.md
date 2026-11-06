@@ -1,4 +1,4 @@
-# teyvat-chronicle
+# Teyvat Chronicle
 
 ---
 
@@ -6,7 +6,7 @@ An interactive Genshin Impact lore timeline explorer, connecting Teyvat's histor
 
 ## Current status
 
-The public explorer now supports search, world/character/era-region views, lore certainty filters, source details, and event deep links. Phase 2 provides a development-only local Back Office and code for Firestore, owner authentication, and draft/publish management. No Firebase project is connected yet, so public pages use clearly labeled sample records. See [Progress](docs/PROGRESS.md) for remaining work and later phases.
+The public explorer supports search, world/character/era-region views, lore certainty filters, source details, and event deep links. Phase 1 Firebase connection and timeline checks are complete per the owner's report. With Firebase configuration, the public explorer reads published records; without it, the app uses labeled sample records. Phase 2 provides owner authentication and draft/publish management. See [Progress](docs/PROGRESS.md) for live data and permission checks still open in later phases.
 
 Phase 4 interaction work adds character focus, related event navigation, stable card placement, and keyboard timeline controls. Visual and large-data verification remain open.
 
@@ -21,9 +21,9 @@ pnpm install
 pnpm dev
 ```
 
-The explorer works without Firebase credentials. When a Firebase project is available, copy `.env.example` to `.env.local` and fill in its values. It then queries published Firestore records; live access still needs project setup and verification.
+The explorer works without Firebase credentials. For a new environment, copy `.env.example` to `.env.local` and fill in its values to query published Firestore records.
 
-Open `/#bo` while running `pnpm dev` to try the local Back Office. Its records stay in your browser and are separate from the public mock timeline. On a deployed build, the Back Office requires Firebase configuration and an authorized owner account. See [Firebase setup](docs/FIREBASE-SETUP.md).
+Open `/#bo` while running `pnpm dev`. With Firebase configured, sign in as an authorized owner. Without Firebase configuration, development mode offers a local sandbox whose records stay in the browser and do not appear on the public sample timeline. See [Firebase setup](docs/FIREBASE-SETUP.md).
 
 ---
 

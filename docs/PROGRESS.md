@@ -1,30 +1,30 @@
 # Progress
 
-อ้างอิง [REQUIREMENT.md](REQUIREMENT.md) ส่วน Roadmap การพัฒนาเบื้องต้น (Draft) สถานะด้านล่างเป็นภาพรวมสำหรับติดตามงาน ยังไม่ใช่ขอบเขตหรือกำหนดส่งที่ยืนยันแล้ว เมื่อไม่มี Firebase project หน้า public ใช้ mock data; เมื่อกำหนด Firebase แล้วจะอ่านเฉพาะข้อมูลที่ publish แต่ยังไม่ได้ทดสอบกับ project จริง
+อ้างอิง [REQUIREMENT.md](REQUIREMENT.md) ส่วน Roadmap การพัฒนาเบื้องต้น (Draft) สถานะด้านล่างเป็นภาพรวมสำหรับติดตามงาน ยังไม่ใช่ขอบเขตหรือกำหนดส่งที่ยืนยันแล้ว ผู้ใช้ยืนยันว่าเชื่อม Firebase และตรวจ Phase 1 ตามขั้นตอนแล้ว; เมื่อไม่มีค่า Firebase ใน environment หน้า public จะใช้ mock data ส่วนการทดสอบสิทธิ์และข้อมูลจริงของ Phase 2–3 ยังติดตามแยกกัน
 
 สถานะที่ใช้: `Not started` · `In progress` · `Done`
 
 ## Open work index
 
-| งาน                                                                             | สถานะ       | เป้าหมายคร่าว ๆ                                                                 |
-| ------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------- |
-| [Phase 1 — Foundation & Timeline Engine](#phase-1--foundation--timeline-engine) | In progress | แอปและ timeline จาก mock data พร้อม; รอ Firebase จริงและตรวจหน้าจอด้วยตา        |
-| [Phase 2 — Database & Back Office](#phase-2--database--back-office)             | In progress | schema, CRUD และ draft/publish ในเครื่องพร้อม; รอ Firebase จริงและฟอร์มเฉพาะงาน |
-| [Phase 3 — Public Explorer](#phase-3--public-explorer)                          | In progress | ค้นหา กรอง และ deep link ได้ในโค้ด; รอข้อมูลจริงและตรวจหน้าจอ                   |
-| [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)                 | In progress | focus/relationship และจัดแถว card ในโค้ดแล้ว; รอตรวจภาพและข้อมูลจริง            |
-| [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features)            | In progress | เครื่องมือสำรวจและ JSON backup ในโค้ดพร้อม; รอข้อมูลจริงและตรวจ UI              |
+| งาน                                                                  | สถานะ       | เป้าหมายคร่าว ๆ                                                      |
+| -------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------- |
+| [Phase 2 — Database & Back Office](#phase-2--database--back-office)  | In progress | schema และ CRUD พร้อม; รอทดสอบสิทธิ์/ข้อมูลจริงและฟอร์มเฉพาะงาน      |
+| [Phase 3 — Public Explorer](#phase-3--public-explorer)               | In progress | ค้นหา กรอง และ deep link ได้ในโค้ด; รอข้อมูลจริงและตรวจหน้าจอ        |
+| [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)      | In progress | focus/relationship และจัดแถว card ในโค้ดแล้ว; รอตรวจภาพและข้อมูลจริง |
+| [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features) | In progress | เครื่องมือสำรวจและ JSON backup ในโค้ดพร้อม; รอข้อมูลจริงและตรวจ UI   |
 
 ## Phase 1 — Foundation & Timeline Engine
 
-**สถานะ:** In progress
+**สถานะ:** Done
 
 - [x] ตั้งค่า React, TypeScript, Vite, Tailwind CSS และธีมสำหรับหน้า public
 - [x] สร้าง timeline จาก mock data ที่เลื่อนและซูมได้ พร้อมปุ่มควบคุมแบบไม่ต้องลาก
 - [x] แสดง point, range, break ที่ย่อช่วงเวลา, image card และ dialog รายละเอียดเหตุการณ์
 - [x] เตรียม Firebase SDK และ optional initializer ที่ไม่ต้องมี credentials เพื่อรัน mock data
-- [ ] เมื่อมี Firebase project: ใส่ค่าจริงใน `.env.local` และตรวจการ initialize กับ project นั้น
-- [ ] ตรวจหน้าจอจริงด้วยตาที่ขนาดมือถือและเดสก์ท็อป รวมถึงการลาก ซูม เปิด/ปิด dialog และ keyboard focus
-- [ ] แทน mock dates, descriptions และภาพตัวอย่างด้วยข้อมูล lore ที่มีแหล่งอ้างอิง (ต่อเนื่องกับ Phase 2)
+- [x] ใส่ค่าจริงใน `.env.local` และตรวจการ initialize กับ Firebase project (ผู้ใช้ยืนยัน)
+- [x] ตรวจหน้าจอจริงด้วยตาที่ขนาดมือถือและเดสก์ท็อป รวมถึงการลาก ซูม เปิด/ปิด dialog และ keyboard focus (ผู้ใช้ยืนยัน)
+
+การแทน mock dates, descriptions และภาพตัวอย่างด้วย lore ที่มีแหล่งอ้างอิงติดตามใน Phase 3
 
 ## Phase 2 — Database & Back Office
 
