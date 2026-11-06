@@ -1,6 +1,6 @@
-# Firebase setup (pending)
+# Firebase setup
 
-No Firebase project is connected yet. These steps are for the owner when a project is available.
+Use these steps for a new Firebase project or environment. The owner reported that the Phase 1 connection and timeline checks are complete; the live Back Office permission and public content checks in later phases remain open.
 
 1. Create a Firebase web app and Cloud Firestore database. Enable **Email/Password** in Firebase Authentication.
 2. Copy `.env.example` to `.env.local` and fill in the web app config values. Do not commit `.env.local`.
