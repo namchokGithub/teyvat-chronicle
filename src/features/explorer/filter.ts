@@ -11,6 +11,8 @@ export type ExplorerFilters = {
   eraId: string;
   regionId: string;
   lore: LoreFilter;
+  spoilerLevel: number;
+  completedQuestIds: string[];
 };
 
 export const defaultFilters: ExplorerFilters = {
@@ -20,6 +22,8 @@ export const defaultFilters: ExplorerFilters = {
   eraId: "",
   regionId: "",
   lore: "all",
+  spoilerLevel: 0,
+  completedQuestIds: [],
 };
 
 type SearchDocument = {
@@ -102,6 +106,13 @@ export function selectEvents(
       )
         return false;
       if (filters.lore !== "all" && event.loreStatus !== filters.lore)
+        return false;
+      if ((event.spoilerLevel ?? 0) > filters.spoilerLevel) return false;
+      if (
+        event.requiredQuestIds?.some(
+          (id) => !filters.completedQuestIds.includes(id),
+        )
+      )
         return false;
       if (searchIds && !searchIds.has(event.id) && !textFallback(event))
         return false;

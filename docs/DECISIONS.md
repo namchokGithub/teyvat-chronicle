@@ -21,3 +21,9 @@ Unknown event times stay out of the numeric axis and appear in a separate list. 
 ## 2026-11-05 — Stable card placement and focus context
 
 The timeline assigns card rows using projected dates at the minimum supported zoom. The assignment stays stable while panning or zooming, and extra rows are added when crowded dates cannot fit in the existing rows. Character focus keeps the world view as context and dims events without that character; it never changes the underlying event set. Published event-to-event relationships drive both the visual connector and the textual links in event details. Zoom updates are scheduled once per animation frame to avoid synchronously rendering for every pointer event.
+
+## 2026-11-05 — Phase 5 visibility and backup boundary
+
+Optional event `spoilerLevel` values 0–3 and `requiredQuestIds` preserve older records at level 0. The public viewer starts at level 0 with no completed quests. One filter path determines timeline, deep-link detail, relationship explorer, comparison, and story visibility. Spoiler preferences stay in the current page session and are omitted from shared URLs, so opening a deep link never unlocks hidden details automatically. These labels are provisional until a sourced quest/version catalog exists.
+
+Backups serialize all content collections with a format version. Import validates every record and checks every collection for duplicate IDs before writing. Import is add-only and available only in the local development sandbox; Firebase is export-only until conflict and recovery rules are defined.

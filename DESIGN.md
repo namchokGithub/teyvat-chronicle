@@ -21,3 +21,7 @@ Three view tabs and compact filters sit between the opening section and the shar
 ## Interaction extension
 
 Character focus dims context records while keeping them keyboard reachable; hover, focus, and the event dialog surface related records. Card rows are assigned at the minimum zoom and remain stable during zoom and pan. Motion is limited to the introduction and emphasis transitions, with reduced-motion settings removing those effects. The timeline exposes visible controls and keyboard shortcuts for equivalent navigation.
+
+## Advanced lore extension
+
+The advanced tools sit after the timeline as a quiet reading desk. Relationship, comparison, and story views share the same parchment surface and event detail dialog. Spoiler level stays beside the existing archive filters; quest gates are disclosed only when the published data uses them. The JSON backup action stays in the Back Office overview and labels local-only import explicitly.
