@@ -6,7 +6,7 @@ An interactive Genshin Impact lore timeline explorer, connecting Teyvat's histor
 
 ## Current status
 
-The public explorer supports search, world/character/era-region views, lore certainty filters, source details, and event deep links. Phase 1 Firebase connection and timeline checks are complete per the owner's report. With Firebase configuration, the public explorer reads published records; without it, the app uses labeled sample records. Phase 2 provides owner authentication and draft/publish management. See [Progress](docs/PROGRESS.md) for live data and permission checks still open in later phases.
+The public explorer supports search, world/character/era-region views, lore certainty filters, source details, and event deep links. Phase 1 Firebase connection and timeline checks are complete per the owner's report. With Firebase configuration, the public explorer reads published records; without it, the app uses labeled sample records. Phase 2 provides owner authentication, forms for every content collection, and draft/publish management. See [Progress](docs/PROGRESS.md) for live data and permission checks still open in later phases.
 
 Phase 4 interaction work adds character focus, related event navigation, stable card placement, and keyboard timeline controls. Visual and large-data verification remain open.
 
@@ -24,6 +24,8 @@ pnpm dev
 The explorer works without Firebase credentials. For a new environment, copy `.env.example` to `.env.local` and fill in its values to query published Firestore records.
 
 Open `/#bo` while running `pnpm dev`. With Firebase configured, sign in as an authorized owner. Without Firebase configuration, development mode offers a local sandbox whose records stay in the browser and do not appear on the public sample timeline. See [Firebase setup](docs/FIREBASE-SETUP.md).
+
+To create a timeline, open **Timelines → New**, enter an ID, title, start/end years, and optional breaks, then Save or Publish. Create and publish a **Source** before publishing an **Event**; in the event form, select that timeline and source under **Linked records**. Only published records appear in the Firebase-backed public explorer.
 
 ---
 
