@@ -55,6 +55,8 @@ export function draftTemplate(collection: CollectionName): ContentRecord {
           lane: 0,
         },
         loreStatus: "inferred",
+        spoilerLevel: 0,
+        requiredQuestIds: [],
         sourceIds: [],
         sortOrder: 0,
       } as ContentRecord;

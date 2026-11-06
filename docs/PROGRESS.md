@@ -12,7 +12,7 @@
 | [Phase 2 — Database & Back Office](#phase-2--database--back-office)             | In progress | schema, CRUD และ draft/publish ในเครื่องพร้อม; รอ Firebase จริงและฟอร์มเฉพาะงาน |
 | [Phase 3 — Public Explorer](#phase-3--public-explorer)                          | In progress | ค้นหา กรอง และ deep link ได้ในโค้ด; รอข้อมูลจริงและตรวจหน้าจอ                   |
 | [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)                 | In progress | focus/relationship และจัดแถว card ในโค้ดแล้ว; รอตรวจภาพและข้อมูลจริง            |
-| [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features)            | Not started | เพิ่มเครื่องมือสำรวจ lore ขั้นสูง                                               |
+| [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features)            | In progress | เครื่องมือสำรวจและ JSON backup ในโค้ดพร้อม; รอข้อมูลจริงและตรวจ UI              |
 
 ## Phase 1 — Foundation & Timeline Engine
 
@@ -71,7 +71,15 @@
 
 ## Phase 5 — Advanced Lore Features
 
-**สถานะ:** Not started
+**สถานะ:** In progress
 
-- เพิ่ม relationship explorer, compare characters, story mode และ spoiler controls
-- รองรับ import/export ข้อมูลตามขอบเขตที่จะกำหนดในภายหลัง
+- [x] เพิ่ม Relationship Explorer จาก published event links โดยไม่แสดงปลายทางที่ถูก spoiler filter ซ่อน
+- [x] เพิ่ม Compare Characters จาก event ชุดเดียวกัน พร้อมแสดงเหตุการณ์ที่มีร่วมกัน
+- [x] เพิ่ม Story Mode เดินตามลำดับเวลาของผลลัพธ์ที่มองเห็นและเปิดรายละเอียดเดิมได้
+- [x] เพิ่ม `spoilerLevel` (0–3) และ `requiredQuestIds` แบบ optional ใน event schema; public filter คุม event, deep link, ความสัมพันธ์ และ Story Mode โดย URL ไม่ปลด spoiler ให้ผู้รับลิงก์
+- [x] เพิ่ม JSON backup สำหรับทุก collection และนำเข้าแบบ add-only ใน local Back Office หลังตรวจ schema ทั้งไฟล์; Firebase ยัง export ได้อย่างเดียว
+- [ ] ทดสอบหน้าจอ 360px/1280px และ keyboard flow ของเครื่องมือสำรวจ, spoiler controls, Story Mode และ import/export ด้วยตา
+- [ ] ตรวจ UI audit แบบ strict: บันทึกเจ้าของ native select และแก้ validation/textarea ใน Back Office (4 รายการจากการตรวจปัจจุบัน)
+- [ ] กำหนดชื่อระดับ spoiler และ quest catalog จริงให้สัมพันธ์กับ Archon Quest/Version ก่อนใส่ข้อมูล lore จริง
+- [ ] ทดสอบการอ่านข้อมูลที่มี spoiler กับ Firebase จริง รวมถึงสิทธิ์และประสิทธิภาพของข้อมูลจำนวนมาก
+- [ ] ถ้าต้องการนำเข้า Firebase หรือเขียนทับข้อมูลเดิม ให้กำหนดนโยบาย conflict, preview และ recovery ก่อนเปิดใช้งาน

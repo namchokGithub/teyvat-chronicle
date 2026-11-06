@@ -23,6 +23,8 @@ export function readExplorerUrl(url: URL): {
         lore === "confirmed" || lore === "inferred" || lore === "theory"
           ? lore
           : defaultFilters.lore,
+      spoilerLevel: defaultFilters.spoilerLevel,
+      completedQuestIds: [],
     },
     eventId: url.searchParams.get("event") ?? "",
   };
@@ -41,6 +43,8 @@ export function writeExplorerUrl(
     "era",
     "region",
     "lore",
+    "spoilers",
+    "quests",
     "event",
   ])
     next.searchParams.delete(key);

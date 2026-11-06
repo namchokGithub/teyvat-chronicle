@@ -47,6 +47,8 @@ describe("published explorer flow", () => {
     const undated = eventSchema.parse({
       ...event,
       id: "undated-record",
+      spoilerLevel: 2,
+      requiredQuestIds: ["quest-one"],
       time: {
         type: "unknown",
         start: null,
@@ -91,6 +93,22 @@ describe("published explorer flow", () => {
     ]);
     expect(archive.timeline.events[0].characterIds).toContain("dainsleif");
     expect(archive.timeline.events[1].start).toBeNull();
+    expect(
+      selectEvents(archive, defaultFilters, createEventIndex(archive)).map(
+        (item) => item.id,
+      ),
+    ).toEqual(["cataclysm"]);
+    expect(
+      selectEvents(
+        archive,
+        {
+          ...defaultFilters,
+          spoilerLevel: 2,
+          completedQuestIds: ["quest-one"],
+        },
+        createEventIndex(archive),
+      ).map((item) => item.id),
+    ).toEqual(["cataclysm", "undated-record"]);
     expect(archive.eventRelations).toMatchObject([
       { fromId: "cataclysm", toId: "undated-record" },
     ]);
@@ -99,6 +117,8 @@ describe("published explorer flow", () => {
       view: "character" as const,
       characterId: "dainsleif",
       search: "cataclysm",
+      spoilerLevel: 2,
+      completedQuestIds: ["quest-one"],
     };
     expect(
       selectEvents(archive, filters, createEventIndex(archive)).map(
@@ -111,6 +131,9 @@ describe("published explorer flow", () => {
       filters,
       event.id,
     );
-    expect(readExplorerUrl(linked)).toEqual({ filters, eventId: "cataclysm" });
+    expect(readExplorerUrl(linked)).toEqual({
+      filters: { ...filters, spoilerLevel: 0, completedQuestIds: [] },
+      eventId: "cataclysm",
+    });
   });
 });

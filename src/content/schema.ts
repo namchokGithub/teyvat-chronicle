@@ -99,6 +99,8 @@ export const eventSchema = base
       lane: z.number().int().min(0),
     }),
     loreStatus: z.enum(["confirmed", "inferred", "theory"]),
+    spoilerLevel: z.number().int().min(0).max(3).optional(),
+    requiredQuestIds: ids.optional(),
     sourceIds: ids,
     sortOrder: z.number().int(),
   })

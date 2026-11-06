@@ -12,13 +12,15 @@ import {
   ArrowLeft,
   BookOpen,
   FilePlus2,
+  Download,
+  Upload,
   LogOut,
   Save,
   Send,
   Trash2,
   X,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ZodError } from "zod";
 import {
   collectionLabels,
@@ -32,6 +34,11 @@ import {
   type ContentStore,
 } from "../../content/store";
 import { getFirebaseApp } from "../../lib/firebase";
+import {
+  exportSnapshot,
+  importSnapshotAddOnly,
+  parseSnapshot,
+} from "../../content/transfer";
 
 const collections = Object.keys(collectionLabels) as CollectionName[];
 type Section = CollectionName | "dashboard";
@@ -70,6 +77,7 @@ function Editor({
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const importInputRef = useRef<HTMLInputElement>(null);
   const dirty = draftText !== savedText;
 
   useEffect(() => {
@@ -226,6 +234,53 @@ function Editor({
     }
   }
 
+  async function downloadBackup() {
+    setBusy(true);
+    setError("");
+    try {
+      const snapshot = await exportSnapshot(store);
+      const url = URL.createObjectURL(
+        new Blob([JSON.stringify(snapshot, null, 2)], {
+          type: "application/json",
+        }),
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "teyvat-chronicle-backup.json";
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setMessage("Backup downloaded.");
+    } catch (cause) {
+      setError(errorMessage(cause));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function uploadBackup(file: File) {
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      const snapshot = parseSnapshot(await file.text());
+      const count = await importSnapshotAddOnly(store, snapshot);
+      setMessage(`${count} records imported into the local sandbox.`);
+      if (section === "dashboard") {
+        const results = await Promise.all(
+          collections.map(
+            async (name) => [name, (await store.list(name)).length] as const,
+          ),
+        );
+        setCounts(Object.fromEntries(results));
+      }
+    } catch (cause) {
+      setError(errorMessage(cause));
+    } finally {
+      setBusy(false);
+      if (importInputRef.current) importInputRef.current.value = "";
+    }
+  }
+
   const selectedStatus = (() => {
     try {
       const value = JSON.parse(draftText);
@@ -332,6 +387,41 @@ function Editor({
               Manage draft and published lore records. Start with timelines and
               sources, then link events to them.
             </p>
+            <div className="bo-transfer">
+              <button
+                className="bo-secondary"
+                onClick={downloadBackup}
+                disabled={busy}
+              >
+                <Download size={16} /> Download JSON backup
+              </button>
+              {mode === "local" && (
+                <>
+                  <button
+                    className="bo-secondary"
+                    onClick={() => importInputRef.current?.click()}
+                    disabled={busy}
+                  >
+                    <Upload size={16} /> Import new records
+                  </button>
+                  <input
+                    ref={importInputRef}
+                    type="file"
+                    accept="application/json,.json"
+                    className="bo-transfer-input"
+                    aria-label="Choose JSON backup to import"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (file) void uploadBackup(file);
+                    }}
+                  />
+                </>
+              )}
+              <p>
+                Import validates the whole backup and rejects IDs already in
+                this browser. Firebase import is not enabled.
+              </p>
+            </div>
             <div className="bo-stat-grid">
               {collections.map((name) => (
                 <button

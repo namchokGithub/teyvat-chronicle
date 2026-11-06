@@ -36,6 +36,7 @@ import {
   formatTimelineYear,
 } from "../../timeline/projection";
 import { sampleArchive, type PublicArchive } from "./archive";
+import { AdvancedExplorer } from "./AdvancedExplorer";
 import {
   createEventIndex,
   defaultFilters,
@@ -70,12 +71,14 @@ function EventDialog({
   archive,
   onClose,
   focusEvents,
+  allowedEventIds,
   onSelect,
 }: {
   event: TimelineEvent | null;
   archive: PublicArchive;
   onClose: () => void;
   focusEvents: TimelineEvent[];
+  allowedEventIds: Set<string>;
   onSelect: (id: string) => void;
 }) {
   const [copiedId, setCopiedId] = useState("");
@@ -89,7 +92,10 @@ function EventDialog({
     ? archive.eventRelations
         .filter(
           (relation) =>
-            relation.fromId === event.id || relation.toId === event.id,
+            (relation.fromId === event.id &&
+              allowedEventIds.has(relation.toId)) ||
+            (relation.toId === event.id &&
+              allowedEventIds.has(relation.fromId)),
         )
         .map((relation) => ({
           relation,
@@ -274,6 +280,13 @@ function Filters({
   onStep: (direction: -1 | 1) => void;
 }) {
   const searchRef = useRef<HTMLInputElement>(null);
+  const questIds = [
+    ...new Set(
+      archive.timeline.events
+        .filter((event) => (event.spoilerLevel ?? 0) <= filters.spoilerLevel)
+        .flatMap((event) => event.requiredQuestIds ?? []),
+    ),
+  ].sort();
   function setView(view: ViewMode) {
     onChange({ ...filters, view, characterId: "", eraId: "", regionId: "" });
   }
@@ -398,7 +411,53 @@ function Filters({
             <option value="theory">Theory</option>
           </select>
         </label>
+        <label className="filter-select">
+          Spoilers through level{" "}
+          <select
+            value={filters.spoilerLevel}
+            onChange={(event) =>
+              onChange({ ...filters, spoilerLevel: Number(event.target.value) })
+            }
+          >
+            <option value={0}>0 · spoiler free</option>
+            <option value={1}>Level 1</option>
+            <option value={2}>Level 2</option>
+            <option value={3}>3 · all marked spoilers</option>
+          </select>
+        </label>
       </div>
+      {questIds.length > 0 && (
+        <details className="quest-gates">
+          <summary>
+            Completed quests ({filters.completedQuestIds.length})
+          </summary>
+          <p>
+            Only events from completed quests appear. Quest IDs are set by the
+            editor.
+          </p>
+          <div>
+            {questIds.map((id) => (
+              <label key={id}>
+                <input
+                  type="checkbox"
+                  checked={filters.completedQuestIds.includes(id)}
+                  onChange={(event) =>
+                    onChange({
+                      ...filters,
+                      completedQuestIds: event.target.checked
+                        ? [...filters.completedQuestIds, id]
+                        : filters.completedQuestIds.filter(
+                            (item) => item !== id,
+                          ),
+                    })
+                  }
+                />
+                {id}
+              </label>
+            ))}
+          </div>
+        </details>
+      )}
       <div className="filter-foot">
         <span role="status">
           {count} {count === 1 ? "record" : "records"} in this view
@@ -926,7 +985,11 @@ export default function PublicExplorer() {
   useEffect(() => {
     const onPopState = () => {
       const next = readExplorerUrl(new URL(window.location.href));
-      setFilters(next.filters);
+      setFilters((current) => ({
+        ...next.filters,
+        spoilerLevel: current.spoilerLevel,
+        completedQuestIds: current.completedQuestIds,
+      }));
       setEventId(next.eventId);
     };
     window.addEventListener("popstate", onPopState);
@@ -941,6 +1004,32 @@ export default function PublicExplorer() {
     () => (archive && index ? selectEvents(archive, filters, index) : []),
     [archive, filters, index],
   );
+  const allowedEvents = useMemo(
+    () =>
+      archive && index
+        ? selectEvents(
+            archive,
+            {
+              ...defaultFilters,
+              spoilerLevel: filters.spoilerLevel,
+              completedQuestIds: filters.completedQuestIds,
+            },
+            index,
+          )
+        : [],
+    [archive, index, filters.spoilerLevel, filters.completedQuestIds],
+  );
+  const allowedEventIds = useMemo(
+    () => new Set(allowedEvents.map((event) => event.id)),
+    [allowedEvents],
+  );
+  const worldEvents = useMemo(
+    () =>
+      archive && index
+        ? selectEvents(archive, { ...filters, view: "world" }, index)
+        : [],
+    [archive, index, filters],
+  );
   const contextEvents = useMemo(() => {
     if (
       !archive ||
@@ -950,10 +1039,9 @@ export default function PublicExplorer() {
       !focusMode
     )
       return visible;
-    return selectEvents(archive, { ...filters, view: "world" }, index);
-  }, [archive, index, filters, focusMode, visible]);
-  const selected =
-    archive?.timeline.events.find((event) => event.id === eventId) ?? null;
+    return worldEvents;
+  }, [archive, index, filters, focusMode, visible, worldEvents]);
+  const selected = allowedEvents.find((event) => event.id === eventId) ?? null;
   function updateFilters(next: ExplorerFilters) {
     setFilters(next);
     window.history.replaceState(
@@ -1126,6 +1214,14 @@ export default function PublicExplorer() {
             selectedEventId={eventId}
           />
         )}
+        {archive && !loading && !loadError && (
+          <AdvancedExplorer
+            archive={archive}
+            events={allowedEvents}
+            storyEvents={worldEvents}
+            onSelect={openEvent}
+          />
+        )}
         {archive && eventId && !selected && !loading && (
           <p className="deep-link-error" role="alert">
             This event link is unavailable in the public archive.
@@ -1145,6 +1241,7 @@ export default function PublicExplorer() {
           archive={archive}
           onClose={closeEvent}
           focusEvents={filters.view === "character" ? visible : []}
+          allowedEventIds={allowedEventIds}
           onSelect={openEvent}
         />
       )}

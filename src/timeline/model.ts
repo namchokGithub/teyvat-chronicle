@@ -13,6 +13,8 @@ export type TimelineEvent = {
   accent: "gold" | "violet" | "teal";
   precision: "approximate" | "exact" | "unknown";
   loreStatus: "confirmed" | "inferred" | "theory";
+  spoilerLevel?: number;
+  requiredQuestIds?: string[];
   characterIds: string[];
   eraIds: string[];
   regionIds: string[];

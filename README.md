@@ -10,6 +10,8 @@ The public explorer now supports search, world/character/era-region views, lore 
 
 Phase 4 interaction work adds character focus, related event navigation, stable card placement, and keyboard timeline controls. Visual and large-data verification remain open.
 
+Phase 5 code adds a relationship view, character comparison, a chronological story reader, and spoiler filters. The Back Office can download a JSON backup; the local sandbox can import only new records from a validated backup. Spoiler labels and Firebase import remain open work.
+
 ## Run locally
 
 Requires Node.js and pnpm.

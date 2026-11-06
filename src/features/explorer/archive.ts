@@ -179,6 +179,8 @@ export function buildPublishedArchive(
               : "violet",
         precision: item.time.type,
         loreStatus: item.loreStatus,
+        spoilerLevel: item.spoilerLevel ?? 0,
+        requiredQuestIds: item.requiredQuestIds ?? [],
         characterIds: [
           ...new Set([...item.characterIds, ...linkedCharacters]),
         ].filter((id) => publicCharacterIds.has(id)),
