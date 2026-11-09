@@ -528,7 +528,16 @@ function Editor({
                           className={selectedId === item.id ? "selected" : ""}
                           onClick={() => selectRecord(item)}
                         >
-                          <strong>{recordTitle(item)}</strong>
+                          <strong>
+                            {section === "events" && "display" in item && (
+                              <span
+                                className="bo-color-dot"
+                                style={{ background: item.display.color }}
+                                aria-hidden="true"
+                              />
+                            )}
+                            {recordTitle(item)}
+                          </strong>
                           <small>{item.id}</small>
                           <span
                             className={`bo-status ${"status" in item ? item.status : "settings"}`}
