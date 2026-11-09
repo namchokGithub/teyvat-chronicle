@@ -680,6 +680,7 @@
 .bo-form-field.bo-invalid input,
 .bo-form-field.bo-invalid select,
 .bo-form-field.bo-invalid textarea,
+.bo-form-field.bo-invalid .app-select-trigger,
 .bo-reference-field.bo-invalid {
   border-color: #9b4d3b;
   box-shadow: inset 0 0 0 1px #9b4d3b;

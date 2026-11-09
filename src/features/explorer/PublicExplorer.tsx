@@ -1,4 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
+import { AppSelect } from "@/components/AppSelect";
 import { select } from "d3-selection";
 import {
   zoom,
@@ -330,82 +331,82 @@ function Filters({
         {filters.view === "character" && (
           <label className="filter-select">
             Character{" "}
-            <select
+            <AppSelect
               value={filters.characterId}
-              onChange={(event) =>
-                onChange({ ...filters, characterId: event.target.value })
-              }>
-              <option value="">Choose a character</option>
-              {archive.characters.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
+              onValueChange={(next) =>
+                onChange({ ...filters, characterId: next })
+              }
+              options={[
+                { value: "", label: "Choose a character" },
+                ...archive.characters.map((item) => ({
+                  value: item.id,
+                  label: item.name,
+                })),
+              ]}
+            />
           </label>
         )}
         {filters.view === "place" && (
           <>
             <label className="filter-select">
               Era{" "}
-              <select
+              <AppSelect
                 value={filters.eraId}
-                onChange={(event) =>
-                  onChange({ ...filters, eraId: event.target.value })
-                }>
-                <option value="">Any era</option>
-                {archive.eras.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+                onValueChange={(next) => onChange({ ...filters, eraId: next })}
+                options={[
+                  { value: "", label: "Any era" },
+                  ...archive.eras.map((item) => ({
+                    value: item.id,
+                    label: item.name,
+                  })),
+                ]}
+              />
             </label>
             <label className="filter-select">
               Region{" "}
-              <select
+              <AppSelect
                 value={filters.regionId}
-                onChange={(event) =>
-                  onChange({ ...filters, regionId: event.target.value })
-                }>
-                <option value="">Any region</option>
-                {archive.regions.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+                onValueChange={(next) => onChange({ ...filters, regionId: next })}
+                options={[
+                  { value: "", label: "Any region" },
+                  ...archive.regions.map((item) => ({
+                    value: item.id,
+                    label: item.name,
+                  })),
+                ]}
+              />
             </label>
           </>
         )}
         <label className="filter-select">
           Lore certainty{" "}
-          <select
+          <AppSelect
             value={filters.lore}
-            onChange={(event) =>
-              onChange({
-                ...filters,
-                lore: event.target.value as ExplorerFilters["lore"],
-              })
-            }>
-            <option value="all">All levels</option>
-            <option value="confirmed">Confirmed</option>
-            <option value="inferred">Inferred</option>
-            <option value="theory">Theory</option>
-          </select>
+            onValueChange={(next) =>
+              onChange({ ...filters, lore: next as ExplorerFilters["lore"] })
+            }
+            options={[
+              { value: "all", label: "All levels" },
+              { value: "confirmed", label: "Confirmed" },
+              { value: "inferred", label: "Inferred" },
+              { value: "theory", label: "Theory" },
+            ]}
+          />
         </label>
         <label className="filter-select">
           Spoilers through level{" "}
-          <select
-            value={filters.spoilerLevel}
-            onChange={(event) =>
-              onChange({ ...filters, spoilerLevel: Number(event.target.value) })
-            }>
-            <option value={0}>0 · spoiler free</option>
-            <option value={1}>Level 1</option>
-            <option value={2}>Level 2</option>
-            <option value={3}>3 · all marked spoilers</option>
-          </select>
+          <AppSelect
+            value={String(filters.spoilerLevel)}
+            onValueChange={(next) =>
+              onChange({ ...filters, spoilerLevel: Number(next) })
+            }
+            options={[
+              { value: "0", label: "0 · spoiler free" },
+              { value: "1", label: "Level 1" },
+              { value: "2", label: "Level 2" },
+              { value: "3", label: "3 · all marked spoilers" },
+            ]}
+          />
         </label>
       </div>
       {questIds.length > 0 && (

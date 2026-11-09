@@ -185,7 +185,7 @@ function Editor({
         .join("\n"),
     );
     const first = document.querySelector<HTMLElement>(
-      ".bo-form .bo-invalid :is(input, select, textarea)",
+      ".bo-form .bo-invalid :is(input, textarea, button[role='combobox'])",
     );
     first?.focus({ preventScroll: true });
     first?.scrollIntoView({ block: "center" });

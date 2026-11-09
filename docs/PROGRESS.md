@@ -81,7 +81,8 @@
 - [x] เปิด import แบบ add-only ใน Back Office ที่เชื่อม Firebase โดยเขียน Firestore ใน batch เดียว (ทั้งหมดหรือไม่เขียนเลย, สูงสุด 500 record)
 - [ ] ทดสอบ Firebase import กับโปรเจกต์จริง: owner import snapshot ได้, ID ซ้ำถูกปฏิเสธก่อนเขียน และ record ที่ import เป็น draft ไม่โผล่ใน public explorer
 - [ ] ทดสอบหน้าจอ 360px/1280px และ keyboard flow ของเครื่องมือสำรวจ, spoiler controls, Story Mode และ import/export ด้วยตา
-- [ ] ตรวจ UI audit แบบ strict: บันทึกเจ้าของ native select และกำหนด validation ของฟอร์มเข้าสู่ระบบ Back Office (4 รายการจากการตรวจปัจจุบัน)
+- [x] แทน native select ทั้งหมด (Back Office และ public explorer) ด้วย `AppSelect` ที่สร้างบน Radix Select และใช้ธีมเดียวกับระบบ
+- [ ] ตรวจ UI audit แบบ strict: กำหนด validation ของฟอร์มเข้าสู่ระบบ Back Office และตรวจรายการที่เหลือจากการตรวจปัจจุบัน
 - [ ] กำหนดชื่อระดับ spoiler และ quest catalog จริงให้สัมพันธ์กับ Archon Quest/Version ก่อนใส่ข้อมูล lore จริง
 - [ ] ทดสอบการอ่านข้อมูลที่มี spoiler กับ Firebase จริง รวมถึงสิทธิ์และประสิทธิภาพของข้อมูลจำนวนมาก
 - [ ] ถ้าต้องการนำเข้า Firebase หรือเขียนทับข้อมูลเดิม ให้กำหนดนโยบาย conflict, preview และ recovery ก่อนเปิดใช้งาน
