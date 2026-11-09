@@ -1,6 +1,7 @@
 import { recordTitle } from "../../content/templates";
 import type { CollectionName, ContentRecord } from "../../content/schema";
 import {
+  applyAutoId,
   getField,
   setField,
   type DraftRecord,
@@ -31,8 +32,10 @@ export function RecordForm({
   onChange: (next: DraftRecord) => void;
 }) {
   const read = (path: FieldPath) => getField(value, path);
-  const write = (path: FieldPath, next: unknown) =>
-    onChange(setField(value, path, next));
+  const write = (path: FieldPath, next: unknown) => {
+    const updated = setField(value, path, next);
+    onChange(existing ? updated : applyAutoId(collection, value, updated));
+  };
   const text = (path: FieldPath) => String(read(path) ?? "");
 
   function input(
@@ -192,7 +195,7 @@ export function RecordForm({
       <div className="bo-form-grid">
         {input("ID", ["id"], {
           disabled: existing,
-          hint: "Lowercase letters, numbers, and hyphens. ID cannot change after saving.",
+          hint: "Generated from the English title until you edit it. Lowercase letters, numbers, and hyphens. ID cannot change after saving.",
         })}
         <div className="bo-form-status">
           <span>Status</span>
