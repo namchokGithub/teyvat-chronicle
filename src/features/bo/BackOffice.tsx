@@ -209,6 +209,7 @@ function Editor({
             ? "Record moved to draft."
             : "Record saved.",
       );
+      window.scrollTo({ top: 0 });
     } catch (cause) {
       toast.error(errorMessage(cause));
     } finally {
