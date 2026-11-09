@@ -52,6 +52,43 @@ import {
 
 const collections = Object.keys(collectionLabels) as CollectionName[];
 type Section = CollectionName | "dashboard";
+type Route = { section: Section; id: string | null };
+
+// Back Office location lives in the hash: #bo, #bo/<collection>, or
+// #bo/<collection>/<id>, so a refresh reopens the same list or record.
+function readRoute(): Route {
+  const [, name = "", id = ""] = window.location.hash.split("/");
+  if (!collections.includes(name as CollectionName))
+    return { section: "dashboard", id: null };
+  return {
+    section: name as CollectionName,
+    id: id ? decodeURIComponent(id) : null,
+  };
+}
+
+function routeHash({ section, id }: Route): string {
+  if (section === "dashboard") return "#bo";
+  return `#bo/${section}${id ? `/${encodeURIComponent(id)}` : ""}`;
+}
+
+const OWNER_KEY = "teyvat-chronicle:bo-owner";
+
+function cachedOwner(): string | null {
+  try {
+    return window.localStorage.getItem(OWNER_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function rememberOwner(uid: string | null) {
+  try {
+    if (uid) window.localStorage.setItem(OWNER_KEY, uid);
+    else window.localStorage.removeItem(OWNER_KEY);
+  } catch {
+    // Storage unavailable: the owner check simply runs on every load.
+  }
+}
 
 function errorMessage(error: unknown): string {
   if (error instanceof ZodError)
@@ -74,7 +111,10 @@ function Editor({
   mode: "local" | "firebase";
   onSignOut?: () => void;
 }) {
-  const [section, setSection] = useState<Section>("dashboard");
+  const [initialRoute] = useState(readRoute);
+  const [section, setSection] = useState<Section>(initialRoute.section);
+  // Record ID from the URL, opened once its section's list has loaded.
+  const restoreId = useRef<string | null>(initialRoute.id);
   const [items, setItems] = useState<ContentRecord[]>([]);
   const [counts, setCounts] = useState<Partial<Record<CollectionName, number>>>(
     {},
@@ -88,7 +128,7 @@ function Editor({
     Partial<Record<CollectionName, ContentRecord[]>>
   >({});
   const [busy, setBusy] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(initialRoute.section !== "dashboard");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
   const dirty = JSON.stringify(draftRecord) !== JSON.stringify(savedRecord);
@@ -144,10 +184,25 @@ function Editor({
     store
       .list(section)
       .then((results) => {
-        if (live) setItems(results.sort((a, b) => a.id.localeCompare(b.id)));
+        if (!live) return;
+        const sorted = results.sort((a, b) => a.id.localeCompare(b.id));
+        setItems(sorted);
+        const wanted = restoreId.current;
+        if (wanted === null) return;
+        restoreId.current = null;
+        const record = sorted.find((item) => item.id === wanted);
+        if (record) openRecord(record);
+        else
+          window.history.replaceState(
+            null,
+            "",
+            routeHash({ section, id: null }),
+          );
       })
       .catch((cause) => {
-        if (live) toast.error(errorMessage(cause));
+        if (!live) return;
+        restoreId.current = null;
+        toast.error(errorMessage(cause));
       })
       .finally(() => {
         if (live) setLoading(false);
@@ -202,18 +257,70 @@ function Editor({
     setDraftRecord(next);
   }
 
+  // Keep the hash in step with the open section and record. Skipped while a
+  // record from the URL is still loading, so its ID is not dropped.
+  useEffect(() => {
+    if (restoreId.current !== null) return;
+    const hash = routeHash({ section, id: selectedId });
+    if (window.location.hash !== hash) window.history.pushState(null, "", hash);
+  }, [section, selectedId]);
+
+  // Browser back/forward: follow the hash unless the open record is dirty.
+  useEffect(() => {
+    const onHashChange = () => {
+      const next = readRoute();
+      const { hash } = window.location;
+      if (hash !== "#bo" && !hash.startsWith("#bo/")) return;
+      if (next.section === section && next.id === selectedId) return;
+      if (dirty) {
+        toast.error("Save or reset your changes before leaving this record.");
+        window.history.replaceState(
+          null,
+          "",
+          routeHash({ section, id: selectedId }),
+        );
+        return;
+      }
+      if (next.section !== section) {
+        openSection(next.section, next.id);
+        return;
+      }
+      const record = items.find((item) => item.id === next.id);
+      if (record) openRecord(record);
+      else closeRecord();
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  });
+
+  function openSection(next: Section, id: string | null = null) {
+    restoreId.current = next === "dashboard" ? null : id;
+    setSection(next);
+    setLoading(next !== "dashboard");
+    setItems([]);
+    closeRecord();
+  }
+
+  function openRecord(record: ContentRecord) {
+    setSelectedId(record.id);
+    setDraftRecord(record as DraftRecord);
+    setSavedRecord(record as DraftRecord);
+    setErrors({});
+  }
+
+  function closeRecord() {
+    setSelectedId(null);
+    setDraftRecord(null);
+    setSavedRecord(null);
+    setErrors({});
+  }
+
   function navigate(next: Section) {
     if (dirty) {
       toast.error("Save or reset your changes before leaving this record.");
       return;
     }
-    setSection(next);
-    setLoading(next !== "dashboard");
-    setItems([]);
-    setSelectedId(null);
-    setDraftRecord(null);
-    setSavedRecord(null);
-    setErrors({});
+    openSection(next);
   }
 
   function selectRecord(record: ContentRecord | null) {
@@ -221,9 +328,12 @@ function Editor({
       toast.error("Save or reset your changes before opening another record.");
       return;
     }
-    const next = (record ??
-      draftTemplate(section as CollectionName)) as DraftRecord;
-    setSelectedId(record?.id ?? null);
+    if (record) {
+      openRecord(record);
+      return;
+    }
+    const next = draftTemplate(section as CollectionName) as DraftRecord;
+    setSelectedId(null);
     setDraftRecord(next);
     setSavedRecord(next);
     setErrors({});
@@ -698,18 +808,26 @@ function FirebaseGate({ app }: { app: FirebaseApp }) {
       async (nextUser) => {
         if (!live) return;
         currentUid = nextUser?.uid ?? null;
+        // A uid confirmed as owner on an earlier load opens the editor at
+        // once; the owner document is still re-checked in the background.
+        // Firestore rules remain the real access boundary.
+        const trusted = !!nextUser && cachedOwner() === nextUser.uid;
         setUser(nextUser);
-        setChecking(true);
-        setIsOwner(false);
+        setChecking(!!nextUser && !trusted);
+        setIsOwner(trusted);
         setError("");
+        if (!nextUser) rememberOwner(null);
         if (nextUser) {
           try {
             const owner = await getDoc(
               doc(getFirestore(app), "owners", nextUser.uid),
             );
-            if (live && currentUid === nextUser.uid) setIsOwner(owner.exists());
+            if (live && currentUid === nextUser.uid) {
+              setIsOwner(owner.exists());
+              rememberOwner(owner.exists() ? nextUser.uid : null);
+            }
           } catch (cause) {
-            if (live && currentUid === nextUser.uid)
+            if (live && currentUid === nextUser.uid && !trusted)
               setError(errorMessage(cause));
           }
         }
@@ -745,7 +863,7 @@ function FirebaseGate({ app }: { app: FirebaseApp }) {
   if (checking)
     return (
       <div className="bo-gate">
-        <p>Checking owner access…</p>
+        <p>{user ? "Checking owner access…" : "Loading Back Office…"}</p>
       </div>
     );
   if (user && isOwner)

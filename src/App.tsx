@@ -3,13 +3,14 @@ import PublicExplorer from "./features/explorer/PublicExplorer";
 
 const BackOffice = lazy(() => import("./features/bo/BackOffice"));
 
+const isBackOfficeHash = () =>
+  window.location.hash === "#bo" || window.location.hash.startsWith("#bo/");
+
 export default function App() {
-  const [isBackOffice, setIsBackOffice] = useState(
-    window.location.hash === "#bo",
-  );
+  const [isBackOffice, setIsBackOffice] = useState(isBackOfficeHash);
 
   useEffect(() => {
-    const onHashChange = () => setIsBackOffice(window.location.hash === "#bo");
+    const onHashChange = () => setIsBackOffice(isBackOfficeHash());
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
