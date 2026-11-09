@@ -42,7 +42,13 @@ import {
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { RecordForm } from "./RecordForm";
-import { normalizeFormRecord, type DraftRecord } from "./formModel";
+import {
+  fieldErrors,
+  normalizeFormRecord,
+  pruneFieldErrors,
+  type DraftRecord,
+  type FieldErrors,
+} from "./formModel";
 
 const collections = Object.keys(collectionLabels) as CollectionName[];
 type Section = CollectionName | "dashboard";
@@ -75,6 +81,8 @@ function Editor({
   );
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [draftRecord, setDraftRecord] = useState<DraftRecord | null>(null);
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const pendingErrors = useRef<FieldErrors | null>(null);
   const [savedRecord, setSavedRecord] = useState<DraftRecord | null>(null);
   const [references, setReferences] = useState<
     Partial<Record<CollectionName, ContentRecord[]>>
@@ -149,6 +157,51 @@ function Editor({
     };
   }, [section, store]);
 
+  // After a failed save renders its highlights: focus the first invalid
+  // field and summarize the result, listing errors that have no field.
+  useEffect(() => {
+    const pending = pendingErrors.current;
+    if (!pending) return;
+    pendingErrors.current = null;
+    const paths = [
+      ...document.querySelectorAll<HTMLElement>(".bo-form [data-path]"),
+    ].map((element) => element.dataset.path ?? "");
+    const shown = (key: string) =>
+      paths.some((path) => key === path || key.startsWith(`${path}.`));
+    const highlighted = Object.keys(pending).filter(shown).length;
+    const other = Object.entries(pending)
+      .filter(([key]) => !shown(key))
+      .map(([key, message]) =>
+        key === "record" ? message : `${key}: ${message}`,
+      );
+    toast.error(
+      [
+        highlighted
+          ? `Check ${highlighted} highlighted field${highlighted === 1 ? "" : "s"}.`
+          : "",
+        ...other,
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    );
+    const first = document.querySelector<HTMLElement>(
+      ".bo-form .bo-invalid :is(input, select, textarea)",
+    );
+    first?.focus({ preventScroll: true });
+    first?.scrollIntoView({ block: "center" });
+  }, [errors]);
+
+  function showErrors(next: FieldErrors) {
+    pendingErrors.current = next;
+    setErrors(next);
+  }
+
+  function updateDraft(next: DraftRecord) {
+    if (draftRecord)
+      setErrors((current) => pruneFieldErrors(current, draftRecord, next));
+    setDraftRecord(next);
+  }
+
   function navigate(next: Section) {
     if (dirty) {
       toast.error("Save or reset your changes before leaving this record.");
@@ -160,6 +213,7 @@ function Editor({
     setSelectedId(null);
     setDraftRecord(null);
     setSavedRecord(null);
+    setErrors({});
   }
 
   function selectRecord(record: ContentRecord | null) {
@@ -172,6 +226,7 @@ function Editor({
     setSelectedId(record?.id ?? null);
     setDraftRecord(next);
     setSavedRecord(next);
+    setErrors({});
   }
 
   async function refresh(collectionName: CollectionName) {
@@ -189,18 +244,23 @@ function Editor({
         ...candidate,
         ...(nextStatus ? { status: nextStatus } : {}),
       };
-      if (selectedId !== null && value.id !== selectedId)
-        throw new Error(
-          "Record IDs cannot be renamed. Create a new record instead.",
-        );
-      if (selectedId === null && items.some((item) => item.id === value.id))
-        throw new Error(
-          "That ID already exists. Open the record or choose another ID.",
-        );
+      if (selectedId !== null && value.id !== selectedId) {
+        showErrors({
+          id: "Record IDs cannot be renamed. Create a new record instead.",
+        });
+        return;
+      }
+      if (selectedId === null && items.some((item) => item.id === value.id)) {
+        showErrors({
+          id: "That ID already exists. Open the record or choose another ID.",
+        });
+        return;
+      }
       const saved = await store.save(section, value);
       setSelectedId(saved.id);
       setDraftRecord(saved);
       setSavedRecord(saved);
+      setErrors({});
       await refresh(section);
       toast.success(
         nextStatus === "published"
@@ -211,7 +271,8 @@ function Editor({
       );
       window.scrollTo({ top: 0 });
     } catch (cause) {
-      toast.error(errorMessage(cause));
+      if (cause instanceof ZodError) showErrors(fieldErrors(cause));
+      else toast.error(errorMessage(cause));
     } finally {
       setBusy(false);
     }
@@ -517,13 +578,17 @@ function Editor({
                         value={draftRecord}
                         references={references}
                         existing={selectedId !== null}
-                        onChange={setDraftRecord}
+                        errors={errors}
+                        onChange={updateDraft}
                       />
                       <div className="bo-actions">
                         <button
                           type="button"
                           className="bo-secondary"
-                          onClick={() => setDraftRecord(savedRecord)}
+                          onClick={() => {
+                            setDraftRecord(savedRecord);
+                            setErrors({});
+                          }}
                           disabled={!dirty || busy}
                         >
                           Reset changes

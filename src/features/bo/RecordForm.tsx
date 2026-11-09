@@ -2,9 +2,11 @@ import { recordTitle } from "../../content/templates";
 import type { CollectionName, ContentRecord } from "../../content/schema";
 import {
   applyAutoId,
+  errorFor,
   getField,
   setField,
   type DraftRecord,
+  type FieldErrors,
   type FieldPath,
 } from "./formModel";
 
@@ -23,12 +25,14 @@ export function RecordForm({
   value,
   references,
   existing,
+  errors,
   onChange,
 }: {
   collection: CollectionName;
   value: DraftRecord;
   references: References;
   existing: boolean;
+  errors: FieldErrors;
   onChange: (next: DraftRecord) => void;
 }) {
   const read = (path: FieldPath) => getField(value, path);
@@ -38,6 +42,43 @@ export function RecordForm({
   };
   const text = (path: FieldPath) => String(read(path) ?? "");
 
+  /** Wrapper class, data path, ARIA state, and message for one field. */
+  function fieldState(path: FieldPath, baseClass: string, required = false) {
+    const key = path.join(".");
+    const error = errorFor(errors, path);
+    const errorId = `field-error-${key.replace(/\./g, "-")}`;
+    return {
+      wrapper: {
+        className: error ? `${baseClass} bo-invalid` : baseClass,
+        "data-path": key,
+      },
+      control: {
+        "aria-invalid": error ? true : undefined,
+        "aria-required": required || undefined,
+        "aria-describedby": error ? errorId : undefined,
+      },
+      message: error ? (
+        <small className="bo-field-error" id={errorId}>
+          {error}
+        </small>
+      ) : null,
+    };
+  }
+
+  function labelText(label: string, required = false) {
+    return (
+      <span>
+        {label}
+        {required && (
+          <span className="bo-required" aria-hidden="true">
+            {" "}
+            *
+          </span>
+        )}
+      </span>
+    );
+  }
+
   function input(
     label: string,
     path: FieldPath,
@@ -46,11 +87,13 @@ export function RecordForm({
       multiline?: boolean;
       hint?: string;
       disabled?: boolean;
+      required?: boolean;
     } = {},
   ) {
+    const state = fieldState(path, "bo-form-field", options.required);
     return (
-      <label className="bo-form-field" key={path.join(".")}>
-        <span>{label}</span>
+      <label {...state.wrapper} key={path.join(".")}>
+        {labelText(label, options.required)}
         {options.multiline ? (
           <textarea
             className="resize-none"
@@ -58,6 +101,7 @@ export function RecordForm({
             onChange={(event) => write(path, event.target.value)}
             rows={4}
             disabled={options.disabled}
+            {...state.control}
           />
         ) : (
           <input
@@ -66,20 +110,24 @@ export function RecordForm({
             onChange={(event) => write(path, event.target.value)}
             disabled={options.disabled}
             step={options.type === "number" ? "any" : undefined}
+            {...state.control}
           />
         )}
+        {state.message}
         {options.hint && <small>{options.hint}</small>}
       </label>
     );
   }
 
   function choice(label: string, path: FieldPath, options: readonly string[]) {
+    const state = fieldState(path, "bo-form-field");
     return (
-      <label className="bo-form-field" key={path.join(".")}>
-        <span>{label}</span>
+      <label {...state.wrapper} key={path.join(".")}>
+        {labelText(label)}
         <select
           value={text(path)}
           onChange={(event) => write(path, event.target.value)}
+          {...state.control}
         >
           {options.map((item) => (
             <option key={item} value={item}>
@@ -87,6 +135,7 @@ export function RecordForm({
             </option>
           ))}
         </select>
+        {state.message}
       </label>
     );
   }
@@ -96,15 +145,18 @@ export function RecordForm({
     path: FieldPath,
     target: CollectionName,
     empty = "Choose a record",
+    required = false,
   ) {
     const current = text(path);
     const records = references[target] ?? [];
+    const state = fieldState(path, "bo-form-field", required);
     return (
-      <label className="bo-form-field" key={path.join(".")}>
-        <span>{label}</span>
+      <label {...state.wrapper} key={path.join(".")}>
+        {labelText(label, required)}
         <select
           value={current}
           onChange={(event) => write(path, event.target.value)}
+          {...state.control}
         >
           <option value="">{empty}</option>
           {current && !records.some((item) => item.id === current) && (
@@ -116,6 +168,7 @@ export function RecordForm({
             </option>
           ))}
         </select>
+        {state.message}
       </label>
     );
   }
@@ -130,8 +183,14 @@ export function RecordForm({
     const missing = selected.filter(
       (id) => !records.some((item) => item.id === id),
     );
+    const state = fieldState(path, "bo-reference-field");
     return (
-      <fieldset className="bo-reference-field" key={path.join(".")}>
+      <fieldset
+        {...state.wrapper}
+        aria-invalid={state.control["aria-invalid"]}
+        aria-describedby={state.control["aria-describedby"]}
+        key={path.join(".")}
+      >
         <legend>{label}</legend>
         <div className="bo-reference-options">
           {[
@@ -165,16 +224,22 @@ export function RecordForm({
             <p>No {target} records yet.</p>
           )}
         </div>
+        {state.message}
       </fieldset>
     );
   }
 
-  function localized(label: string, path: FieldPath, multiline = false) {
+  function localized(
+    label: string,
+    path: FieldPath,
+    multiline = false,
+    required = false,
+  ) {
     return (
       <fieldset className="bo-form-group">
         <legend>{label}</legend>
         <div className="bo-form-grid">
-          {input("English", [...path, "en"], { multiline })}
+          {input("English", [...path, "en"], { multiline, required })}
           {input("Thai (optional)", [...path, "th"], { multiline })}
         </div>
       </fieldset>
@@ -195,6 +260,7 @@ export function RecordForm({
       <div className="bo-form-grid">
         {input("ID", ["id"], {
           disabled: existing,
+          required: true,
           hint: "Generated from the English title until you edit it. Lowercase letters, numbers, and hyphens. ID cannot change after saving.",
         })}
         <div className="bo-form-status">
@@ -206,15 +272,19 @@ export function RecordForm({
 
       {collection === "timelines" && (
         <>
-          {localized("Title", ["title"])}
+          {localized("Title", ["title"], false, true)}
           {localized("Description", ["description"], true)}
           <fieldset className="bo-form-group">
             <legend>Time axis</legend>
             <div className="bo-form-grid">
-              {input("Start year", ["start"], { type: "number" })}
-              {input("End year", ["end"], { type: "number" })}
+              {input("Start year", ["start"], {
+                type: "number",
+                required: true,
+              })}
+              {input("End year", ["end"], { type: "number", required: true })}
               {input("Lane count", ["laneCount"], {
                 type: "number",
+                required: true,
                 hint: "1–12; cards may use extra rows when dates are crowded.",
               })}
               {sortOrder()}
@@ -286,7 +356,7 @@ export function RecordForm({
 
       {collection === "events" && (
         <>
-          {localized("Title", ["title"])}
+          {localized("Title", ["title"], false, true)}
           {localized("Description", ["description"], true)}
           <fieldset className="bo-form-group">
             <legend>Time and interpretation</legend>
@@ -352,6 +422,7 @@ export function RecordForm({
                   type: "number",
                 })}
               {input("Time reference", ["time", "reference"], {
+                required: true,
                 hint: "A note identifying how the date was estimated.",
               })}
               {choice(
@@ -365,9 +436,12 @@ export function RecordForm({
                 ["confirmed", "inferred", "theory"],
               )}
               {choice("Spoiler level", ["spoilerLevel"], ["0", "1", "2", "3"])}
-              <label className="bo-form-field">
+              <label
+                {...fieldState(["requiredQuestIds"], "bo-form-field").wrapper}
+              >
                 <span>Required quest IDs</span>
                 <input
+                  {...fieldState(["requiredQuestIds"], "bo-form-field").control}
                   value={(Array.isArray(read(["requiredQuestIds"]))
                     ? (read(["requiredQuestIds"]) as string[])
                     : []
@@ -382,6 +456,7 @@ export function RecordForm({
                     )
                   }
                 />
+                {fieldState(["requiredQuestIds"], "bo-form-field").message}
                 <small>
                   Comma separated lowercase IDs; leave empty for no quest gate.
                 </small>
@@ -425,7 +500,7 @@ export function RecordForm({
 
       {collection === "characters" && (
         <>
-          {localized("Name", ["name"])}
+          {localized("Name", ["name"], false, true)}
           {localized("Biography", ["biography"], true)}
           <div className="bo-form-grid">
             {input("Image path or HTTPS URL", ["image"])}
@@ -440,7 +515,7 @@ export function RecordForm({
 
       {collection === "eras" && (
         <>
-          {localized("Name", ["name"])}
+          {localized("Name", ["name"], false, true)}
           {localized("Description", ["description"], true)}
           <div className="bo-form-grid">
             {input("Start year (optional)", ["start"], { type: "number" })}
@@ -452,7 +527,7 @@ export function RecordForm({
 
       {collection === "regions" && (
         <>
-          {localized("Name", ["name"])}
+          {localized("Name", ["name"], false, true)}
           {localized("Description", ["description"], true)}
           <div className="bo-form-grid">
             {input("Image path or HTTPS URL", ["image"])}
@@ -463,7 +538,7 @@ export function RecordForm({
 
       {collection === "sources" && (
         <div className="bo-form-grid">
-          {input("Title", ["title"])}
+          {input("Title", ["title"], { required: true })}
           {choice(
             "Source type",
             ["kind"],
@@ -503,6 +578,8 @@ export function RecordForm({
               "From record",
               ["fromId"],
               entityCollections[fromType] ?? "events",
+              undefined,
+              true,
             )}
             <label className="bo-form-field">
               <span>To type</span>
@@ -529,8 +606,11 @@ export function RecordForm({
               "To record",
               ["toId"],
               entityCollections[toType] ?? "events",
+              undefined,
+              true,
             )}
             {input("Relationship", ["relation"], {
+              required: true,
               hint: "Example: participant, predecessor, or related history.",
             })}
             {choice(

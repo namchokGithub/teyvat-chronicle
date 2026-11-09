@@ -1,5 +1,6 @@
 import type { CollectionName } from "../../content/schema";
 import { draftTemplate } from "../../content/templates";
+import type { ZodError } from "zod";
 
 export type DraftRecord = Record<string, unknown>;
 export type FieldPath = (string | number)[];
@@ -141,4 +142,45 @@ export function applyAutoId(
     id === "" || id === draftTemplate(collection).id || id === previous;
   if (!next || !generated || after.id !== before.id) return after;
   return { ...after, id: next };
+}
+
+/** Field error messages keyed by dotted form path (for example `time.end`). */
+export type FieldErrors = Record<string, string>;
+
+export function fieldErrors(error: ZodError): FieldErrors {
+  const result: FieldErrors = {};
+  for (const issue of error.issues) {
+    const key = issue.path.map(String).join(".") || "record";
+    result[key] ??= issue.message;
+  }
+  return result;
+}
+
+/** Drops errors for fields whose value changed between two drafts. */
+export function pruneFieldErrors(
+  errors: FieldErrors,
+  before: DraftRecord,
+  after: DraftRecord,
+): FieldErrors {
+  const kept = Object.entries(errors).filter(([key]) => {
+    const path = key.split(".");
+    return (
+      JSON.stringify(getField(before, path)) ===
+      JSON.stringify(getField(after, path))
+    );
+  });
+  return kept.length === Object.keys(errors).length
+    ? errors
+    : Object.fromEntries(kept);
+}
+
+/** The error for a field path, including errors on its items (`sourceIds.0`). */
+export function errorFor(
+  errors: FieldErrors,
+  path: FieldPath,
+): string | undefined {
+  const key = path.join(".");
+  if (errors[key]) return errors[key];
+  const nested = Object.keys(errors).find((item) => item.startsWith(`${key}.`));
+  return nested ? errors[nested] : undefined;
 }

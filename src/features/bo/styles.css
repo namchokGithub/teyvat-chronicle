@@ -669,3 +669,21 @@
     flex: 1;
   }
 }
+.bo-required {
+  color: #9b4d3b;
+}
+.bo-form-field .bo-field-error,
+.bo-reference-field .bo-field-error {
+  color: #9b4d3b;
+  font-weight: 600;
+}
+.bo-form-field.bo-invalid input,
+.bo-form-field.bo-invalid select,
+.bo-form-field.bo-invalid textarea,
+.bo-reference-field.bo-invalid {
+  border-color: #9b4d3b;
+  box-shadow: inset 0 0 0 1px #9b4d3b;
+}
+.bo-reference-field.bo-invalid > legend {
+  color: #9b4d3b;
+}
