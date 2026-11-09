@@ -9,7 +9,10 @@ import {
 import { buildPublishedArchive } from "../explorer/archive";
 import {
   applyAutoId,
+  errorFor,
+  fieldErrors,
   normalizeFormRecord,
+  pruneFieldErrors,
   setField,
   type DraftRecord,
 } from "./formModel";
@@ -119,5 +122,22 @@ describe("back office form save flow", () => {
     expect(
       eventSchema.safeParse(normalizeFormRecord("events", record)).success,
     ).toBe(true);
+  });
+
+  it("maps a failed publish to form fields and clears each one when it is edited", () => {
+    const draft = {
+      ...(draftTemplate("events") as DraftRecord),
+      status: "published",
+    };
+    const result = eventSchema.safeParse(normalizeFormRecord("events", draft));
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    const errors = fieldErrors(result.error);
+    expect(errorFor(errors, ["description", "en"])).toBeDefined();
+    expect(errorFor(errors, ["sourceIds"])).toBeDefined();
+    const edited = setField(draft, ["description", "en"], "Sourced summary.");
+    const remaining = pruneFieldErrors(errors, draft, edited);
+    expect(errorFor(remaining, ["description", "en"])).toBeUndefined();
+    expect(errorFor(remaining, ["sourceIds"])).toBe(errors.sourceIds);
   });
 });
