@@ -1,3 +1,6 @@
+import * as Dialog from "@radix-ui/react-dialog";
+import { ExternalLink, X } from "lucide-react";
+import { useState } from "react";
 import { AppSelect } from "@/components/AppSelect";
 import { recordTitle } from "../../content/templates";
 import type { CollectionName, ContentRecord } from "../../content/schema";
@@ -20,6 +23,44 @@ const entityCollections: Record<EntityType, CollectionName> = {
   era: "eras",
   region: "regions",
 };
+
+function ImagePreview({ src }: { src: string }) {
+  const [failed, setFailed] = useState(false);
+  if (!src.trim()) return null;
+  if (failed)
+    return <p className="bo-image-error">Image could not be loaded.</p>;
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <button
+          type="button"
+          className="bo-image-preview"
+          aria-label="View full image"
+        >
+          <img src={src} alt="" onError={() => setFailed(true)} />
+        </button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="dialog-overlay" />
+        <Dialog.Content className="bo-image-dialog">
+          <div className="bo-image-dialog-top">
+            <Dialog.Title>Image preview</Dialog.Title>
+            <Dialog.Close aria-label="Close" className="icon-button">
+              <X size={18} />
+            </Dialog.Close>
+          </div>
+          <img src={src} alt="" />
+          <Dialog.Description className="bo-image-dialog-source">
+            <span>{src}</span>
+            <a href={src} target="_blank" rel="noopener noreferrer">
+              <ExternalLink size={14} /> Open original
+            </a>
+          </Dialog.Description>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
 
 export function RecordForm({
   collection,
@@ -89,6 +130,7 @@ export function RecordForm({
       hint?: string;
       disabled?: boolean;
       required?: boolean;
+      preview?: boolean;
     } = {},
   ) {
     const state = fieldState(path, "bo-form-field", options.required);
@@ -116,6 +158,7 @@ export function RecordForm({
         )}
         {state.message}
         {options.hint && <small>{options.hint}</small>}
+        {options.preview && <ImagePreview key={text(path)} src={text(path)} />}
       </label>
     );
   }
@@ -493,8 +536,12 @@ export function RecordForm({
                 ["display", "variant"],
                 ["standard", "image-card"],
               )}
-              {input("Image path or HTTPS URL", ["display", "image"])}
-              {input("Icon path or URL", ["display", "icon"])}
+              {input("Image path or HTTPS URL", ["display", "image"], {
+                preview: true,
+              })}
+              {input("Icon path or URL", ["display", "icon"], {
+                preview: true,
+              })}
               {color("Color", ["display", "color"], "Example: #B8A5DD")}
               {choice(
                 "Line style",
@@ -522,7 +569,7 @@ export function RecordForm({
           {localized("Name", ["name"], false, true)}
           {localized("Biography", ["biography"], true)}
           <div className="bo-form-grid">
-            {input("Image path or HTTPS URL", ["image"])}
+            {input("Image path or HTTPS URL", ["image"], { preview: true })}
             {sortOrder()}
           </div>
           <div className="bo-reference-grid">
@@ -549,7 +596,7 @@ export function RecordForm({
           {localized("Name", ["name"], false, true)}
           {localized("Description", ["description"], true)}
           <div className="bo-form-grid">
-            {input("Image path or HTTPS URL", ["image"])}
+            {input("Image path or HTTPS URL", ["image"], { preview: true })}
             {sortOrder()}
           </div>
         </>
