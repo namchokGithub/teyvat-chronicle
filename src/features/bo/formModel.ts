@@ -1,4 +1,5 @@
 import type { CollectionName } from "../../content/schema";
+import { draftTemplate } from "../../content/templates";
 
 export type DraftRecord = Record<string, unknown>;
 export type FieldPath = (string | number)[];
@@ -100,4 +101,44 @@ export function normalizeFormRecord(
   )
     result = setField(result, ["defaultTimelineId"], null);
   return result;
+}
+
+const autoIdSources: Partial<Record<CollectionName, FieldPath>> = {
+  timelines: ["title", "en"],
+  events: ["title", "en"],
+  characters: ["name", "en"],
+  eras: ["name", "en"],
+  regions: ["name", "en"],
+  sources: ["title"],
+};
+
+export function slugify(value: string): string {
+  return value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/['\u2019]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * For an unsaved record, keeps `id` in step with the English title or name
+ * while the ID is still generated (template ID, empty, or the previous slug).
+ * A manually edited ID is left alone.
+ */
+export function applyAutoId(
+  collection: CollectionName,
+  before: DraftRecord,
+  after: DraftRecord,
+): DraftRecord {
+  const source = autoIdSources[collection];
+  if (!source) return after;
+  const next = slugify(String(getField(after, source) ?? ""));
+  const previous = slugify(String(getField(before, source) ?? ""));
+  const id = String(before.id ?? "");
+  const generated =
+    id === "" || id === draftTemplate(collection).id || id === previous;
+  if (!next || !generated || after.id !== before.id) return after;
+  return { ...after, id: next };
 }

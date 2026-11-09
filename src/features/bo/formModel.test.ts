@@ -7,7 +7,12 @@ import {
   timelineSchema,
 } from "../../content/schema";
 import { buildPublishedArchive } from "../explorer/archive";
-import { normalizeFormRecord, setField, type DraftRecord } from "./formModel";
+import {
+  applyAutoId,
+  normalizeFormRecord,
+  setField,
+  type DraftRecord,
+} from "./formModel";
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>();
@@ -93,5 +98,26 @@ describe("back office form save flow", () => {
       start: null,
       sourceIds: ["quest-source"],
     });
+  });
+
+  it("generates a new record ID from the English title until the ID is edited", () => {
+    const type = (
+      record: DraftRecord,
+      path: (string | number)[],
+      value: string,
+    ) => applyAutoId("events", record, setField(record, path, value));
+    let record = draftTemplate("events") as DraftRecord;
+    record = type(record, ["title", "en"], "Archon War");
+    expect(record.id).toBe("archon-war");
+    record = type(record, ["title", "en"], "The Archon War");
+    expect(record.id).toBe("the-archon-war");
+    record = type(record, ["title", "en"], "ดินแดน");
+    expect(record.id).toBe("the-archon-war");
+    record = type(record, ["id"], "archon-war-ancient");
+    record = type(record, ["title", "en"], "Archon War Ends");
+    expect(record.id).toBe("archon-war-ancient");
+    expect(
+      eventSchema.safeParse(normalizeFormRecord("events", record)).success,
+    ).toBe(true);
   });
 });
