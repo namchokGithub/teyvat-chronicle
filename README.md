@@ -27,6 +27,20 @@ Open `/#bo` while running `pnpm dev`. With Firebase configured, sign in as an au
 
 To create a timeline, open **Timelines → New**, enter an ID, title, start/end years, and optional breaks, then Save or Publish. Create and publish a **Source** before publishing an **Event**; in the event form, select that timeline and source under **Linked records**. Only published records appear in the Firebase-backed public explorer.
 
+## Data sources
+
+Character and region seed data comes from [genshin-db](https://github.com/theBowja/genshin-db) (MIT, © 2020 theBowja). [paimon-moe](https://github.com/MadeBaruna/paimon-moe) (MIT, © 2021 Made Baruna) is kept as a secondary reference for character metadata; no data is imported from it yet.
+
+Both repositories are expected as read-only sibling checkouts (`../genshin-db`, `../paimon-moe`). To regenerate the import snapshot:
+
+```sh
+node scripts/import-genshin-db.ts
+```
+
+This writes `data/import/genshin-db-characters-regions.json` with draft characters, regions, and a `genshin-db` source record. Import it from the local Back Office sandbox (add-only); review and publish records there. Character icons link to HoYoverse's official CDN.
+
+Genshin Impact names, text, and images belong to HoYoverse. This project is a fan-made lore explorer and is not affiliated with HoYoverse.
+
 ---
 
 © _2026 Namchok Singhachai_. Teyvat-chronicle is released under the [MIT License](LICENSE).
