@@ -51,3 +51,9 @@ Back Office editor feedback (save, publish, delete, backup, import, and unsaved-
 ## 2026-11-09 — Custom select instead of native select
 
 All dropdowns in the Back Office and the public explorer use `AppSelect`, a thin wrapper over the shadcn/Radix Select. Native `<select>` menus are drawn by the operating system and cannot follow the archive palette. The wrapper keeps one style for every context (cream surface, square corners, the shared focus outline, and the invalid-field border), with size adjustments for the explorer filters. Radix reserves the empty string for "no value", so empty options such as "Any era" or "Choose a record" use an internal stand-in value that is converted back to `""` before it reaches filters or form data; stored records and URL state are unchanged.
+
+## 2026-11-09 — Back Office location and remembered owner
+
+The Back Office keeps its location in the URL hash: `#bo`, `#bo/<collection>`, or `#bo/<collection>/<id>`. A refresh reopens the same list or saved record, and browser back/forward moves between Back Office views (blocked while the open record has unsaved changes). Unsaved new records are not restored because they have no ID; an unknown ID falls back to the collection list.
+
+After the `owners/<uid>` check passes, the uid is remembered in `localStorage`. On the next load, once Firebase Auth restores that same user, the editor opens without waiting for the owner read; the read still runs in the background and returns the user to the access screen if the owner document is gone. Signing out clears the remembered uid. This is a display shortcut only: Firestore rules remain the access boundary for every read and write.
