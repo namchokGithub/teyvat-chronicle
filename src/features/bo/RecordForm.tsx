@@ -1,3 +1,4 @@
+import { AppSelect } from "@/components/AppSelect";
 import { recordTitle } from "../../content/templates";
 import type { CollectionName, ContentRecord } from "../../content/schema";
 import {
@@ -153,17 +154,13 @@ export function RecordForm({
     return (
       <label {...state.wrapper} key={path.join(".")}>
         {labelText(label)}
-        <select
+        <AppSelect
           value={text(path)}
-          onChange={(event) => write(path, event.target.value)}
-          {...state.control}
-        >
-          {options.map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
+          onValueChange={(next) => write(path, next)}
+          options={options.map((item) => ({ value: item, label: item }))}
+          invalid={!!state.control["aria-invalid"]}
+          describedBy={state.control["aria-describedby"]}
+        />
         {state.message}
       </label>
     );
@@ -182,21 +179,23 @@ export function RecordForm({
     return (
       <label {...state.wrapper} key={path.join(".")}>
         {labelText(label, required)}
-        <select
+        <AppSelect
           value={current}
-          onChange={(event) => write(path, event.target.value)}
-          {...state.control}
-        >
-          <option value="">{empty}</option>
-          {current && !records.some((item) => item.id === current) && (
-            <option value={current}>{current} · unavailable in list</option>
-          )}
-          {records.map((item) => (
-            <option key={item.id} value={item.id}>
-              {recordTitle(item)} · {item.id}
-            </option>
-          ))}
-        </select>
+          onValueChange={(next) => write(path, next)}
+          options={[
+            { value: "", label: empty },
+            ...(current && !records.some((item) => item.id === current)
+              ? [{ value: current, label: `${current} · unavailable in list` }]
+              : []),
+            ...records.map((item) => ({
+              value: item.id,
+              label: `${recordTitle(item)} · ${item.id}`,
+            })),
+          ]}
+          invalid={!!state.control["aria-invalid"]}
+          describedBy={state.control["aria-describedby"]}
+          required={required}
+        />
         {state.message}
       </label>
     );
@@ -392,16 +391,13 @@ export function RecordForm({
             <div className="bo-form-grid">
               <label className="bo-form-field">
                 <span>Event type</span>
-                <select
+                <AppSelect
                   value={text(["type"])}
-                  onChange={(event) => {
-                    let next = setField(value, ["type"], event.target.value);
-                    if (event.target.value === "point")
+                  onValueChange={(type) => {
+                    let next = setField(value, ["type"], type);
+                    if (type === "point")
                       next = setField(next, ["time", "end"], null);
-                    if (
-                      event.target.value === "range" &&
-                      read(["time", "end"]) == null
-                    )
+                    if (type === "range" && read(["time", "end"]) == null)
                       next = setField(
                         next,
                         ["time", "end"],
@@ -409,27 +405,23 @@ export function RecordForm({
                       );
                     onChange(next);
                   }}
-                >
-                  <option value="point">point</option>
-                  <option
-                    value="range"
-                    disabled={text(["time", "type"]) === "unknown"}
-                  >
-                    range
-                  </option>
-                </select>
+                  options={[
+                    { value: "point", label: "point" },
+                    {
+                      value: "range",
+                      label: "range",
+                      disabled: text(["time", "type"]) === "unknown",
+                    },
+                  ]}
+                />
               </label>
               <label className="bo-form-field">
                 <span>Date precision</span>
-                <select
+                <AppSelect
                   value={text(["time", "type"])}
-                  onChange={(event) => {
-                    let next = setField(
-                      value,
-                      ["time", "type"],
-                      event.target.value,
-                    );
-                    if (event.target.value === "unknown") {
+                  onValueChange={(precision) => {
+                    let next = setField(value, ["time", "type"], precision);
+                    if (precision === "unknown") {
                       next = setField(next, ["time", "start"], null);
                       next = setField(next, ["time", "end"], null);
                       next = setField(next, ["type"], "point");
@@ -438,11 +430,11 @@ export function RecordForm({
                     }
                     onChange(next);
                   }}
-                >
-                  <option value="exact">exact</option>
-                  <option value="approximate">approximate</option>
-                  <option value="unknown">unknown</option>
-                </select>
+                  options={["exact", "approximate", "unknown"].map((item) => ({
+                    value: item,
+                    label: item,
+                  }))}
+                />
               </label>
               {text(["time", "type"]) !== "unknown" &&
                 input("Start year", ["time", "start"], { type: "number" })}
@@ -582,24 +574,22 @@ export function RecordForm({
           <div className="bo-form-grid">
             <label className="bo-form-field">
               <span>From type</span>
-              <select
+              <AppSelect
                 value={fromType}
-                onChange={(event) =>
+                onValueChange={(type) =>
                   onChange(
                     setField(
-                      setField(value, ["fromType"], event.target.value),
+                      setField(value, ["fromType"], type),
                       ["fromId"],
                       "",
                     ),
                   )
                 }
-              >
-                {Object.keys(entityCollections).map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+                options={Object.keys(entityCollections).map((item) => ({
+                  value: item,
+                  label: item,
+                }))}
+              />
             </label>
             {singleReference(
               "From record",
@@ -610,24 +600,18 @@ export function RecordForm({
             )}
             <label className="bo-form-field">
               <span>To type</span>
-              <select
+              <AppSelect
                 value={toType}
-                onChange={(event) =>
+                onValueChange={(type) =>
                   onChange(
-                    setField(
-                      setField(value, ["toType"], event.target.value),
-                      ["toId"],
-                      "",
-                    ),
+                    setField(setField(value, ["toType"], type), ["toId"], ""),
                   )
                 }
-              >
-                {Object.keys(entityCollections).map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+                options={Object.keys(entityCollections).map((item) => ({
+                  value: item,
+                  label: item,
+                }))}
+              />
             </label>
             {singleReference(
               "To record",

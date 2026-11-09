@@ -13,7 +13,7 @@ Instructions for AI coding agents working on Teyvat Chronicle.
 - Proposed timeline: custom SVG + HTML with D3 Scale and D3 Zoom; Motion for animation.
 - Proposed app/data tools: Zustand, TanStack Query, Firebase Firestore and Authentication, Zod, React Hook Form, and MiniSearch.
 - Hosting options in the requirement: GitHub Pages or Firebase Hosting. Cloud Storage for back office uploads is optional.
-- shadcn/ui is initialized (`components.json`, Radix base, `@/*` alias to `src/*`); add components with `pnpm dlx shadcn@latest add <name>` into `src/components/ui/`. Back Office notifications use Sonner (`toast` from `sonner`, `Toaster` from `@/components/ui/sonner`).
+- shadcn/ui is initialized (`components.json`, Radix base, `@/*` alias to `src/*`); add components with `pnpm dlx shadcn@latest add <name>` into `src/components/ui/`. Back Office notifications use Sonner (`toast` from `sonner`, `Toaster` from `@/components/ui/sonner`). Use `AppSelect` (`@/components/AppSelect`) instead of native `<select>`.
 - Some tools are now installed for Phase 1. Check `package.json` before using a dependency; the other requirement proposals are not yet implemented.
 
 ## Commands

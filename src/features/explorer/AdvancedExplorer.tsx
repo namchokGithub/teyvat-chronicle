@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AppSelect } from "@/components/AppSelect";
 import type { TimelineEvent } from "../../timeline/model";
 import type { PublicArchive } from "./archive";
 
@@ -103,17 +104,17 @@ export function AdvancedExplorer({
         <div className="advanced-body">
           <label className="advanced-select">
             Start with an event
-            <select
+            <AppSelect
               value={seedId}
-              onChange={(event) => setSeedId(event.target.value)}
-            >
-              <option value="">Choose an event</option>
-              {events.map((event) => (
-                <option key={event.id} value={event.id}>
-                  {event.title}
-                </option>
-              ))}
-            </select>
+              onValueChange={setSeedId}
+              options={[
+                { value: "", label: "Choose an event" },
+                ...events.map((event) => ({
+                  value: event.id,
+                  label: event.title,
+                })),
+              ]}
+            />
           </label>
           {seed ? (
             <div className="advanced-columns">
@@ -179,17 +180,17 @@ export function AdvancedExplorer({
             ).map(([value, setValue, label]) => (
               <label className="advanced-select" key={label}>
                 {label}
-                <select
+                <AppSelect
                   value={value}
-                  onChange={(event) => setValue(event.target.value)}
-                >
-                  <option value="">Choose a character</option>
-                  {archive.characters.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
+                  onValueChange={setValue}
+                  options={[
+                    { value: "", label: "Choose a character" },
+                    ...archive.characters.map((item) => ({
+                      value: item.id,
+                      label: item.name,
+                    })),
+                  ]}
+                />
               </label>
             ))}
           </div>
