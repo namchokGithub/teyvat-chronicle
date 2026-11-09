@@ -39,6 +39,8 @@ import {
   importSnapshotAddOnly,
   parseSnapshot,
 } from "../../content/transfer";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { RecordForm } from "./RecordForm";
 import { normalizeFormRecord, type DraftRecord } from "./formModel";
 
@@ -79,16 +81,9 @@ function Editor({
   >({});
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
-  const errorRef = useRef<HTMLParagraphElement>(null);
   const dirty = JSON.stringify(draftRecord) !== JSON.stringify(savedRecord);
-
-  useEffect(() => {
-    if (error) errorRef.current?.focus();
-  }, [error]);
 
   useEffect(() => {
     let live = true;
@@ -99,7 +94,7 @@ function Editor({
         if (live) setReferences(Object.fromEntries(entries));
       })
       .catch((cause) => {
-        if (live) setError(errorMessage(cause));
+        if (live) toast.error(errorMessage(cause));
       });
     return () => {
       live = false;
@@ -128,7 +123,7 @@ function Editor({
         if (live) setCounts(Object.fromEntries(results));
       })
       .catch((cause) => {
-        if (live) setError(errorMessage(cause));
+        if (live) toast.error(errorMessage(cause));
       });
     return () => {
       live = false;
@@ -141,13 +136,10 @@ function Editor({
     store
       .list(section)
       .then((results) => {
-        if (live) {
-          setItems(results.sort((a, b) => a.id.localeCompare(b.id)));
-          setError("");
-        }
+        if (live) setItems(results.sort((a, b) => a.id.localeCompare(b.id)));
       })
       .catch((cause) => {
-        if (live) setError(errorMessage(cause));
+        if (live) toast.error(errorMessage(cause));
       })
       .finally(() => {
         if (live) setLoading(false);
@@ -159,7 +151,7 @@ function Editor({
 
   function navigate(next: Section) {
     if (dirty) {
-      setError("Save or reset your changes before leaving this record.");
+      toast.error("Save or reset your changes before leaving this record.");
       return;
     }
     setSection(next);
@@ -168,13 +160,11 @@ function Editor({
     setSelectedId(null);
     setDraftRecord(null);
     setSavedRecord(null);
-    setMessage("");
-    setError("");
   }
 
   function selectRecord(record: ContentRecord | null) {
     if (dirty) {
-      setError("Save or reset your changes before opening another record.");
+      toast.error("Save or reset your changes before opening another record.");
       return;
     }
     const next = (record ??
@@ -182,8 +172,6 @@ function Editor({
     setSelectedId(record?.id ?? null);
     setDraftRecord(next);
     setSavedRecord(next);
-    setMessage("");
-    setError("");
   }
 
   async function refresh(collectionName: CollectionName) {
@@ -195,8 +183,6 @@ function Editor({
   async function saveRecord(nextStatus?: "draft" | "published") {
     if (section === "dashboard" || !draftRecord) return;
     setBusy(true);
-    setError("");
-    setMessage("");
     try {
       const candidate = normalizeFormRecord(section, draftRecord);
       const value: Record<string, unknown> = {
@@ -216,7 +202,7 @@ function Editor({
       setDraftRecord(saved);
       setSavedRecord(saved);
       await refresh(section);
-      setMessage(
+      toast.success(
         nextStatus === "published"
           ? "Record published."
           : nextStatus === "draft"
@@ -224,7 +210,7 @@ function Editor({
             : "Record saved.",
       );
     } catch (cause) {
-      setError(errorMessage(cause));
+      toast.error(errorMessage(cause));
     } finally {
       setBusy(false);
     }
@@ -233,7 +219,6 @@ function Editor({
   async function removeRecord() {
     if (section === "dashboard" || !deleteId) return;
     setBusy(true);
-    setError("");
     try {
       await store.remove(section, deleteId);
       await refresh(section);
@@ -242,10 +227,10 @@ function Editor({
         setDraftRecord(null);
         setSavedRecord(null);
       }
-      setMessage("Record deleted.");
+      toast.success("Record deleted.");
       setDeleteId(null);
     } catch (cause) {
-      setError(errorMessage(cause));
+      toast.error(errorMessage(cause));
     } finally {
       setBusy(false);
     }
@@ -253,7 +238,6 @@ function Editor({
 
   async function downloadBackup() {
     setBusy(true);
-    setError("");
     try {
       const snapshot = await exportSnapshot(store);
       const url = URL.createObjectURL(
@@ -266,9 +250,9 @@ function Editor({
       link.download = "teyvat-chronicle-backup.json";
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      setMessage("Backup downloaded.");
+      toast.success("Backup downloaded.");
     } catch (cause) {
-      setError(errorMessage(cause));
+      toast.error(errorMessage(cause));
     } finally {
       setBusy(false);
     }
@@ -276,12 +260,10 @@ function Editor({
 
   async function uploadBackup(file: File) {
     setBusy(true);
-    setError("");
-    setMessage("");
     try {
       const snapshot = parseSnapshot(await file.text());
       const count = await importSnapshotAddOnly(store, snapshot);
-      setMessage(
+      toast.success(
         mode === "local"
           ? `${count} records imported into the local sandbox.`
           : `${count} records imported into Firestore as saved.`,
@@ -295,7 +277,7 @@ function Editor({
         setCounts(Object.fromEntries(results));
       }
     } catch (cause) {
-      setError(errorMessage(cause));
+      toast.error(errorMessage(cause));
     } finally {
       setBusy(false);
       if (importInputRef.current) importInputRef.current.value = "";
@@ -305,328 +287,320 @@ function Editor({
   const selectedStatus = draftRecord?.status;
 
   return (
-    <div className="bo-shell">
-      <aside className="bo-sidebar">
-        <a
-          className="bo-brand"
-          href="#top"
-          onClick={(event) => {
-            if (dirty) {
-              event.preventDefault();
-              setError("Save or reset your changes before leaving.");
-            }
-          }}
-        >
-          ✦ TEYVAT CHRONICLE
-        </a>
-        <div className="bo-sidebar-label">Back Office</div>
-        <nav aria-label="Back Office sections">
-          <button
-            className={section === "dashboard" ? "active" : ""}
-            onClick={() => navigate("dashboard")}
-          >
-            Overview
-          </button>
-          {collections.map((name) => (
-            <button
-              key={name}
-              className={section === name ? "active" : ""}
-              onClick={() => navigate(name)}
-            >
-              {collectionLabels[name]}
-            </button>
-          ))}
-        </nav>
-        <div className="bo-sidebar-bottom">
-          <span className={`bo-mode ${mode}`}>
-            {mode === "local" ? "Local sandbox" : "Firebase connected"}
-          </span>
-          {onSignOut && (
-            <button
-              onClick={() => {
-                if (dirty)
-                  setError("Save or reset your changes before signing out.");
-                else onSignOut();
-              }}
-            >
-              <LogOut size={15} /> Sign out
-            </button>
-          )}
+    <>
+      <Toaster closeButton />
+      <div className="bo-shell">
+        <aside className="bo-sidebar">
           <a
+            className="bo-brand"
             href="#top"
             onClick={(event) => {
               if (dirty) {
                 event.preventDefault();
-                setError("Save or reset your changes before leaving.");
+                toast.error("Save or reset your changes before leaving.");
               }
             }}
           >
-            <ArrowLeft size={15} /> Public timeline
+            ✦ TEYVAT CHRONICLE
           </a>
-        </div>
-      </aside>
-      <main className="bo-main">
-        <header className="bo-header">
-          <div>
-            <span className="bo-kicker">Chronicle management</span>
-            <h1>
-              {section === "dashboard" ? "Overview" : collectionLabels[section]}
-            </h1>
-          </div>
-          <span className="bo-header-mode">
-            {mode === "local" ? "Records stay in this browser" : "Owner access"}
-          </span>
-        </header>
-        {mode === "local" && (
-          <p className="bo-banner">
-            Development sandbox: these records are stored only in this browser.
-            They do not appear on the public timeline or in Firestore.
-          </p>
-        )}
-        {error && (
-          <p
-            className="bo-feedback error"
-            role="alert"
-            ref={errorRef}
-            tabIndex={-1}
-          >
-            {error}
-          </p>
-        )}
-        {message && (
-          <p className="bo-feedback success" role="status">
-            {message}
-          </p>
-        )}
-        {section === "dashboard" ? (
-          <div className="bo-dashboard">
-            <p className="bo-lead">
-              Manage draft and published lore records. Start with timelines and
-              sources, then link events to them.
-            </p>
-            <div className="bo-transfer">
-              <button
-                className="bo-secondary"
-                onClick={downloadBackup}
-                disabled={busy}
-              >
-                <Download size={16} /> Download JSON backup
-              </button>
-              <button
-                className="bo-secondary"
-                onClick={() => importInputRef.current?.click()}
-                disabled={busy}
-              >
-                <Upload size={16} /> Import new records
-              </button>
-              <input
-                ref={importInputRef}
-                type="file"
-                accept="application/json,.json"
-                className="bo-transfer-input"
-                aria-label="Choose JSON backup to import"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (file) void uploadBackup(file);
-                }}
-              />
-              <p>
-                Import validates the whole backup and rejects IDs already in{" "}
-                {mode === "local" ? "this browser" : "Firestore"}. It writes
-                every record or none.
-              </p>
-            </div>
-            <div className="bo-stat-grid">
-              {collections.map((name) => (
-                <button
-                  key={name}
-                  onClick={() => navigate(name)}
-                  className="bo-stat"
-                >
-                  <span>{collectionLabels[name]}</span>
-                  <strong>{counts[name] ?? "—"}</strong>
-                  <span>Open records →</span>
-                </button>
-              ))}
-            </div>
-            <div className="bo-guidance">
-              <BookOpen size={22} />
-              <div>
-                <strong>Source of truth</strong>
-                <p>
-                  Published events require at least one timeline and source.
-                  Time precision and lore certainty are separate fields.
-                </p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="bo-workspace">
-            <section
-              className="bo-list"
-              aria-label={`${collectionLabels[section]} records`}
+          <div className="bo-sidebar-label">Back Office</div>
+          <nav aria-label="Back Office sections">
+            <button
+              className={section === "dashboard" ? "active" : ""}
+              onClick={() => navigate("dashboard")}
             >
-              <div className="bo-list-head">
-                <h2>Records</h2>
+              Overview
+            </button>
+            {collections.map((name) => (
+              <button
+                key={name}
+                className={section === name ? "active" : ""}
+                onClick={() => navigate(name)}
+              >
+                {collectionLabels[name]}
+              </button>
+            ))}
+          </nav>
+          <div className="bo-sidebar-bottom">
+            <span className={`bo-mode ${mode}`}>
+              {mode === "local" ? "Local sandbox" : "Firebase connected"}
+            </span>
+            {onSignOut && (
+              <button
+                onClick={() => {
+                  if (dirty)
+                    toast.error(
+                      "Save or reset your changes before signing out.",
+                    );
+                  else onSignOut();
+                }}
+              >
+                <LogOut size={15} /> Sign out
+              </button>
+            )}
+            <a
+              href="#top"
+              onClick={(event) => {
+                if (dirty) {
+                  event.preventDefault();
+                  toast.error("Save or reset your changes before leaving.");
+                }
+              }}
+            >
+              <ArrowLeft size={15} /> Public timeline
+            </a>
+          </div>
+        </aside>
+        <main className="bo-main">
+          <header className="bo-header">
+            <div>
+              <span className="bo-kicker">Chronicle management</span>
+              <h1>
+                {section === "dashboard"
+                  ? "Overview"
+                  : collectionLabels[section]}
+              </h1>
+            </div>
+            <span className="bo-header-mode">
+              {mode === "local"
+                ? "Records stay in this browser"
+                : "Owner access"}
+            </span>
+          </header>
+          {mode === "local" && (
+            <p className="bo-banner">
+              Development sandbox: these records are stored only in this
+              browser. They do not appear on the public timeline or in
+              Firestore.
+            </p>
+          )}
+          {section === "dashboard" ? (
+            <div className="bo-dashboard">
+              <p className="bo-lead">
+                Manage draft and published lore records. Start with timelines
+                and sources, then link events to them.
+              </p>
+              <div className="bo-transfer">
                 <button
-                  className="bo-small-button"
-                  onClick={() => selectRecord(null)}
+                  className="bo-secondary"
+                  onClick={downloadBackup}
+                  disabled={busy}
                 >
-                  <FilePlus2 size={15} /> New
+                  <Download size={16} /> Download JSON backup
+                </button>
+                <button
+                  className="bo-secondary"
+                  onClick={() => importInputRef.current?.click()}
+                  disabled={busy}
+                >
+                  <Upload size={16} /> Import new records
+                </button>
+                <input
+                  ref={importInputRef}
+                  type="file"
+                  accept="application/json,.json"
+                  className="bo-transfer-input"
+                  aria-label="Choose JSON backup to import"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (file) void uploadBackup(file);
+                  }}
+                />
+                <p>
+                  Import validates the whole backup and rejects IDs already in{" "}
+                  {mode === "local" ? "this browser" : "Firestore"}. It writes
+                  every record or none.
+                </p>
+              </div>
+              <div className="bo-stat-grid">
+                {collections.map((name) => (
+                  <button
+                    key={name}
+                    onClick={() => navigate(name)}
+                    className="bo-stat"
+                  >
+                    <span>{collectionLabels[name]}</span>
+                    <strong>{counts[name] ?? "—"}</strong>
+                    <span>Open records →</span>
+                  </button>
+                ))}
+              </div>
+              <div className="bo-guidance">
+                <BookOpen size={22} />
+                <div>
+                  <strong>Source of truth</strong>
+                  <p>
+                    Published events require at least one timeline and source.
+                    Time precision and lore certainty are separate fields.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="bo-workspace">
+              <section
+                className="bo-list"
+                aria-label={`${collectionLabels[section]} records`}
+              >
+                <div className="bo-list-head">
+                  <h2>Records</h2>
+                  <button
+                    className="bo-small-button"
+                    onClick={() => selectRecord(null)}
+                  >
+                    <FilePlus2 size={15} /> New
+                  </button>
+                </div>
+                {loading ? (
+                  <p className="bo-empty">Loading records…</p>
+                ) : items.length === 0 ? (
+                  <p className="bo-empty">
+                    No records yet. Create the first{" "}
+                    {collectionLabels[section].toLowerCase()} record.
+                  </p>
+                ) : (
+                  <ul>
+                    {items.map((item) => (
+                      <li key={item.id}>
+                        <button
+                          className={selectedId === item.id ? "selected" : ""}
+                          onClick={() => selectRecord(item)}
+                        >
+                          <strong>{recordTitle(item)}</strong>
+                          <small>{item.id}</small>
+                          <span
+                            className={`bo-status ${"status" in item ? item.status : "settings"}`}
+                          >
+                            {"status" in item ? item.status : "private"}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+              <section className="bo-editor" aria-label="Record editor">
+                {draftRecord ? (
+                  <>
+                    <div className="bo-editor-head">
+                      <div>
+                        <span className="bo-kicker">
+                          {selectedId ? "Editing record" : "New record"}
+                        </span>
+                        <h2>{selectedId ?? "Create record"}</h2>
+                      </div>
+                      {selectedId && (
+                        <button
+                          className="bo-danger"
+                          onClick={() => setDeleteId(selectedId)}
+                          disabled={busy}
+                        >
+                          <Trash2 size={15} /> Delete
+                        </button>
+                      )}
+                    </div>
+                    <p className="bo-editor-help">
+                      Complete the fields below. Validation runs before saving;
+                      published events need a source, timeline, and description.
+                      {dirty && <strong> Unsaved changes.</strong>}
+                    </p>
+                    <form
+                      noValidate
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        void saveRecord();
+                      }}
+                    >
+                      <RecordForm
+                        collection={section}
+                        value={draftRecord}
+                        references={references}
+                        existing={selectedId !== null}
+                        onChange={setDraftRecord}
+                      />
+                      <div className="bo-actions">
+                        <button
+                          type="button"
+                          className="bo-secondary"
+                          onClick={() => setDraftRecord(savedRecord)}
+                          disabled={!dirty || busy}
+                        >
+                          Reset changes
+                        </button>
+                        <button
+                          type="submit"
+                          className="bo-secondary"
+                          disabled={busy}
+                        >
+                          <Save size={16} /> Save
+                        </button>
+                        {section !== "settings" &&
+                          (selectedStatus === "published" ? (
+                            <button
+                              type="button"
+                              className="bo-primary"
+                              onClick={() => saveRecord("draft")}
+                              disabled={busy}
+                            >
+                              Move to draft
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="bo-primary"
+                              onClick={() => saveRecord("published")}
+                              disabled={busy}
+                            >
+                              <Send size={16} /> Publish
+                            </button>
+                          ))}
+                      </div>
+                    </form>
+                  </>
+                ) : (
+                  <div className="bo-editor-placeholder">
+                    <FilePlus2 size={27} />
+                    <h2>Select a record</h2>
+                    <p>Choose one from the list or create a new record.</p>
+                  </div>
+                )}
+              </section>
+            </div>
+          )}
+        </main>
+        <Dialog.Root
+          open={deleteId !== null}
+          onOpenChange={(open) => !open && setDeleteId(null)}
+        >
+          <Dialog.Portal>
+            <Dialog.Overlay className="dialog-overlay" />
+            <Dialog.Content className="bo-confirm">
+              <div className="bo-confirm-top">
+                <Dialog.Title>Delete this record?</Dialog.Title>
+                <Dialog.Close aria-label="Close" className="icon-button">
+                  <X size={18} />
+                </Dialog.Close>
+              </div>
+              <Dialog.Description>
+                This permanently removes <strong>{deleteId}</strong> from{" "}
+                {mode === "local" ? "this browser" : "Firestore"}. Related
+                records are not deleted automatically.
+              </Dialog.Description>
+              <div className="bo-actions">
+                <Dialog.Close className="bo-secondary">Cancel</Dialog.Close>
+                <button
+                  className="bo-danger filled"
+                  onClick={removeRecord}
+                  disabled={busy}
+                >
+                  Delete record
                 </button>
               </div>
-              {loading ? (
-                <p className="bo-empty">Loading records…</p>
-              ) : items.length === 0 ? (
-                <p className="bo-empty">
-                  No records yet. Create the first{" "}
-                  {collectionLabels[section].toLowerCase()} record.
-                </p>
-              ) : (
-                <ul>
-                  {items.map((item) => (
-                    <li key={item.id}>
-                      <button
-                        className={selectedId === item.id ? "selected" : ""}
-                        onClick={() => selectRecord(item)}
-                      >
-                        <strong>{recordTitle(item)}</strong>
-                        <small>{item.id}</small>
-                        <span
-                          className={`bo-status ${"status" in item ? item.status : "settings"}`}
-                        >
-                          {"status" in item ? item.status : "private"}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-            <section className="bo-editor" aria-label="Record editor">
-              {draftRecord ? (
-                <>
-                  <div className="bo-editor-head">
-                    <div>
-                      <span className="bo-kicker">
-                        {selectedId ? "Editing record" : "New record"}
-                      </span>
-                      <h2>{selectedId ?? "Create record"}</h2>
-                    </div>
-                    {selectedId && (
-                      <button
-                        className="bo-danger"
-                        onClick={() => setDeleteId(selectedId)}
-                        disabled={busy}
-                      >
-                        <Trash2 size={15} /> Delete
-                      </button>
-                    )}
-                  </div>
-                  <p className="bo-editor-help">
-                    Complete the fields below. Validation runs before saving;
-                    published events need a source, timeline, and description.
-                    {dirty && <strong> Unsaved changes.</strong>}
-                  </p>
-                  <form
-                    noValidate
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      void saveRecord();
-                    }}
-                  >
-                    <RecordForm
-                      collection={section}
-                      value={draftRecord}
-                      references={references}
-                      existing={selectedId !== null}
-                      onChange={setDraftRecord}
-                    />
-                    <div className="bo-actions">
-                      <button
-                        type="button"
-                        className="bo-secondary"
-                        onClick={() => {
-                          setDraftRecord(savedRecord);
-                          setError("");
-                        }}
-                        disabled={!dirty || busy}
-                      >
-                        Reset changes
-                      </button>
-                      <button
-                        type="submit"
-                        className="bo-secondary"
-                        disabled={busy}
-                      >
-                        <Save size={16} /> Save
-                      </button>
-                      {section !== "settings" &&
-                        (selectedStatus === "published" ? (
-                          <button
-                            type="button"
-                            className="bo-primary"
-                            onClick={() => saveRecord("draft")}
-                            disabled={busy}
-                          >
-                            Move to draft
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            className="bo-primary"
-                            onClick={() => saveRecord("published")}
-                            disabled={busy}
-                          >
-                            <Send size={16} /> Publish
-                          </button>
-                        ))}
-                    </div>
-                  </form>
-                </>
-              ) : (
-                <div className="bo-editor-placeholder">
-                  <FilePlus2 size={27} />
-                  <h2>Select a record</h2>
-                  <p>Choose one from the list or create a new record.</p>
-                </div>
-              )}
-            </section>
-          </div>
-        )}
-      </main>
-      <Dialog.Root
-        open={deleteId !== null}
-        onOpenChange={(open) => !open && setDeleteId(null)}
-      >
-        <Dialog.Portal>
-          <Dialog.Overlay className="dialog-overlay" />
-          <Dialog.Content className="bo-confirm">
-            <div className="bo-confirm-top">
-              <Dialog.Title>Delete this record?</Dialog.Title>
-              <Dialog.Close aria-label="Close" className="icon-button">
-                <X size={18} />
-              </Dialog.Close>
-            </div>
-            <Dialog.Description>
-              This permanently removes <strong>{deleteId}</strong> from{" "}
-              {mode === "local" ? "this browser" : "Firestore"}. Related records
-              are not deleted automatically.
-            </Dialog.Description>
-            <div className="bo-actions">
-              <Dialog.Close className="bo-secondary">Cancel</Dialog.Close>
-              <button
-                className="bo-danger filled"
-                onClick={removeRecord}
-                disabled={busy}
-              >
-                Delete record
-              </button>
-            </div>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
-    </div>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
+      </div>
+    </>
   );
 }
 

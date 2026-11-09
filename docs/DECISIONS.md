@@ -41,3 +41,9 @@ Record IDs are slugs of the English display name (`kamisato-ayaka`, `nod-krai`),
 ## 2026-11-09 — Firebase backup import
 
 The signed-in Back Office can now import a backup into Firestore with the same add-only rule as the local sandbox: every record is validated and every ID is checked against existing data before any write. `ContentStore.saveAll` writes the whole import in one Firestore write batch, so a failed import writes nothing and needs no recovery step. One batch accepts at most 500 writes; larger backups are rejected before writing instead of being split, because a split import could stop halfway. The ID check and the batch are not one transaction, so a record created with the same ID between them would be overwritten; with a single owner this is accepted. Firestore rules are unchanged: owners may already create records whose `id` matches the document ID.
+
+## 2026-11-09 — shadcn/ui setup and Back Office notifications
+
+shadcn/ui is initialized for Vite with the Radix base and the `nova` preset (`components.json`), using the `@/*` path alias. The generated global CSS was trimmed so it cannot restyle the existing theme: the Geist font import and the `@layer base` rules that set `body` colors, `html` font, and global border/outline colors were removed, `--font-sans` points at the existing `--font-family`, and the shadcn color tokens use the dark palette directly in `:root` because the app has a single dark theme. The Sonner `Toaster` is fixed to `theme="dark"` instead of reading `next-themes`, so no theme provider is added.
+
+Back Office editor feedback (save, publish, delete, backup, import, and unsaved-change warnings) uses Sonner toasts, which are announced through an ARIA live region instead of moving focus to an inline message. The sign-in form keeps its inline error because it belongs to that form.
