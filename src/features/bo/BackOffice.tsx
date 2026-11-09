@@ -460,7 +460,7 @@ function Editor({
 
   return (
     <>
-      <Toaster closeButton />
+      <Toaster />
       <div className="bo-shell">
         <aside className="bo-sidebar">
           <a
