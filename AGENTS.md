@@ -40,7 +40,7 @@ Instructions for AI coding agents working on Teyvat Chronicle.
 - `src/content/`: Phase 2 Zod schemas, templates, and local/Firestore repositories.
 - `src/features/bo/`: Back Office forms, local development sandbox, and owner sign-in gate.
 - `src/features/explorer/`: public data adapter, published Firestore loader, filters, URL state, and explorer UI.
-- `src/content/transfer.ts`: versioned JSON backup and add-only local import.
+- `src/content/transfer.ts`: versioned JSON backup and add-only import (local sandbox, or Firestore in one write batch).
 - `scripts/import-genshin-db.ts` and `data/import/`: genshin-db character/region import snapshot for the Back Office import.
 - `firestore.rules`: proposed server-side access policy; it has not been deployed or verified against a real project.
 - Firebase collections remain proposed resources, not deployed data.

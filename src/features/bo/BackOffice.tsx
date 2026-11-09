@@ -281,7 +281,11 @@ function Editor({
     try {
       const snapshot = parseSnapshot(await file.text());
       const count = await importSnapshotAddOnly(store, snapshot);
-      setMessage(`${count} records imported into the local sandbox.`);
+      setMessage(
+        mode === "local"
+          ? `${count} records imported into the local sandbox.`
+          : `${count} records imported into Firestore as saved.`,
+      );
       if (section === "dashboard") {
         const results = await Promise.all(
           collections.map(
@@ -408,31 +412,28 @@ function Editor({
               >
                 <Download size={16} /> Download JSON backup
               </button>
-              {mode === "local" && (
-                <>
-                  <button
-                    className="bo-secondary"
-                    onClick={() => importInputRef.current?.click()}
-                    disabled={busy}
-                  >
-                    <Upload size={16} /> Import new records
-                  </button>
-                  <input
-                    ref={importInputRef}
-                    type="file"
-                    accept="application/json,.json"
-                    className="bo-transfer-input"
-                    aria-label="Choose JSON backup to import"
-                    onChange={(event) => {
-                      const file = event.target.files?.[0];
-                      if (file) void uploadBackup(file);
-                    }}
-                  />
-                </>
-              )}
+              <button
+                className="bo-secondary"
+                onClick={() => importInputRef.current?.click()}
+                disabled={busy}
+              >
+                <Upload size={16} /> Import new records
+              </button>
+              <input
+                ref={importInputRef}
+                type="file"
+                accept="application/json,.json"
+                className="bo-transfer-input"
+                aria-label="Choose JSON backup to import"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) void uploadBackup(file);
+                }}
+              />
               <p>
-                Import validates the whole backup and rejects IDs already in
-                this browser. Firebase import is not enabled.
+                Import validates the whole backup and rejects IDs already in{" "}
+                {mode === "local" ? "this browser" : "Firestore"}. It writes
+                every record or none.
               </p>
             </div>
             <div className="bo-stat-grid">

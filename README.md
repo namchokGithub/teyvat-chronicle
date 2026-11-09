@@ -10,7 +10,7 @@ The public explorer supports search, world/character/era-region views, lore cert
 
 Phase 4 interaction work adds character focus, related event navigation, stable card placement, and keyboard timeline controls. Visual and large-data verification remain open.
 
-Phase 5 code adds a relationship view, character comparison, a chronological story reader, and spoiler filters. The Back Office can download a JSON backup; the local sandbox can import only new records from a validated backup. Spoiler labels and Firebase import remain open work.
+Phase 5 code adds a relationship view, character comparison, a chronological story reader, and spoiler filters. The Back Office can download a JSON backup; the local sandbox can import only new records from a validated backup. With Firebase configured, the signed-in owner can also import new records into Firestore; the import writes every record or none. Spoiler labels remain open work.
 
 ## Run locally
 
@@ -37,7 +37,7 @@ Both repositories are expected as read-only sibling checkouts (`../genshin-db`, 
 node scripts/import-genshin-db.ts
 ```
 
-This writes `data/import/genshin-db-characters-regions.json` with draft characters, regions, and a `genshin-db` source record. Import it from the local Back Office sandbox (add-only); review and publish records there. Character icons link to HoYoverse's official CDN.
+This writes `data/import/genshin-db-characters-regions.json` with draft characters, regions, and a `genshin-db` source record. Import it from the Back Office dashboard (**Import new records**), either in the local sandbox or signed in to Firebase; then review and publish records there. Character icons link to HoYoverse's official CDN.
 
 Genshin Impact names, text, and images belong to HoYoverse. This project is a fan-made lore explorer and is not affiliated with HoYoverse.
 

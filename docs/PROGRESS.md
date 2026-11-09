@@ -77,7 +77,9 @@
 - [x] เพิ่ม Compare Characters จาก event ชุดเดียวกัน พร้อมแสดงเหตุการณ์ที่มีร่วมกัน
 - [x] เพิ่ม Story Mode เดินตามลำดับเวลาของผลลัพธ์ที่มองเห็นและเปิดรายละเอียดเดิมได้
 - [x] เพิ่ม `spoilerLevel` (0–3) และ `requiredQuestIds` แบบ optional ใน event schema; public filter คุม event, deep link, ความสัมพันธ์ และ Story Mode โดย URL ไม่ปลด spoiler ให้ผู้รับลิงก์
-- [x] เพิ่ม JSON backup สำหรับทุก collection และนำเข้าแบบ add-only ใน local Back Office หลังตรวจ schema ทั้งไฟล์; Firebase ยัง export ได้อย่างเดียว
+- [x] เพิ่ม JSON backup สำหรับทุก collection และนำเข้าแบบ add-only ใน local Back Office หลังตรวจ schema ทั้งไฟล์
+- [x] เปิด import แบบ add-only ใน Back Office ที่เชื่อม Firebase โดยเขียน Firestore ใน batch เดียว (ทั้งหมดหรือไม่เขียนเลย, สูงสุด 500 record)
+- [ ] ทดสอบ Firebase import กับโปรเจกต์จริง: owner import snapshot ได้, ID ซ้ำถูกปฏิเสธก่อนเขียน และ record ที่ import เป็น draft ไม่โผล่ใน public explorer
 - [ ] ทดสอบหน้าจอ 360px/1280px และ keyboard flow ของเครื่องมือสำรวจ, spoiler controls, Story Mode และ import/export ด้วยตา
 - [ ] ตรวจ UI audit แบบ strict: บันทึกเจ้าของ native select และกำหนด validation ของฟอร์มเข้าสู่ระบบ Back Office (4 รายการจากการตรวจปัจจุบัน)
 - [ ] กำหนดชื่อระดับ spoiler และ quest catalog จริงให้สัมพันธ์กับ Archon Quest/Version ก่อนใส่ข้อมูล lore จริง

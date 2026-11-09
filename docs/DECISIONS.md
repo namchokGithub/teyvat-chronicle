@@ -26,7 +26,7 @@ The timeline assigns card rows using projected dates at the minimum supported zo
 
 Optional event `spoilerLevel` values 0–3 and `requiredQuestIds` preserve older records at level 0. The public viewer starts at level 0 with no completed quests. One filter path determines timeline, deep-link detail, relationship explorer, comparison, and story visibility. Spoiler preferences stay in the current page session and are omitted from shared URLs, so opening a deep link never unlocks hidden details automatically. These labels are provisional until a sourced quest/version catalog exists.
 
-Backups serialize all content collections with a format version. Import validates every record and checks every collection for duplicate IDs before writing. Import is add-only and available only in the local development sandbox; Firebase is export-only until conflict and recovery rules are defined.
+Backups serialize all content collections with a format version. Import validates every record and checks every collection for duplicate IDs before writing. Import is add-only. Firebase import was added on 2026-11-09; see the entry below.
 
 ## 2026-11-06 — Back Office form editing
 
@@ -37,3 +37,7 @@ The Back Office now edits the existing content records through dedicated fields 
 `scripts/import-genshin-db.ts` reads the sibling read-only `genshin-db` checkout and writes a version 1 backup snapshot to `data/import/genshin-db-characters-regions.json`. The snapshot goes through the existing add-only Back Office import, so app code and storage paths stay unchanged. The script validates every record with the same Zod schemas and fails without writing output if a record is invalid or a region is unknown.
 
 Record IDs are slugs of the English display name (`kamisato-ayaka`, `nod-krai`), which keeps the existing sample IDs (`venti`, `zhongli`, `mondstadt`, `liyue`, `khaenriah`) valid. All records import as `draft` so nothing reaches the public explorer before review. Each character cites one `genshin-db` source record. Character images hotlink HoYoverse's official icon CDN (`mihoyo_icon`) because the Fandom fields cover few characters; two characters without an icon keep `image: null`. Regions are the eight nations from the data plus Khaenri'ah and Celestia; genshin-db has no nation-level text, so region descriptions start empty. Thai names are stored only when they differ from English, since the Thai localization keeps most names romanized.
+
+## 2026-11-09 — Firebase backup import
+
+The signed-in Back Office can now import a backup into Firestore with the same add-only rule as the local sandbox: every record is validated and every ID is checked against existing data before any write. `ContentStore.saveAll` writes the whole import in one Firestore write batch, so a failed import writes nothing and needs no recovery step. One batch accepts at most 500 writes; larger backups are rejected before writing instead of being split, because a split import could stop halfway. The ID check and the batch are not one transaction, so a record created with the same ID between them would be overwritten; with a single owner this is accepted. Firestore rules are unchanged: owners may already create records whose `id` matches the document ID.
