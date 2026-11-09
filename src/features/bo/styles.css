@@ -687,3 +687,43 @@
 .bo-reference-field.bo-invalid > legend {
   color: #9b4d3b;
 }
+.bo-color-field {
+  display: flex;
+  gap: 8px;
+}
+.bo-form-field input.bo-color-swatch {
+  flex: 0 0 40px;
+  width: 40px;
+  height: auto;
+  min-height: 38px;
+  padding: 3px;
+  cursor: pointer;
+}
+.bo-color-swatch::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.bo-color-swatch::-webkit-color-swatch {
+  border: 1px solid #0002;
+  border-radius: 0;
+}
+.bo-color-swatch::-moz-color-swatch {
+  border: 1px solid #0002;
+  border-radius: 0;
+}
+.bo-color-swatch.empty::-webkit-color-swatch {
+  background: repeating-conic-gradient(#d0c8b9 0 25%, #fcfaf4 0 50%) 0 0 / 10px
+    10px !important;
+}
+.bo-color-swatch.empty::-moz-color-swatch {
+  background: repeating-conic-gradient(#d0c8b9 0 25%, #fcfaf4 0 50%) 0 0 / 10px
+    10px !important;
+}
+.bo-color-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 7px;
+  border: 1px solid #0003;
+  border-radius: 50%;
+  vertical-align: 0;
+}

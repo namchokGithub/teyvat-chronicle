@@ -119,6 +119,35 @@ export function RecordForm({
     );
   }
 
+  function color(label: string, path: FieldPath, hint: string) {
+    const state = fieldState(path, "bo-form-field");
+    const current = text(path);
+    const valid = /^#[0-9a-fA-F]{6}$/.test(current);
+    return (
+      <label {...state.wrapper} key={path.join(".")}>
+        {labelText(label)}
+        <span className="bo-color-field">
+          <input
+            type="color"
+            className={valid ? "bo-color-swatch" : "bo-color-swatch empty"}
+            value={valid ? current.toLowerCase() : "#000000"}
+            onChange={(event) => write(path, event.target.value)}
+            aria-label={`${label} picker`}
+          />
+          <input
+            type="text"
+            value={current}
+            onChange={(event) => write(path, event.target.value)}
+            spellCheck={false}
+            {...state.control}
+          />
+        </span>
+        {state.message}
+        <small>{hint}</small>
+      </label>
+    );
+  }
+
   function choice(label: string, path: FieldPath, options: readonly string[]) {
     const state = fieldState(path, "bo-form-field");
     return (
@@ -474,9 +503,7 @@ export function RecordForm({
               )}
               {input("Image path or HTTPS URL", ["display", "image"])}
               {input("Icon path or URL", ["display", "icon"])}
-              {input("Color hex", ["display", "color"], {
-                hint: "Example: #B8A5DD",
-              })}
+              {color("Color", ["display", "color"], "Example: #B8A5DD")}
               {choice(
                 "Line style",
                 ["display", "lineStyle"],
@@ -632,9 +659,7 @@ export function RecordForm({
             "timelines",
             "No default timeline",
           )}
-          {input("Accent color hex", ["accentColor"], {
-            hint: "Example: #B8A5DD",
-          })}
+          {color("Accent color", ["accentColor"], "Example: #B8A5DD")}
         </div>
       )}
     </div>
