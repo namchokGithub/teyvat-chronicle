@@ -65,7 +65,6 @@ export async function importSnapshotAddOnly(
   store: ContentStore,
   snapshot: ContentSnapshot,
 ): Promise<number> {
-  let count = 0;
   for (const name of transferCollections) {
     const existing = new Set((await store.list(name)).map((item) => item.id));
     const conflict = snapshot.collections[name].find((item) =>
@@ -75,10 +74,10 @@ export async function importSnapshotAddOnly(
       throw new Error(
         `${name}/${conflict.id} already exists. Import did not start.`,
       );
-    count += snapshot.collections[name].length;
   }
-  for (const name of transferCollections)
-    for (const record of snapshot.collections[name])
-      await store.save(name, record);
-  return count;
+  return store.saveAll(
+    transferCollections.flatMap((name) =>
+      snapshot.collections[name].map((input) => ({ collection: name, input })),
+    ),
+  );
 }
