@@ -1,0 +1,2527 @@
+{
+  "format": "teyvat-chronicle",
+  "version": 1,
+  "collections": {
+    "timelines": [],
+    "events": [],
+    "characters": [
+      {
+        "id": "aether",
+        "status": "draft",
+        "name": {
+          "en": "Aether"
+        },
+        "biography": {
+          "en": "A traveler from another world who had their only kin taken away, forcing them to embark on a journey to find The Seven.",
+          "th": "นักเดินทางจากต่างโลกผู้ถูกเทพปริศนาพรากพี่น้องร่วมสายเลือดเพียงหนึ่งเดียวไป จึงจำใจต้องออกเดินทางเพื่อตามหาเทพทั้ง 7"
+        },
+        "regionIds": [],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_PlayerBoy.png",
+        "sortOrder": 10
+      },
+      {
+        "id": "amber",
+        "status": "draft",
+        "name": {
+          "en": "Amber"
+        },
+        "biography": {
+          "en": "Always energetic and full of life, Amber's the best — albeit only — Outrider of the Knights of Favonius.",
+          "th": "เด็กสาวผู้เปี่ยมไปด้วยพลังและมีชีวิตชีวาอยู่เสมอ ยอดฝีมือแห่งกองอัศวินและเป็นอัศวินลาดตระเวนคนสุดท้าย"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ambor.png",
+        "sortOrder": 20
+      },
+      {
+        "id": "barbara",
+        "status": "draft",
+        "name": {
+          "en": "Barbara"
+        },
+        "biography": {
+          "en": "Every citizen of Mondstadt adores Barbara. She learned the word \"idol\" from a magazine.",
+          "th": "ชาวเมือง Mondstadt ทุกคนต่างก็เอ็นดู Barbara เธอเรียนรู้คำว่า \"ไอดอล\" มาจากนิตยสาร"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Barbara.png",
+        "sortOrder": 30
+      },
+      {
+        "id": "beidou",
+        "status": "draft",
+        "name": {
+          "en": "Beidou"
+        },
+        "biography": {
+          "en": "Captain of her crew, The Crux. She's quite an unbound and forthright woman.",
+          "th": "ผู้นำกองเรือติดอาวุธ \"Crux\" สตรีผู้ซื่อตรง และไร้ซึ่งพันธนาการ"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Beidou.png",
+        "sortOrder": 40
+      },
+      {
+        "id": "bennett",
+        "status": "draft",
+        "name": {
+          "en": "Bennett"
+        },
+        "biography": {
+          "en": "A good-natured adventurer from Mondstadt who's unfortunately extremely unlucky.",
+          "th": "เด็กหนุ่มนักผจญภัยแห่ง Mondstadt ผู้มาพร้อมความซวย ซึ่งไม่เข้ากันกับนิสัยใจดีมีเมตตาของเขาเลย"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Bennett.png",
+        "sortOrder": 50
+      },
+      {
+        "id": "chongyun",
+        "status": "draft",
+        "name": {
+          "en": "Chongyun"
+        },
+        "biography": {
+          "en": "A young exorcist from a family of exorcists. He does everything he can to suppress his abundance of yang energy.",
+          "th": "นักปราบปีศาจแห่งตระกูลที่โด่งดังในการปราบภูตผี ต้องเหนื่อยยากกับการระงับ \"ร่างกายแห่งหยางบริสุทธิ์\" ของตนเองอยู่บ่อยครั้ง"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Chongyun.png",
+        "sortOrder": 60
+      },
+      {
+        "id": "diluc",
+        "status": "draft",
+        "name": {
+          "en": "Diluc"
+        },
+        "biography": {
+          "en": "The tycoon of a winery empire in Mondstadt, unmatched in every possible way.",
+          "th": "คุณชายสูงศักดิ์ผู้ครอบครองกิจการผลิตไวน์ใน Mondstadt ไปกว่าครึ่ง ไม่ว่าจะด้านกำลังทรัพย์ ชื่อเสียง หรือความสามารถ ก็ไม่มีใครเทียบเคียงได้ในสักทาง"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Diluc.png",
+        "sortOrder": 70
+      },
+      {
+        "id": "fischl",
+        "status": "draft",
+        "name": {
+          "en": "Fischl"
+        },
+        "biography": {
+          "en": "A mysterious girl who calls herself \"Prinzessin der Verurteilung\" and travels with a night raven named Oz.",
+          "th": "หญิงสาวลึกลับผู้เรียกตนเองว่า \"เจ้าหญิงแห่งการลงทัณฑ์\" ร่วมเดินทางไปพร้อมกับเรเวนนามว่า Oz"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Fischl.png",
+        "sortOrder": 80
+      },
+      {
+        "id": "jean",
+        "status": "draft",
+        "name": {
+          "en": "Jean"
+        },
+        "biography": {
+          "en": "The righteous and rigorous Dandelion Knight, and Acting Grand Master of Mondstadt's Knights of Favonius.",
+          "th": "อัศวิน Dandelion ผู้ยึดมั่นในความถูกต้อง และเป็นรักษาการผู้บัญชาการของกองอัศวินแห่ง Favonius"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Qin.png",
+        "sortOrder": 90
+      },
+      {
+        "id": "kaeya",
+        "status": "draft",
+        "name": {
+          "en": "Kaeya"
+        },
+        "biography": {
+          "en": "An accomplished swordsman and a strategic thinker in the Knights of Favonius, rumored to hail from beyond Mondstadt.",
+          "th": "นักดาบผู้มีกลิ่นอายของคนจากต่างแดน มันสมองของกองอัศวินแห่ง Favonius"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Kaeya.png",
+        "sortOrder": 100
+      },
+      {
+        "id": "keqing",
+        "status": "draft",
+        "name": {
+          "en": "Keqing"
+        },
+        "biography": {
+          "en": "The Yuheng of the Liyue Qixing. Keqing has much to say about Rex Lapis's unilateral approach to policymaking in Liyue — but in truth, gods admire skeptics such as her quite a lot.",
+          "th": "Yuheng หนึ่งใน Liyue Qixing มักจะไม่พอใจกับสภาพของ \"Liyue ที่ตัดสินทุกอย่างตามคำพูดของราชา\" เสมอ—แต่ในความเป็นจริงแล้ว ท่านเทพชื่นชมคนแบบเธอมากทีเดียว"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Keqing.png",
+        "sortOrder": 110
+      },
+      {
+        "id": "klee",
+        "status": "draft",
+        "name": {
+          "en": "Klee"
+        },
+        "biography": {
+          "en": "An explosives expert and a regular at the Knights of Favonius's confinement room. Also known as Fleeing Sunlight.",
+          "th": "แขกประจำห้องกักบริเวณของกองอัศวินแห่ง Favonius ผู้เชี่ยวชาญด้านระเบิดแห่ง Mondstadt ผู้คนเรียกเธอว่า \"ดวงอาทิตย์ที่หลบหนี\""
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Klee.png",
+        "sortOrder": 120
+      },
+      {
+        "id": "lisa",
+        "status": "draft",
+        "name": {
+          "en": "Lisa"
+        },
+        "biography": {
+          "en": "The languid but knowledgeable Librarian of the Knights of Favonius, deemed by Sumeru Akademiya to be their most distinguished graduate in the past two centuries.",
+          "th": "บรรณารักษ์หอสมุดอัศวินแห่ง Favonius ผู้เอื่อยเฉื่อยแต่รอบรู้ เธอได้รับการยอมรับว่าเป็น \"อัจฉริยะในรอบสองร้อยปี\" แห่งสถาบัน Sumeru"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Lisa.png",
+        "sortOrder": 130
+      },
+      {
+        "id": "lumine",
+        "status": "draft",
+        "name": {
+          "en": "Lumine"
+        },
+        "biography": {
+          "en": "A traveler from another world who had their only kin taken away, forcing them to embark on a journey to find The Seven.",
+          "th": "นักเดินทางจากต่างโลกผู้ถูกเทพปริศนาพรากพี่น้องร่วมสายเลือดเพียงหนึ่งเดียวไป จึงจำใจต้องออกเดินทางเพื่อตามหาเทพทั้ง 7"
+        },
+        "regionIds": [],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_PlayerGirl.png",
+        "sortOrder": 140
+      },
+      {
+        "id": "mona",
+        "status": "draft",
+        "name": {
+          "en": "Mona"
+        },
+        "biography": {
+          "en": "A mysterious young astrologer who proclaims herself to be \"Astrologist Mona Megistus,\" and who possesses abilities to match the title. Erudite, but prideful.",
+          "th": "หญิงสาวลึกลับผู้เป็นโหรแห่งดวงดาว เรียกตัวเองว่า \"โหรแห่งดวงดาวผู้ยิ่งใหญ่ Mona\" มีความแข็งแกร่งอย่างล้นเหลือสมดังชื่อ รอบรู้ทว่าทระนง"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Mona.png",
+        "sortOrder": 150
+      },
+      {
+        "id": "ningguang",
+        "status": "draft",
+        "name": {
+          "en": "Ningguang"
+        },
+        "biography": {
+          "en": "The Tianquan of the Liyue Qixing. Her wealth is unsurpassed in all of Teyvat.",
+          "th": "Tianquan แห่ง Liyue Qixing ความมั่งคั่งของเธอนั้นไม่มีผู้ใดใน Teyvat เทียบได้"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ningguang.png",
+        "sortOrder": 160
+      },
+      {
+        "id": "noelle",
+        "status": "draft",
+        "name": {
+          "en": "Noelle"
+        },
+        "biography": {
+          "en": "A maid who faithfully serves the Knights of Favonius. She dreams of joining their ranks someday.",
+          "th": "สาวใช้ผู้เป็นที่พึ่งพาได้เสมอของ \"กองอัศวินแห่ง Favonius\" มีความฝันว่าสักวันหนึ่งจะเป็นอัศวินอย่างเต็มตัวให้ได้"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Noel.png",
+        "sortOrder": 170
+      },
+      {
+        "id": "qiqi",
+        "status": "draft",
+        "name": {
+          "en": "Qiqi"
+        },
+        "biography": {
+          "en": "An apprentice and herb gatherer at Bubu Pharmacy. An undead with a bone-white complexion, she seldom has much in the way of words or emotion.",
+          "th": "คนเก็บสมุนไพรและเด็กฝึกงานของร้านยา \"Bubu Pharmacy\" ซอมบี้ผู้มีผิวขาวซีดราวกับกระดาษ ไม่ค่อยพูดไม่ค่อยจาและไม่ค่อยแสดงอารมณ์"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Qiqi.png",
+        "sortOrder": 180
+      },
+      {
+        "id": "razor",
+        "status": "draft",
+        "name": {
+          "en": "Razor"
+        },
+        "biography": {
+          "en": "A boy who lives among the wolves in Wolvendom of Mondstadt, away from human civilization. As agile as lightning.",
+          "th": "เด็กหนุ่มผู้ใช้ชีวิตร่วมกับหมาป่า ใน Wolvendom ซึ่งเป็นพื้นที่หนึ่งใน Mondstadt ที่ห่างไกลจากผู้คน มีปฏิกิริยาที่เฉียบแหลมและคล่องแคล่วว่องไว"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Razor.png",
+        "sortOrder": 190
+      },
+      {
+        "id": "sucrose",
+        "status": "draft",
+        "name": {
+          "en": "Sucrose"
+        },
+        "biography": {
+          "en": "An alchemist filled with curiosity about all things. She researches bio-alchemy.",
+          "th": "นักเล่นแร่แปรธาตุผู้เต็มไปด้วยความอยากรู้อยากเห็นในทุกสิ่งทุกอย่าง เป็นนักวิจัยด้าน \"การแปรธาตุชีวภาพ\""
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Sucrose.png",
+        "sortOrder": 200
+      },
+      {
+        "id": "venti",
+        "status": "draft",
+        "name": {
+          "en": "Venti"
+        },
+        "biography": {
+          "en": "One of the many bards of Mondstadt, who freely wanders the city's streets and alleys.",
+          "th": "หนึ่งในนักกวีพเนจร ที่มีอยู่มากมายใน Mondstadt ผู้เดินเตร่ไปตามถนนซอกซอย อย่างอิสรเสรี"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Venti.png",
+        "sortOrder": 210
+      },
+      {
+        "id": "xiangling",
+        "status": "draft",
+        "name": {
+          "en": "Xiangling"
+        },
+        "biography": {
+          "en": "A renowned chef from Liyue. She's extremely passionate about cooking and excels at making her signature hot and spicy dishes.",
+          "th": "เชฟชื่อดังจาก Liyue ผู้หลงใหล ในการปรุงอาหารเป็นอย่างมาก ซึ่งอาหารรสเผ็ดของเธอนั้น ช่างโดดเด่นไม่เป็นสองรองใคร"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xiangling.png",
+        "sortOrder": 220
+      },
+      {
+        "id": "xingqiu",
+        "status": "draft",
+        "name": {
+          "en": "Xingqiu"
+        },
+        "biography": {
+          "en": "A young man carrying a longsword who is frequently seen at book booths. He has a chivalrous heart and yearns for justice and fairness for all.",
+          "th": "เด็กหนุ่มผู้มักจะปรากฏตัวตามแผงขายหนังสือ ในมือถือดาบยาว ในใจมีจิตวิญญาณแห่งความกล้าสถิตอยู่"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xingqiu.png",
+        "sortOrder": 230
+      },
+      {
+        "id": "diona",
+        "status": "draft",
+        "name": {
+          "en": "Diona"
+        },
+        "biography": {
+          "en": "A young lady who has inherited trace amounts of non-human blood. She is the incredibly popular bartender of the Cat's Tail tavern.",
+          "th": "เด็กสาวผู้มีเชื้อสายของ \"อมนุษย์\" อยู่น้อยนิด บาร์เทนเดอร์ชื่อดังแห่ง \"Cat's Tail\""
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Diona.png",
+        "sortOrder": 240
+      },
+      {
+        "id": "tartaglia",
+        "status": "draft",
+        "name": {
+          "en": "Tartaglia"
+        },
+        "biography": {
+          "en": "No. 11 of The Harbingers, also known as \"Childe.\" His name is highly feared on the battlefield.",
+          "th": "\"Childe\" ผู้บริหารอันดับที่สิบเอ็ดของ Fatui ชื่อเสียงและความเก่งกาจของเขาเป็นที่เลื่องลือมาแต่ไกล"
+        },
+        "regionIds": [
+          "snezhnaya"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Tartaglia.png",
+        "sortOrder": 250
+      },
+      {
+        "id": "xinyan",
+        "status": "draft",
+        "name": {
+          "en": "Xinyan"
+        },
+        "biography": {
+          "en": "Liyue's sole rock 'n' roll musician. She rebels against ossified prejudices using her music and passionate singing.",
+          "th": "นักดนตรีร็อกแอนด์โรลเพียงหนึ่งเดียวของท่าเรือ Liyue ผู้ใช้เสียงดนตรีและความเร่าร้อนร้องเพลงเพื่อต่อต้าน \"อคติ\""
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xinyan.png",
+        "sortOrder": 260
+      },
+      {
+        "id": "zhongli",
+        "status": "draft",
+        "name": {
+          "en": "Zhongli"
+        },
+        "biography": {
+          "en": "A mysterious expert contracted by the Wangsheng Funeral Parlor. Extremely knowledgeable in all things.",
+          "th": "แขกลึกลับผู้ถูกเชิญมาโดย \"โถงแห่งการเกิดใหม่ Wangsheng\" มีความรู้แตกฉานในทุก ๆ ด้าน"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Zhongli.png",
+        "sortOrder": 270
+      },
+      {
+        "id": "albedo",
+        "status": "draft",
+        "name": {
+          "en": "Albedo"
+        },
+        "biography": {
+          "en": "A genius known as the Kreideprinz, he is the Chief Alchemist and Captain of the Investigation Team of the Knights of Favonius.",
+          "th": "อัจฉริยะที่ถูกขนานนามว่า \"Kreideprinz\" (องค์ชายชอล์กขาว) เป็นหัวหน้านักเล่นแร่แปรธาตุและหัวหน้าทีมสืบสวนของกองอัศวินแห่ง Favonius"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Albedo.png",
+        "sortOrder": 280
+      },
+      {
+        "id": "ganyu",
+        "status": "draft",
+        "name": {
+          "en": "Ganyu"
+        },
+        "biography": {
+          "en": "The secretary at Yuehai Pavilion. The blood of the qilin, an illuminated beast, flows within her veins.",
+          "th": "เลขาของ Yuehai Pavilion มีเลือดของสัตว์เวท \"กิเลน\" ไหลเวียนอยู่ในร่างกาย"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ganyu.png",
+        "sortOrder": 290
+      },
+      {
+        "id": "hu-tao",
+        "status": "draft",
+        "name": {
+          "en": "Hu Tao"
+        },
+        "biography": {
+          "en": "The 77th Director of the Wangsheng Funeral Parlor. She took over the business at a rather young age.",
+          "th": "หัวหน้า \"โถงแห่งการเกิดใหม่ Wangsheng\" รุ่นที่ 77 ผู้เข้ามาดูแลองค์กรจัดงานศพของ Liyue ตั้งแต่อายุยังน้อย"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Hutao.png",
+        "sortOrder": 300
+      },
+      {
+        "id": "xiao",
+        "status": "draft",
+        "name": {
+          "en": "Xiao"
+        },
+        "biography": {
+          "en": "A yaksha adeptus who defends Liyue. Also heralded as the \"Conqueror of Demons\" and \"Vigilant Yaksha.\"",
+          "th": "\"ยักษา\" เซียนผู้พิทักษ์ Liyue ผู้มีสมญานามว่า \"ผู้กำราบอสูร\" และ \"ยักษาผู้พิทักษ์\""
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xiao.png",
+        "sortOrder": 310
+      },
+      {
+        "id": "rosaria",
+        "status": "draft",
+        "name": {
+          "en": "Rosaria"
+        },
+        "biography": {
+          "en": "A sister of the church, though you wouldn't know it if it weren't for her attire. Known for her sharp, cold words and manner, she often works alone.",
+          "th": "ซิสเตอร์ที่นอกจากการแต่งกายแล้วไม่มีสิ่งที่ดูเหมือนผู้ทำหน้าที่ทางศาสนาเลย ภายใต้คำพูดและการกระทำที่เย็นชาแฝงไว้ซึ่งความเฉียบแหลม มักจะทำสิ่งต่าง ๆ ด้วยตัวคนเดียวอยู่เสมอ"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Rosaria.png",
+        "sortOrder": 320
+      },
+      {
+        "id": "eula",
+        "status": "draft",
+        "name": {
+          "en": "Eula"
+        },
+        "biography": {
+          "en": "The Spindrift Knight, a scion of the old aristocracy, and the Captain of the Knights of Favonius Reconnaissance Company. The reason for which a descendant of the ancient nobles might join the Knights remains a great mystery in Mondstadt to this very day.",
+          "th": "\"อัศวิน Spindrift\" จากตระกูลเก่าแก่ หัวหน้ากองสอดแนมของกองอัศวินแห่ง Favonius ทั้งที่เป็นถึงลูกหลานของชนชั้นสูง แต่เธอกลับเข้าร่วมกับกองอัศวินแห่ง Favonius ซึ่งถือเป็นศัตรูตัวฉกาจของตระกูล เหตุการณ์ดังกล่าวยังคงเป็นปริศนาของ Mondstadt มาจนทุกวันนี้"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Eula.png",
+        "sortOrder": 330
+      },
+      {
+        "id": "yanfei",
+        "status": "draft",
+        "name": {
+          "en": "Yanfei"
+        },
+        "biography": {
+          "en": "A well-known legal adviser active in Liyue Harbor. A brilliant young lady in whose veins runs the blood of an illuminated beast.",
+          "th": "ที่ปรึกษาด้านกฎหมายผู้โด่งดังที่ประจำอยู่ที่ท่าเรือ Liyue หญิงสาวผู้ปราดเปรื่องที่มีสายเลือดสัตว์เวทผสมอยู่"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Feiyan.png",
+        "sortOrder": 340
+      },
+      {
+        "id": "kaedehara-kazuha",
+        "status": "draft",
+        "name": {
+          "en": "Kaedehara Kazuha"
+        },
+        "biography": {
+          "en": "A wandering samurai from Inazuma who is currently with Liyue's Crux Fleet. A gentle and carefree soul whose heart hides a great many burdens from the past.",
+          "th": "ซามูไรพเนจรจาก Inazuma ตอนนี้อาศัยอยู่กับกองเรือ \"Crux\" ของ Liyue มีนิสัยอ่อนโยนและรักอิสระ เก็บงำเหตุการณ์ในอดีตมากมายไว้ในใจ"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Kazuha.png",
+        "sortOrder": 350
+      },
+      {
+        "id": "kamisato-ayaka",
+        "status": "draft",
+        "name": {
+          "en": "Kamisato Ayaka"
+        },
+        "biography": {
+          "en": "Daughter of the Yashiro Commission's Kamisato Clan. Dignified and elegant, as well as wise and strong.",
+          "th": "คุณหนูใหญ่ของตระกูล Kamisato แห่งสำนัก Yashiro ใน Inazuma ทั้งสง่างามและมีเกียรติ เปี่ยมไปด้วยสติปัญญาและความแข็งแกร่ง"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ayaka.png",
+        "sortOrder": 360
+      },
+      {
+        "id": "sayu",
+        "status": "draft",
+        "name": {
+          "en": "Sayu"
+        },
+        "biography": {
+          "en": "A pint-sized ninja attached to the Shuumatsuban, who always seems sleep-deprived.",
+          "th": "นินจารูปร่างบอบบางแห่ง Shuumatsuban มักจะมีท่าทางเหมือนคนนอนหลับไม่เพียงพออยู่เสมอ"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Sayu.png",
+        "sortOrder": 370
+      },
+      {
+        "id": "yoimiya",
+        "status": "draft",
+        "name": {
+          "en": "Yoimiya"
+        },
+        "biography": {
+          "en": "Owner of Naganohara Fireworks. Known as the \"Queen of the Summer Festival,\" she excels in her craft of creating fireworks that symbolize people's hopes and dreams.",
+          "th": "เจ้าของร้านดอกไม้ไฟ Naganohara \"ราชินีแห่งเทศกาลฤดูร้อน\" ช่างฝีมือมากความสามารถ ผู้ส่งความปรารถนาของผู้คนผ่านการทำดอกไม้ไฟ"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Yoimiya.png",
+        "sortOrder": 380
+      },
+      {
+        "id": "aloy",
+        "status": "draft",
+        "name": {
+          "en": "Aloy"
+        },
+        "biography": {
+          "en": "Formerly an outcast, now a hunter of unparalleled skill. Ready to do the right thing at any time.",
+          "th": "อดีตเคยเป็นผู้ถูกเนรเทศ ปัจจุบันเป็นนักล่ายอดฝีมือที่หาตัวจับได้ยาก เธอพร้อมที่จะใช้คันธนูและลูกธนูของเธอทำสิ่งที่ถูกต้องทุกเมื่อ"
+        },
+        "regionIds": [],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Aloy.png",
+        "sortOrder": 390
+      },
+      {
+        "id": "kujou-sara",
+        "status": "draft",
+        "name": {
+          "en": "Kujou Sara"
+        },
+        "biography": {
+          "en": "A general of the Tenryou Commission. Bold, decisive, and skilled in battle.",
+          "th": "นายพลแห่งสำนัก Tenryou เด็ดเดี่ยว กล้าหาญ และเชี่ยวชาญในการต่อสู้"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Sara.png",
+        "sortOrder": 400
+      },
+      {
+        "id": "raiden-shogun",
+        "status": "draft",
+        "name": {
+          "en": "Raiden Shogun"
+        },
+        "biography": {
+          "en": "Her Excellency, the Almighty Narukami Ogosho, who promised the people of Inazuma an unchanging Eternity.",
+          "th": "ท่าน Narukami Ogosho ผู้ยิ่งใหญ่ ผู้ซึ่งสัญญาว่าจะมอบ \"ความเป็นนิรันดร์\" ที่ไม่มีวันเปลี่ยนแปลงให้กับชาว Inazuma"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Shougun.png",
+        "sortOrder": 410
+      },
+      {
+        "id": "sangonomiya-kokomi",
+        "status": "draft",
+        "name": {
+          "en": "Sangonomiya Kokomi"
+        },
+        "biography": {
+          "en": "The Divine Priestess of Watatsumi Island. All of the island's affairs are at this young lady's fingertips.",
+          "th": "ผู้นำมิโกะคนปัจจุบันของเกาะ Watatsumi สาวน้อยผู้รับผิดชอบงานทุกอย่างบนเกาะ Watatsumi"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Kokomi.png",
+        "sortOrder": 420
+      },
+      {
+        "id": "thoma",
+        "status": "draft",
+        "name": {
+          "en": "Thoma"
+        },
+        "biography": {
+          "en": "The Kamisato Clan's housekeeper. A well-known \"fixer\" in Inazuma.",
+          "th": "พ่อบ้านผู้จัดการงานต่าง ๆ ภายในคฤหาสน์ของตระกูล Kamisato \"ผู้มีอิทธิพล\" ซึ่งเคลื่อนไหวใน Inazuma"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Tohma.png",
+        "sortOrder": 430
+      },
+      {
+        "id": "arataki-itto",
+        "status": "draft",
+        "name": {
+          "en": "Arataki Itto"
+        },
+        "biography": {
+          "en": "The first and greatest head of the Arataki Gang, famed throughout Inazuma City's Hanamizaka... Wait, what? You've never heard of them? Are you trying to be funny here?",
+          "th": "ผู้นำรุ่นแรกของแก๊ง Arataki ผู้โด่งดังไปทั่วทั้ง Hanamizaka แห่ง Inazuma... หืม ว่ายังไงนะ? ไม่เคยได้ยินชื่อแก๊ง Arataki? อยากมีเรื่องรึไง?"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Itto.png",
+        "sortOrder": 440
+      },
+      {
+        "id": "gorou",
+        "status": "draft",
+        "name": {
+          "en": "Gorou"
+        },
+        "biography": {
+          "en": "The great general of Watatsumi Island's forces. He is deeply trusted by his subordinates.",
+          "th": "พลเอกของกองทหารแห่งเกาะ Watatsumi ผู้ได้รับความไว้วางใจจากผู้ใต้บังคับบัญชาเป็นอย่างสูง"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Gorou.png",
+        "sortOrder": 450
+      },
+      {
+        "id": "shenhe",
+        "status": "draft",
+        "name": {
+          "en": "Shenhe"
+        },
+        "biography": {
+          "en": "An adepti disciple with a most unusual air about her. Having spent much time cultivating in isolation in Liyue's mountains, she has become every bit as cool and distant as the adepti themselves.",
+          "th": "ลูกศิษย์ของเซียนผู้มีออร่าโดดเด่นเกินมนุษย์ เธอหลบซ่อนตัวฝึกฝนอยู่ท่ามกลางป่าเขาของ Liyue บุคลิกของเธอดูเย็นชาและห่างเหินเฉกเช่นเดียวกับเหล่าเซียน"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Shenhe.png",
+        "sortOrder": 460
+      },
+      {
+        "id": "yun-jin",
+        "status": "draft",
+        "name": {
+          "en": "Yun Jin"
+        },
+        "biography": {
+          "en": "A renowned Liyue opera singer who is skilled in both playwriting and singing. Her style is one-of-a-kind, exquisite and delicate, much like the person herself.",
+          "th": "นักแสดงชื่อดังแห่งท่าเรือ Liyue ที่ถนัดทั้งด้านการเขียนบทและการแสดง สไตล์ของเธอเป็นเอกลักษณ์ไม่เหมือนใคร ทั้งสง่างามและนุ่มนวล เช่นเดียวกับตัวตนของเธอ"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Yunjin.png",
+        "sortOrder": 470
+      },
+      {
+        "id": "yae-miko",
+        "status": "draft",
+        "name": {
+          "en": "Yae Miko"
+        },
+        "biography": {
+          "en": "Lady Guuji of the Grand Narukami Shrine. Also serves as the editor-in-chief of Yae Publishing House. Unimaginable intelligence and cunning are hidden under her beautiful appearance.",
+          "th": "ท่าน Guuji แห่งศาลเจ้า Grand Narukami และเป็นหัวหน้าบรรณาธิการของ \"สำนักพิมพ์ Yae\" ภายใต้รูปโฉมภายนอกที่งดงาม มีความเฉลียวฉลาดและเล่ห์กลซ่อนอยู่"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Yae.png",
+        "sortOrder": 480
+      },
+      {
+        "id": "kamisato-ayato",
+        "status": "draft",
+        "name": {
+          "en": "Kamisato Ayato"
+        },
+        "biography": {
+          "en": "The young but highly accomplished head of the Yashiro Commission's Kamisato Clan. Cultured and polite, he is a man of many ways and means.",
+          "th": "ผู้นำตระกูล Kamisato แห่งสำนัก Yashiro ชายหนุ่มผู้มากความสามารถ ซึ่งปฏิบัติต่อผู้คนด้วยความสุภาพอ่อนโยน และมักจะจัดการเรื่องต่าง ๆ อย่างมีชั้นเชิง"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ayato.png",
+        "sortOrder": 490
+      },
+      {
+        "id": "kuki-shinobu",
+        "status": "draft",
+        "name": {
+          "en": "Kuki Shinobu"
+        },
+        "biography": {
+          "en": "The capable and reliable Arataki Gang deputy leader. Please note: capable and reliable are not appellations for the \"Arataki Gang,\" but for their deputy leader in specific.",
+          "th": "รองหัวหน้าผู้มีความสามารถ และเชื่อถือได้ของ \"แก๊ง Arataki\"... หมายเหตุพิเศษ: คนที่มีความสามารถ และเชื่อถือได้ไม่ใช่ตัว \"แก๊ง Arataki\" แต่เป็นรองหัวหน้า"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Shinobu.png",
+        "sortOrder": 500
+      },
+      {
+        "id": "yelan",
+        "status": "draft",
+        "name": {
+          "en": "Yelan"
+        },
+        "biography": {
+          "en": "A mysterious person who claims to work for the Ministry of Civil Affairs, but is a \"non-entity\" on the Ministry of Civil Affairs' list.",
+          "th": "บุคคลลึกลับที่อ้างตัวว่าทำงานในฝ่ายกิจการทั่วไป แต่กลับเป็น \"บุคคลที่ไม่มีตัวตน\" ในรายชื่อพนักงานของฝ่ายกิจการทั่วไป"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Yelan.png",
+        "sortOrder": 510
+      },
+      {
+        "id": "shikanoin-heizou",
+        "status": "draft",
+        "name": {
+          "en": "Shikanoin Heizou"
+        },
+        "biography": {
+          "en": "A young prodigy detective from the Tenryou Commission. His senses are sharp and his thoughts are clear.",
+          "th": "นักสืบหนุ่มอัจฉริยะของสำนัก Tenryou ผู้มาพร้อมกับสัญชาตญาณที่เฉียบแหลม และจิตใจที่งดงาม"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Heizo.png",
+        "sortOrder": 520
+      },
+      {
+        "id": "collei",
+        "status": "draft",
+        "name": {
+          "en": "Collei"
+        },
+        "biography": {
+          "en": "A trainee ranger active in Avidya Forest. Behind her enthusiastic words and actions hides a slightly introverted personality.",
+          "th": "เจ้าหน้าที่พิทักษ์ป่าฝึกหัดที่ทำงานอยู่ใน Avidya Forest เบื้องหลังคำพูด และการกระทำอันแสนใส่ใจ คือหัวใจที่ถูกเก็บงำซ่อนไว้"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Collei.png",
+        "sortOrder": 530
+      },
+      {
+        "id": "dori",
+        "status": "draft",
+        "name": {
+          "en": "Dori"
+        },
+        "biography": {
+          "en": "An elusive merchant who has a fondness for glittering Mora.",
+          "th": "แม่ค้าเร่สารพัดผู้ลึกลับ สิ่งที่ชอบที่สุดก็คือประกายแวววับของ Mora"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Dori.png",
+        "sortOrder": 540
+      },
+      {
+        "id": "tighnari",
+        "status": "draft",
+        "name": {
+          "en": "Tighnari"
+        },
+        "biography": {
+          "en": "A young researcher well-versed in botany who currently serves as a Forest Watcher in Avidya Forest. He is a straight shooter with a warm heart — and a dab hand at guiding even the dullest of pupils.",
+          "th": "นักวิชาการรุ่นเยาว์ที่เชี่ยวชาญด้านพฤกษศาสตร์ ตอนนี้เขาทำหน้าที่เป็นหัวหน้าเจ้าหน้าที่พิทักษ์ป่าที่ Avidya Forest นิสัยตรงไปตรงมากระตือรือร้น เก่งในเรื่องการแนะนำสั่งสอนพวกคนสมองเลอะเลือน"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Tighnari.png",
+        "sortOrder": 550
+      },
+      {
+        "id": "candace",
+        "status": "draft",
+        "name": {
+          "en": "Candace"
+        },
+        "biography": {
+          "en": "A descendant of King Deshret with an amber left eye. The defender of Aaru Village.",
+          "th": "ลูกหลานของราชา Deshret ผู้มีนัยน์ตาซ้ายสีเหลืองอำพัน ผู้คุ้มกันของหมู่บ้าน Aaru"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Candace.png",
+        "sortOrder": 560
+      },
+      {
+        "id": "cyno",
+        "status": "draft",
+        "name": {
+          "en": "Cyno"
+        },
+        "biography": {
+          "en": "The General Mahamatra in charge of supervising the researchers of the Akademiya. It is said that when he gets down to work, the General Mahamatra is even more efficient than the \"Great Vayuvyastra\" made by the Kshahrewar.",
+          "th": "\"เจ้าหน้าที่มหามาตรา\" ผู้รับหน้าที่ดูแลนักวิชาการในสถาบัน...ในตอนที่ทำงาน มีประสิทธิภาพมากกว่า \"กลไกมหามนตรา\" ที่ผลิตโดยคณะ Kshahrewar เสียอีก"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Cyno.png",
+        "sortOrder": 570
+      },
+      {
+        "id": "nilou",
+        "status": "draft",
+        "name": {
+          "en": "Nilou"
+        },
+        "biography": {
+          "en": "The star of the Zubayr Theater. She is full of warmth and innocence, and her dances are lively and elegant.",
+          "th": "นักเต้นรำผู้แสนโด่งดังของโรงละคร Zubayr มีท่วงท่าที่คล่องแคล่วและสง่างาม ให้ความรู้สึกที่ทั้งบริสุทธิ์และเป็นมิตร"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Nilou.png",
+        "sortOrder": 580
+      },
+      {
+        "id": "layla",
+        "status": "draft",
+        "name": {
+          "en": "Layla"
+        },
+        "biography": {
+          "en": "A Rtawahist student who specializes in Theoretical Astrology. Heavily prone to somnambulism and locked in a grinding war with sleep deprivation, the problem of restful slumber is a most troubling one to her.",
+          "th": "นักศึกษาจากคณะ Rtawahist ที่เชี่ยวชาญด้านโหราศาสตร์เชิงทฤษฎี มักจะนอนละเมออยู่บ่อยครั้ง ทั้งยังต้องอดหลับอดนอนเป็นเวลานาน เพราะงั้นเลยมีปัญหาด้านการนอนหลับ"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Layla.png",
+        "sortOrder": 590
+      },
+      {
+        "id": "nahida",
+        "status": "draft",
+        "name": {
+          "en": "Nahida"
+        },
+        "biography": {
+          "en": "A caged bird secluded within the confines of the Sanctuary of Surasthana who can only see the world in her dreams.",
+          "th": "นกน้อยในกรงทองของวิหารแห่ง Surasthana ทำได้เพียงจ้องมองโลกใบนี้ผ่านทางความฝัน"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Nahida.png",
+        "sortOrder": 600
+      },
+      {
+        "id": "faruzan",
+        "status": "draft",
+        "name": {
+          "en": "Faruzan"
+        },
+        "biography": {
+          "en": "A researcher from \"one hundred years ago.\" She enjoys self-identifying as everyone's senior, and has significant knowledge of ancient scripts and machines of all kinds.",
+          "th": "นักวิชาการจากเมื่อ \"หนึ่งร้อยปีก่อน\" ชื่นชอบที่จะตั้งตนเป็นรุ่นพี่ ทั้งยังมีงานวิจัยเกี่ยวข้องกับอักษรโบราณ และกลศาสตร์โบราณต่าง ๆ"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Faruzan.png",
+        "sortOrder": 610
+      },
+      {
+        "id": "wanderer",
+        "status": "draft",
+        "name": {
+          "en": "Wanderer",
+          "th": "ผู้พเนจร"
+        },
+        "biography": {
+          "en": "A wayfaring figure whose identity is a mystery. He dresses like a mountain ascetic, but he certainly does not act the part.",
+          "th": "ผู้พเนจรที่มีตัวตนเป็นปริศนา เขาแต่งตัวเหมือนผู้ฝึกตน แต่คำพูด และการกระทำของเขาไม่ใช่สิ่งที่ผู้ฝึกตนควรกระทำ"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Wanderer.png",
+        "sortOrder": 620
+      },
+      {
+        "id": "alhaitham",
+        "status": "draft",
+        "name": {
+          "en": "Alhaitham"
+        },
+        "biography": {
+          "en": "The current scribe of the Sumeru Akademiya, a man endowed with extraordinary intelligence and talent. He lives free — free from the searching eyes of ordinary people, anyway.",
+          "th": "เสมียนคนปัจจุบันของสถาบัน Sumeru มีสติปัญญา และพรสวรรค์ที่เหนือคนธรรมดา เขาใช้ชีวิตอย่างอิสระจนคนส่วนใหญ่แทบจะหาเขาไม่เจอ"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Alhatham.png",
+        "sortOrder": 630
+      },
+      {
+        "id": "yaoyao",
+        "status": "draft",
+        "name": {
+          "en": "Yaoyao"
+        },
+        "biography": {
+          "en": "Streetward Rambler's youngest disciple. A gentle and caring \"little adult.\"",
+          "th": "ศิษย์ที่อายุน้อยที่สุดที่อยู่ภายใต้การดูแลของจ้าวขับขานล่องนครา เธอคือ \"ผู้ใหญ่ตัวน้อย\" ที่อ่อนโยนและใจอารี"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Yaoyao.png",
+        "sortOrder": 640
+      },
+      {
+        "id": "dehya",
+        "status": "draft",
+        "name": {
+          "en": "Dehya"
+        },
+        "biography": {
+          "en": "A member of the Eremites, a mercenary organization that roams the sands of Sumeru. Valiant and powerful, she enjoys great fame amongst her fellow Eremites.",
+          "th": "สมาชิกทหารรับจ้างของ \"กลุ่ม Eremite\" ที่ออกท่องไปทั่วท้องทะเลทราย Sumeru เธอคือนักรบผู้โด่งดังใน \"กลุ่ม Eremite\" ที่ทั้งกล้าหาญและทรงพลัง"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Dehya.png",
+        "sortOrder": 650
+      },
+      {
+        "id": "mika",
+        "status": "draft",
+        "name": {
+          "en": "Mika"
+        },
+        "biography": {
+          "en": "A young knight born to an ordinary family. He serves as a Front-Line Surveyor in his Company. He is a low-key and cautious character.",
+          "th": "อัศวินหนุ่มผู้มาจากครอบครัวธรรมดา หน้าที่ของเขาคือ \"เจ้าหน้าที่สำรวจแนวหน้า\" ประจำทีม เด็กหนุ่มเป็นคนเงียบขรึม และระมัดระวังรอบคอบเสมอ"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Mika.png",
+        "sortOrder": 660
+      },
+      {
+        "id": "baizhu",
+        "status": "draft",
+        "name": {
+          "en": "Baizhu"
+        },
+        "biography": {
+          "en": "The owner of Bubu Pharmacy, who is rarely seen without the white snake named Changsheng. His medicinal knowledge is encyclopedic, and his personal intrigues subtle.",
+          "th": "เจ้าของร้านยา \"Bubu Pharmacy\" มักจะมีงูเผือกที่ชื่อว่า \"Changsheng\" อยู่ข้างกายเสมอ เก่งเรื่องยาและการฝังเข็ม จิตใจลึกล้ำสุดหยั่งถึง"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Baizhuer.png",
+        "sortOrder": 670
+      },
+      {
+        "id": "kaveh",
+        "status": "draft",
+        "name": {
+          "en": "Kaveh"
+        },
+        "biography": {
+          "en": "A renowned architect from Sumeru who perhaps cares a bit too much about too many things. He is an aesthete troubled by reality.",
+          "th": "สถาปนิกที่มีชื่อเสียงของ Sumeru เขาเป็นคนที่ใส่ใจเป็นห่วงเป็นใยหลายสิ่งหลายอย่างมากจนเกินไป ทั้งยังเป็นนักสุนทรียศาสตร์ ผู้มีปัญหากับความเป็นจริงอีกด้วย"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Kaveh.png",
+        "sortOrder": 680
+      },
+      {
+        "id": "kirara",
+        "status": "draft",
+        "name": {
+          "en": "Kirara"
+        },
+        "biography": {
+          "en": "A courier for Komaniya Express, a delivery company in Inazuma. A nekomata who loves her job and human society.",
+          "th": "พนักงานส่งของบริษัทขนส่ง Komaniya Express ใน Inazuma \"เนโกะมาตะ\" ตนหนึ่งที่รักในงานของตัวเอง และโหยหาสังคมมนุษย์"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Momoka.png",
+        "sortOrder": 690
+      },
+      {
+        "id": "freminet",
+        "status": "draft",
+        "name": {
+          "en": "Freminet"
+        },
+        "biography": {
+          "en": "A reserved young man who is well-versed in diving. Beneath his distant, icy demeanor lies a pure heart bereft of all flaws.",
+          "th": "เด็กหนุ่มพูดน้อยผู้เชี่ยวชาญในการประดาน้ำ ใต้รูปลักษณ์ภายนอกเย็นยะเยือกห่างเหินนั้น มีหัวใจบริสุทธิ์ไร้มลทินดวงหนึ่งซ่อนอยู่"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Freminet.png",
+        "sortOrder": 700
+      },
+      {
+        "id": "lynette",
+        "status": "draft",
+        "name": {
+          "en": "Lynette"
+        },
+        "biography": {
+          "en": "A magic assistant of few words, her emotions are as inscrutable as any cat's.",
+          "th": "ผู้ช่วยนักมายากลที่พูดจาน้อยคำ และมักมีสีหน้าไร้อารมณ์ นิสัยก็ยากจะคาดเดา ไม่ต่างอะไรไปจากแมวเลยสักนิด"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Linette.png",
+        "sortOrder": 710
+      },
+      {
+        "id": "lyney",
+        "status": "draft",
+        "name": {
+          "en": "Lyney"
+        },
+        "biography": {
+          "en": "A famed Fontainian magician who possesses great stage presence as well as gift of the gab. Audiences are enthralled by his exquisite skills, and they hang on to his every clever word.",
+          "th": "นักมายากลเลื่องชื่อแห่ง Fontaine ผู้มีพรสวรรค์ และไหวพริบอันเฉียบแหลม มักใช้ทริกกับคำพูดอันแยบยลในการจูงใจของผู้ชม"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Liney.png",
+        "sortOrder": 720
+      },
+      {
+        "id": "neuvillette",
+        "status": "draft",
+        "name": {
+          "en": "Neuvillette"
+        },
+        "biography": {
+          "en": "The Chief Justice of Fontaine, known as the Iudex, is renowned for his unassailable impartiality.",
+          "th": "ผู้พิพากษาสูงสุดแห่ง Fontaine มีชื่อเสียงในด้าน \"ความเป็นกลาง\" อย่างสมบูรณ์"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Neuvillette.png",
+        "sortOrder": 730
+      },
+      {
+        "id": "wriothesley",
+        "status": "draft",
+        "name": {
+          "en": "Wriothesley"
+        },
+        "biography": {
+          "en": "Duke of the Fortress of Meropide, Lord Incognito of the murky depths.",
+          "th": "ดยุกแห่งป้อมปราการ Meropide ผู้ปกครองใต้ท้องทะเลอันมืดมิด"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Wriothesley.png",
+        "sortOrder": 740
+      },
+      {
+        "id": "charlotte",
+        "status": "draft",
+        "name": {
+          "en": "Charlotte"
+        },
+        "biography": {
+          "en": "Indefatigable reporter of The Steambird, constantly on the hunt for the \"truth.\"",
+          "th": "นักข่าวของหนังสือพิมพ์ The Steambird ผู้เปี่ยมไปด้วยพลังและมีชีวิตชีวาอยู่เสมอ กำลังวิ่งตามหา \"ความจริง\" อยู่ทุกวินาที"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Charlotte.png",
+        "sortOrder": 750
+      },
+      {
+        "id": "furina",
+        "status": "draft",
+        "name": {
+          "en": "Furina"
+        },
+        "biography": {
+          "en": "The absolute focus of the stage of judgment, until the final applause sounds.",
+          "th": "จุดสนใจบนเวทีแห่งการพิพากษา จนกระทั่งเสียงปรบมือคำรามก้องเมื่อม่านปิดลง"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Furina.png",
+        "sortOrder": 760
+      },
+      {
+        "id": "chevreuse",
+        "status": "draft",
+        "name": {
+          "en": "Chevreuse"
+        },
+        "biography": {
+          "en": "The captain of the Special Security and Surveillance Patrol, who wears justice as an ever-present seal upon her heart. Her musket shall only ever point at the guilty.",
+          "th": "หัวหน้าทีมลาดตระเวนพิเศษที่ยึดมั่นใน \"ความยุติธรรม\" ในใจเสมอมา ปืนคาบศิลาในมือของเธอ จะเล็งไปที่ผู้กระทำผิดเท่านั้น"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Chevreuse.png",
+        "sortOrder": 770
+      },
+      {
+        "id": "navia",
+        "status": "draft",
+        "name": {
+          "en": "Navia"
+        },
+        "biography": {
+          "en": "The current President of Spina di Rosula, who is lovely, dutiful, and a great boss.",
+          "th": "ประธานองค์กรกุหลาบหนามคนปัจจุบัน เป็นเจ้านายที่น่ารัก และมีความรับผิดชอบสูง"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Navia.png",
+        "sortOrder": 780
+      },
+      {
+        "id": "gaming",
+        "status": "draft",
+        "name": {
+          "en": "Gaming"
+        },
+        "biography": {
+          "en": "Guard of the Sword and Strongbox Secure Transport Agency, and the head of the \"Mighty Mythical Beasts\" Wushou troupe.",
+          "th": "ผู้คุ้มกันแห่งสำนักงานผู้คุ้มกันกล่องดาบ และหัวหน้าของ \"คณะการแสดงวูซูจอมพลัง\""
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Gaming.png",
+        "sortOrder": 790
+      },
+      {
+        "id": "xianyun",
+        "status": "draft",
+        "name": {
+          "en": "Xianyun"
+        },
+        "biography": {
+          "en": "One of the Mighty and Illuminated Adepti of Jueyun, known as \"Cloud Retainer.\" Expert in all kinds of mechanical contraptions, her heart now turns towards the affairs of the mortal world, through which she walks under the name \"Xianyun.\"",
+          "th": "หนึ่งในเหล่า \"เซียนสามตาห้าร่าง\" แห่ง Jueyun มีฉายานามว่า \"จ้าววังวนเมฆา\" ผู้เชี่ยวชาญในกลไกเวท จิตใจมุ่งสู่โลกมนุษย์แสนคึกคัก เดินท่องไปในโลกมนุษย์ในนามของ \"Xianyun\""
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Liuyun.png",
+        "sortOrder": 800
+      },
+      {
+        "id": "chiori",
+        "status": "draft",
+        "name": {
+          "en": "Chiori"
+        },
+        "biography": {
+          "en": "The owner of Chioriya Boutique. A tailor renowned throughout Fontaine.",
+          "th": "เจ้าของ \"ร้าน Chioriya Boutique\" ดีไซเนอร์ ชื่อดังของ Fontaine"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Chiori.png",
+        "sortOrder": 810
+      },
+      {
+        "id": "arlecchino",
+        "status": "draft",
+        "name": {
+          "en": "Arlecchino"
+        },
+        "biography": {
+          "en": "\"The Knave,\" Fourth of the Fatui Harbingers. A poised, ruthless diplomat. To the children in the House of the Hearth, she is their feared yet dependable \"Father.\"",
+          "th": "\"The Knave\" ผู้บริหารอันดับที่สี่ของ Fatui นักการทูตที่เงียบขรึมและเย็นชา และ \"ท่านพ่อ\" ที่เด็ก ๆ ในบ้านแสนอบอุ่นต่างหวาดกลัวและคอยพึ่งพิง"
+        },
+        "regionIds": [
+          "snezhnaya"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Arlecchino.png",
+        "sortOrder": 820
+      },
+      {
+        "id": "clorinde",
+        "status": "draft",
+        "name": {
+          "en": "Clorinde"
+        },
+        "biography": {
+          "en": "An undefeated Champion Duelist. Sword in hand, she defends justice in the Court of Fontaine.",
+          "th": "ตัวแทนประลองผู้ไม่เคยพ่ายแพ้ ที่ใช้ดาบในมือคอยผดุง \"ความยุติธรรม\" ของนครว่าการ Fontaine"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Clorinde.png",
+        "sortOrder": 830
+      },
+      {
+        "id": "sethos",
+        "status": "draft",
+        "name": {
+          "en": "Sethos"
+        },
+        "biography": {
+          "en": "The Temple of Silence's heir. Burdened with secrets, he comes from the sands.",
+          "th": "ผู้สืบทอดของวิหารแห่งความเงียบงัน ผู้ซึ่งแบกรับความลับมากมายจากทะเลทราย"
+        },
+        "regionIds": [
+          "sumeru"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Sethos.png",
+        "sortOrder": 840
+      },
+      {
+        "id": "sigewinne",
+        "status": "draft",
+        "name": {
+          "en": "Sigewinne"
+        },
+        "biography": {
+          "en": "A Melusine and the Fortress of Meropide's head nurse. She cares equally for every convict locked in the undersea prison.",
+          "th": "หัวหน้าพยาบาลเมลูซีน แห่งป้อมปราการ Meropide ผู้คอยดูแลนักโทษทุกคน ในคุกใต้ทะเลอย่างเท่าเทียม"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Sigewinne.png",
+        "sortOrder": 850
+      },
+      {
+        "id": "emilie",
+        "status": "draft",
+        "name": {
+          "en": "Emilie"
+        },
+        "biography": {
+          "en": "A Fontainian perfumer, one who bottles secrets.",
+          "th": "นักปรุงน้ำหอมแห่ง Fontaine ผู้ซ่อนความลับไว้ภายในขวด"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Emilie.png",
+        "sortOrder": 860
+      },
+      {
+        "id": "kachina",
+        "status": "draft",
+        "name": {
+          "en": "Kachina"
+        },
+        "biography": {
+          "en": "A young warrior of the Nanatzcayan, given the Ancient Name of \"Uthabiti.\" Kind-hearted and insatiably persistent, she grows stronger and more capable with each setback she faces.",
+          "th": "นักรบรุ่นเยาว์แห่ง Nanatzcayan ผู้ได้รับนามโบราณว่า \"Uthabiti\" สาวน้อยผู้ใจดีและดื้อรั้น ที่เติบโตขึ้นมาท่ามกลางอุปสรรค"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Kachina.png",
+        "sortOrder": 870
+      },
+      {
+        "id": "kinich",
+        "status": "draft",
+        "name": {
+          "en": "Kinich"
+        },
+        "biography": {
+          "en": "A Huitztlan Saurian Hunter skilled at counting costs.",
+          "th": "นักล่า Saurian แห่ง Huitztlan ผู้เชี่ยวชาญด้านการประเมินราคา"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Kinich.png",
+        "sortOrder": 880
+      },
+      {
+        "id": "mualani",
+        "status": "draft",
+        "name": {
+          "en": "Mualani"
+        },
+        "biography": {
+          "en": "A well-known guide in Natlan who owns a watersports shop, and expert in all forms of wave-chasing.",
+          "th": "ผู้นำทางชื่อดังของ Natlan ผู้บริหารร้านขายอุปกรณ์ทางน้ำ นักผจญคลื่นผู้เชี่ยวชาญกีฬาทางน้ำทุกประเภท"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Mualani.png",
+        "sortOrder": 890
+      },
+      {
+        "id": "xilonen",
+        "status": "draft",
+        "name": {
+          "en": "Xilonen"
+        },
+        "biography": {
+          "en": "A Name Engraver of the Nanatzcayan, she is especially skilled at finding a good balance between the heavy responsibilities of her job and living well.",
+          "th": "ช่างสลักนามของ Nanatzcayan เชี่ยวชาญในการหาความสมดุล ระหว่างภาระงานที่หนักอึ้ง และชีวิตที่สะดวกสบาย"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Xilonen.png",
+        "sortOrder": 900
+      },
+      {
+        "id": "chasca",
+        "status": "draft",
+        "name": {
+          "en": "Chasca"
+        },
+        "biography": {
+          "en": "The Peacemaker of the Tlalocan, the ender of all disputes.",
+          "th": "\"ผู้ไกล่เกลี่ย\" แห่ง Tlalocan ผู้ยุติความขัดแย้งทั้งปวง"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Chasca.png",
+        "sortOrder": 910
+      },
+      {
+        "id": "ororon",
+        "status": "draft",
+        "name": {
+          "en": "Ororon"
+        },
+        "biography": {
+          "en": "A young man from the Masters of the Night-Wind who instead lives in the wild alongside all manner of life.",
+          "th": "เด็กหนุ่มจากจ้าวแห่งลมราตรี แต่กลับอาศัยอยู่บนทุ่งกว้างพร้อมกับสรรพชีวิตนับหมื่นนับพัน"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Olorun.png",
+        "sortOrder": 920
+      },
+      {
+        "id": "citlali",
+        "status": "draft",
+        "name": {
+          "en": "Citlali"
+        },
+        "biography": {
+          "en": "The great shaman from the Masters of the Night-Wind, the universally-revered Granny Itztli.",
+          "th": "ชาแมนผู้ยิ่งใหญ่แห่งจ้าวแห่งลมราตรี คุณยาย Itztli ผู้ซึ่งทำให้ชาวเผ่าทุกคนเคารพและยำเกรง"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Citlali.png",
+        "sortOrder": 930
+      },
+      {
+        "id": "lan-yan",
+        "status": "draft",
+        "name": {
+          "en": "Lan Yan"
+        },
+        "biography": {
+          "en": "A rattan weaver from Chenyu Vale. Clear-minded and well-tempered, she is as lively as a mountain spring.",
+          "th": "ช่างทอหวายจากหุบเขา Chenyu มีจิตใจผ่องใสบริสุทธิ์ และสดใสราวกับน้ำพุใสบนภูเขา"
+        },
+        "regionIds": [
+          "liyue"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Lanyan.png",
+        "sortOrder": 940
+      },
+      {
+        "id": "mavuika",
+        "status": "draft",
+        "name": {
+          "en": "Mavuika"
+        },
+        "biography": {
+          "en": "The leader of Natlan who inherited the Ancient Name of \"Kiongozi.\" She made a vow to illuminate the future of the nation of war with the Sacred Flame.",
+          "th": "ผู้นำแห่ง Natlan ผู้สืบทอดนามโบราณ \"Kiongozi\" ที่สาบานว่าจะใช้เพลิงศักดิ์สิทธิ์ส่องสว่างอนาคตให้กับประเทศแห่งสงคราม"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Mavuika.png",
+        "sortOrder": 950
+      },
+      {
+        "id": "yumemizuki-mizuki",
+        "status": "draft",
+        "name": {
+          "en": "Yumemizuki Mizuki"
+        },
+        "biography": {
+          "en": "A shareholder of Aisa Bathhouse, a baku, and a clinical psychologist. Dedicated to the dispersal of nightmares, and to bringing people peace of mind.",
+          "th": "ผู้ถือหุ้นใหญ่ของ \"โรงอาบน้ำ Aisa\" และนักจิตบำบัดจากเผ่าพันธุ์บากุเขมือบฝัน มุ่งมั่นที่จะขจัดฝันร้าย เพื่อนำความสงบมาสู่ผู้คน"
+        },
+        "regionIds": [
+          "inazuma"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Mizuki.png",
+        "sortOrder": 960
+      },
+      {
+        "id": "iansan",
+        "status": "draft",
+        "name": {
+          "en": "Iansan"
+        },
+        "biography": {
+          "en": "Head coach of the fitness club at the Collective of Plenty, and a renowned Natlanese nutritionist.",
+          "th": "หัวหน้าโค้ชคลับออกกำลังกายแห่งเผ่าผองสรรพสิ่ง และนักโภชนาการชื่อดังของ Natlan"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Iansan.png",
+        "sortOrder": 970
+      },
+      {
+        "id": "varesa",
+        "status": "draft",
+        "name": {
+          "en": "Varesa"
+        },
+        "biography": {
+          "en": "A laid-back orchard manager and warrior of the Collective of Plenty. An aspiring hero who hungers for justice... and lots and lots of food!",
+          "th": "นักรบและเจ้าของสวนผลไม้แห่ง \"ผองสรรพสิ่ง\" ผู้ใช้ชีวิตแสนผ่อนคลาย เธอชื่นชอบผู้กล้าที่เปี่ยมด้วยพลัง และอาหารรสเลิศปริมาณมาก!"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Varesa.png",
+        "sortOrder": 980
+      },
+      {
+        "id": "escoffier",
+        "status": "draft",
+        "name": {
+          "en": "Escoffier"
+        },
+        "biography": {
+          "en": "The ex-head chef of Hotel Debord, renowned throughout Fontaine as the Patissiere Supreme and vanguard of precision gastronomy. Has incomparably strict standards when it comes to cooking.",
+          "th": "อดีตหัวหน้าเชฟของโรงแรม Debord ผู้มีชื่อเสียงโด่งดังใน Fontaine และเป็นผู้บุกเบิก \"การทำอาหารเชิงเทคนิค\" ที่มีฉายาแห่งเกียรติยศว่า \"แม่ทัพขนมหวาน\" ผู้มีมาตรฐานในการทำอาหารที่เข้มงวดอย่างยิ่ง"
+        },
+        "regionIds": [
+          "fontaine"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Escoffier.png",
+        "sortOrder": 990
+      },
+      {
+        "id": "ifa",
+        "status": "draft",
+        "name": {
+          "en": "Ifa"
+        },
+        "biography": {
+          "en": "A vet from the Flower-Feather Clan who cherishes the life he leads alongside all manner of living things — people, animals, you name it.",
+          "th": "สัตวแพทย์จากวงศ์ปีกบุปผา ผู้รักในการใช้ชีวิตอยู่ร่วมกับมนุษย์ สัตว์ และสิ่งมีชีวิตอื่น ๆ อย่างแท้จริง"
+        },
+        "regionIds": [
+          "natlan"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ifa.png",
+        "sortOrder": 1000
+      },
+      {
+        "id": "dahlia",
+        "status": "draft",
+        "name": {
+          "en": "Dahlia"
+        },
+        "biography": {
+          "en": "Deacon of the Church of Favonius and the Anemo Archon's representative in the church.",
+          "th": "ผู้ช่วยของโบสถ์ Favonius และตัวแทนในโบสถ์ของเทพแห่งลม"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Dahlia.png",
+        "sortOrder": 1010
+      },
+      {
+        "id": "skirk",
+        "status": "draft",
+        "name": {
+          "en": "Skirk"
+        },
+        "biography": {
+          "en": "A visitor who once appeared in an Abyssal rift and the Primordial Sea, this solitary warrior mentored Tartaglia in the martial arts.",
+          "th": "ผู้มาเยือนที่เคยปรากฏตัวในรอยแยกของ Abyss และทะเลบรรพกาล นักรบหญิงผู้โดดเดี่ยว อาจารย์ผู้สอนศิลปะการต่อสู้ให้กับ Tartaglia"
+        },
+        "regionIds": [],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_SkirkNew.png",
+        "sortOrder": 1020
+      },
+      {
+        "id": "ineffa",
+        "status": "draft",
+        "name": {
+          "en": "Ineffa"
+        },
+        "biography": {
+          "en": "A multifunctional robot containing integrated mechanical components from various nations. The Source Core in her chest has endured the passage of countless years.",
+          "th": "หุ่นยนต์อเนกประสงค์ที่รวบรวมชิ้นส่วนกลไก จากหลายประเทศไว้ด้วยกัน แกนแห่งแดนลับที่อยู่ตรงหน้าอกได้ผ่านกาลเวลามานานหลายปี"
+        },
+        "regionIds": [
+          "nod-krai"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Ineffa.png",
+        "sortOrder": 1030
+      },
+      {
+        "id": "aino",
+        "status": "draft",
+        "name": {
+          "en": "Aino"
+        },
+        "biography": {
+          "en": "A genius mechanic and inventor from Nod-Krai who loves interesting machines and sweet treats.",
+          "th": "นักประดิษฐ์จักรกลอัจฉริยะแห่ง Nod-Krai ชื่นชอบจักรกลที่น่าสนใจ และของหวาน"
+        },
+        "regionIds": [
+          "nod-krai"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Aino.png",
+        "sortOrder": 1040
+      },
+      {
+        "id": "flins",
+        "status": "draft",
+        "name": {
+          "en": "Flins"
+        },
+        "biography": {
+          "en": "A Lightkeeper of Nod-Krai, guardian of a lighthouse and graveyard on a northern isle. An enigmatic gentleman, cultured and courtly.",
+          "th": "\"ผู้เฝ้าประภาคาร\" แห่ง Nod-Krai คอยเฝ้าดูแลประภาคาร และสุสานบนเกาะเล็ก ๆ ทางตอนเหนือ เขาคือสุภาพบุรุษลึกลับ ผู้สง่างามในทุกกิริยาและวาจา"
+        },
+        "regionIds": [
+          "nod-krai"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Flins.png",
+        "sortOrder": 1050
+      },
+      {
+        "id": "lauma",
+        "status": "draft",
+        "name": {
+          "en": "Lauma"
+        },
+        "biography": {
+          "en": "A Maiden blessed by moonlight and the grove alike, hope born to the Frostmoon Scions.",
+          "th": "นักบุญหญิงผู้ได้รับพร จากแสงจันทร์และผืนป่า ความหวังหนึ่งเดียว ที่ถือกำเนิดขึ้นในหมู่ \"ลูกหลานจันทราน้ำค้างแข็ง\""
+        },
+        "regionIds": [
+          "nod-krai"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Lauma.png",
+        "sortOrder": 1060
+      },
+      {
+        "id": "manekin",
+        "status": "draft",
+        "name": {
+          "en": "Manekin",
+          "th": "หุ่นแดนอัศจรรย์ - ชาย"
+        },
+        "biography": {
+          "en": "A Manekin gifted to you and Paimon by a witch who uses the pseudonym \"Octavia.\" They are gifted at exploring the mysteries sealed within the Miliastra Wonderland.",
+          "th": "หุ่นที่แม่มดผู้ใช้นามปากกาว่า \"Octavia\" ฝากฝังไว้ให้คุณและ Paimon ซึ่งถนัดในการสำรวจปริศนา ที่ถูกผนึกอยู่ใน \"แดนอัศจรรย์พันดารา\""
+        },
+        "regionIds": [],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_MannequinBoy.png",
+        "sortOrder": 1070
+      },
+      {
+        "id": "manekina",
+        "status": "draft",
+        "name": {
+          "en": "Manekina",
+          "th": "หุ่นแดนอัศจรรย์ - หญิง"
+        },
+        "biography": {
+          "en": "A Manekin gifted to you and Paimon by a witch who uses the pseudonym \"Octavia.\" They are gifted at exploring the mysteries sealed within the Miliastra Wonderland.",
+          "th": "หุ่นที่แม่มดผู้ใช้นามปากกาว่า \"Octavia\" ฝากฝังไว้ให้คุณและ Paimon ซึ่งถนัดในการสำรวจปริศนา ที่ถูกผนึกอยู่ใน \"แดนอัศจรรย์พันดารา\""
+        },
+        "regionIds": [],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_MannequinGirl.png",
+        "sortOrder": 1080
+      },
+      {
+        "id": "nefer",
+        "status": "draft",
+        "name": {
+          "en": "Nefer"
+        },
+        "biography": {
+          "en": "The remarkably resourceful owner of the Curatorium of Secrets.",
+          "th": "เจ้าของ \"เคหาสน์แห่งความลับ\" ผู้เก่งกาจและกว้างขวาง"
+        },
+        "regionIds": [
+          "nod-krai"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Nefer.png",
+        "sortOrder": 1090
+      },
+      {
+        "id": "durin",
+        "status": "draft",
+        "name": {
+          "en": "Durin"
+        },
+        "biography": {
+          "en": "A dragon born from M's pen, who came to alight in the human world. His \"story\" continues to unfold.",
+          "th": "มังกรที่ถือกำเนิด จากปลายปากกาของแม่มด M ในที่สุด ก็ได้มาถึงโลกของมนุษย์ และ \"เรื่องราว\" ของเขาก็ยังคงดำเนินต่อไป"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Durin.png",
+        "sortOrder": 1100
+      },
+      {
+        "id": "jahoda",
+        "status": "draft",
+        "name": {
+          "en": "Jahoda"
+        },
+        "biography": {
+          "en": "The Curatorium of Secrets' extremely reliable, do-it-all super employee (or so she claims).",
+          "th": "พนักงานของ \"เคหาสน์แห่งความลับ\" ผู้ที่ (อ้างตนว่า) พึ่งพาได้อย่างยิ่ง และทำได้ทุกอย่าง"
+        },
+        "regionIds": [
+          "nod-krai"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Jahoda.png",
+        "sortOrder": 1110
+      },
+      {
+        "id": "columbina",
+        "status": "draft",
+        "name": {
+          "en": "Columbina"
+        },
+        "biography": {
+          "en": "The Moon Maiden born in Nod-Krai, and also the welkin moon returning home.",
+          "th": "เทพธิดาแห่งจันทรา ที่ถือกำเนิดขึ้นใน Nod-Krai คือดวงจันทร์สุญตา ที่หวนกลับคืนสู่บ้านเกิด"
+        },
+        "regionIds": [
+          "nod-krai"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Columbina.png",
+        "sortOrder": 1120
+      },
+      {
+        "id": "illuga",
+        "status": "draft",
+        "name": {
+          "en": "Illuga"
+        },
+        "biography": {
+          "en": "Member of the investigation squad, the Nightmare Orioles. The youngest squad leader among the Lightkeepers.",
+          "th": "สมาชิกหน่วยสืบสวน \"นกขมิ้นแห่งราตรีฝันร้าย\" และหัวหน้าหน่วย ที่อายุน้อยที่สุดของผู้เฝ้าประภาคาร"
+        },
+        "regionIds": [
+          "nod-krai"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Illuga.png",
+        "sortOrder": 1130
+      },
+      {
+        "id": "zibai",
+        "status": "draft",
+        "name": {
+          "en": "Zibai"
+        },
+        "biography": {
+          "en": "The White Horse Adeptus from Liyue's legends, known as Zibai. The most mysterious figure in Liyue's myths.",
+          "th": "เซียนม้าขาวในตำนานของ Liyue มีนามว่า Zibai เป็นเซียนที่ลึกลับที่สุด ในเรื่องเล่าเกี่ยวกับเซียนของ Liyue"
+        },
+        "regionIds": [],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Zibai.png",
+        "sortOrder": 1140
+      },
+      {
+        "id": "varka",
+        "status": "draft",
+        "name": {
+          "en": "Varka"
+        },
+        "biography": {
+          "en": "Grand Master of the Knights of Favonius. Knight of Boreas, protector of Mondstadt.",
+          "th": "แกรนด์มาสเตอร์ของกองอัศวินแห่ง Favonius, อัศวินแห่ง Boreas ผู้พิทักษ์ Mondstadt"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Varka.png",
+        "sortOrder": 1150
+      },
+      {
+        "id": "linnea",
+        "status": "draft",
+        "name": {
+          "en": "Linnea"
+        },
+        "biography": {
+          "en": "Naturalist and Advisor to the Nod-Krai Branch of the Adventurers' Guild.",
+          "th": "ที่ปรึกษากิลด์นักผจญภัยสาขา Nod-Krai และนักธรรมชาติวิทยา"
+        },
+        "regionIds": [
+          "nod-krai"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Linnea.png",
+        "sortOrder": 1160
+      },
+      {
+        "id": "lohen",
+        "status": "draft",
+        "name": {
+          "en": "Lohen"
+        },
+        "biography": {
+          "en": "Vice Captain of the Knights of Favonius Ranged Company, a knight known for his unorthodox approach and fondness for unconventional tactics.",
+          "th": "รองหัวหน้าหน่วยระยะไกลของกองอัศวินแห่ง Favonius อัศวินผู้ลงมือโดยไม่ยึดติดกับรูปแบบ และหลงใหลในยุทธวิธีที่ไม่เป็นไปตามแบบแผน"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Lohen.png",
+        "sortOrder": 1170
+      },
+      {
+        "id": "nicole",
+        "status": "draft",
+        "name": {
+          "en": "Nicole"
+        },
+        "biography": {
+          "en": "The Silent \"Mage,\" the Voiceless \"Angel.\"",
+          "th": "\"แม่มด\" ผู้เงียบงัน, \"ทูตสวรรค์\" ผู้สละเสียง"
+        },
+        "regionIds": [],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Nicole.png",
+        "sortOrder": 1180
+      },
+      {
+        "id": "prune",
+        "status": "draft",
+        "name": {
+          "en": "Prune"
+        },
+        "biography": {
+          "en": "A diminutive Witch Hunter who has journeyed all the way from Nod-Krai with the singular purpose of rooting out a witch who, to hear her tell it, has committed every sin imaginable — including bullying little kids!",
+          "th": "\"นักล่าแม่มด\" ตัวน้อย เดินทางรอนแรมมาจาก Nod-Krai เพียงเพื่อปราบแม่มดที่เธอบอกว่าชอบรังแกคนที่อ่อนแอกว่า และก่อความชั่วร้ายสารพัด"
+        },
+        "regionIds": [
+          "mondstadt"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Prune.png",
+        "sortOrder": 1190
+      },
+      {
+        "id": "sandrone",
+        "status": "draft",
+        "name": {
+          "en": "Sandrone"
+        },
+        "biography": {
+          "en": "The Seventh of the Fatui Harbingers, \"Marionette.\" Interprets all phenomena through the prism of mathematics, and is an elegant lady who is never absent from a tea party.",
+          "th": "\"Marionette\" ผู้บริหารอันดับที่เจ็ดของ Fatui ผู้ไขความลับของทุกสิ่ง ด้วยหลักคณิตศาสตร์ และสุภาพสตรีผู้สง่างาม ที่ไม่เคยว่างเว้นจากงานเลี้ยงน้ำชา"
+        },
+        "regionIds": [
+          "snezhnaya"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_MarionetteNew.png",
+        "sortOrder": 1200
+      },
+      {
+        "id": "alyosha",
+        "status": "draft",
+        "name": {
+          "en": "Alyosha"
+        },
+        "biography": {
+          "en": "A \"professional hunter\" and master of the Snezhnayan snowfields. A fierce, distinct \"idealism\" burns beneath his calm demeanor.",
+          "th": "\"นักล่ามืออาชีพ\" ผู้ฝ่าทุ่งหิมะแห่ง Snezhnaya ภายใต้เปลือกนอกที่เยือกเย็นนั้น ดูเหมือนจะซ่อน \"อุดมการณ์\" อันแรงกล้าเอาไว้"
+        },
+        "regionIds": [
+          "snezhnaya"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Alyosha.png",
+        "sortOrder": 1210
+      },
+      {
+        "id": "odette",
+        "status": "draft",
+        "name": {
+          "en": "Odette"
+        },
+        "biography": {
+          "en": "A famed Snezhnayan ballerina who blossoms against the frozen landscape with a beauty as sharp as frost.",
+          "th": "นักเต้นบัลเลต์ชื่อดังแห่ง Snezhnaya ดอกไม้อันเหน็บหนาวที่เบ่งบานท่ามกลางน้ำแข็งและหิมะ"
+        },
+        "regionIds": [
+          "snezhnaya"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Odette.png",
+        "sortOrder": 1220
+      },
+      {
+        "id": "vesna",
+        "status": "draft",
+        "name": {
+          "en": "Vesna"
+        },
+        "biography": {
+          "en": "Commander of the Druzhna and the Tsaritsa's keen blade.",
+          "th": "ผู้บัญชาการ \"กองทัพพันธสัญญาเหมันต์\" และคมดาบของ Tsaritsa"
+        },
+        "regionIds": [
+          "snezhnaya"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Vesna.png",
+        "sortOrder": 1230
+      },
+      {
+        "id": "vodyanitsa",
+        "status": "draft",
+        "name": {
+          "en": "Vodyanitsa"
+        },
+        "biography": {
+          "en": "Prima Donna of the Korolevskiy Troupe and a Water Imp who has parted from her kin.",
+          "th": "พรีมาดอนนาแห่งคณะละคร Korolevskiy และอิมป์น้ำผู้แยกตัวจากฝูง"
+        },
+        "regionIds": [
+          "snezhnaya"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": "https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Vodyanitsa.png",
+        "sortOrder": 1240
+      },
+      {
+        "id": "mitya",
+        "status": "draft",
+        "name": {
+          "en": "Mitya"
+        },
+        "biography": {
+          "en": "An exceptionally ingenious energy specialist and a master of the fine art of \"schedule-dodging.\"",
+          "th": "ผู้เชี่ยวชาญด้านพลังงานระดับยอดฝีมือ และปรมาจารย์แห่ง \"การโดดตารางงาน\" ผู้มากด้วยชั้นเชิง"
+        },
+        "regionIds": [
+          "snezhnaya"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": null,
+        "sortOrder": 1250
+      },
+      {
+        "id": "valeriy",
+        "status": "draft",
+        "name": {
+          "en": "Valeriy"
+        },
+        "biography": {
+          "en": "Commander of the Special Assignments Battalion. A soldier skilled at protecting key personnel and keeping operations on track.",
+          "th": "หัวหน้า \"กองพันภารกิจพิเศษ\" นายทหารผู้เชี่ยวชาญด้านการคุ้มกันบุคคลสำคัญ และขับเคลื่อนแผนการ"
+        },
+        "regionIds": [
+          "snezhnaya"
+        ],
+        "sourceIds": [
+          "genshin-db"
+        ],
+        "image": null,
+        "sortOrder": 1260
+      }
+    ],
+    "eras": [],
+    "regions": [
+      {
+        "id": "mondstadt",
+        "status": "draft",
+        "name": {
+          "en": "Mondstadt"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 10
+      },
+      {
+        "id": "liyue",
+        "status": "draft",
+        "name": {
+          "en": "Liyue"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 20
+      },
+      {
+        "id": "inazuma",
+        "status": "draft",
+        "name": {
+          "en": "Inazuma"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 30
+      },
+      {
+        "id": "sumeru",
+        "status": "draft",
+        "name": {
+          "en": "Sumeru"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 40
+      },
+      {
+        "id": "fontaine",
+        "status": "draft",
+        "name": {
+          "en": "Fontaine"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 50
+      },
+      {
+        "id": "natlan",
+        "status": "draft",
+        "name": {
+          "en": "Natlan"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 60
+      },
+      {
+        "id": "nod-krai",
+        "status": "draft",
+        "name": {
+          "en": "Nod-Krai"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 70
+      },
+      {
+        "id": "snezhnaya",
+        "status": "draft",
+        "name": {
+          "en": "Snezhnaya"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 80
+      },
+      {
+        "id": "khaenriah",
+        "status": "draft",
+        "name": {
+          "en": "Khaenri'ah"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 90
+      },
+      {
+        "id": "celestia",
+        "status": "draft",
+        "name": {
+          "en": "Celestia"
+        },
+        "description": {
+          "en": ""
+        },
+        "image": null,
+        "sortOrder": 100
+      }
+    ],
+    "sources": [
+      {
+        "id": "genshin-db",
+        "status": "draft",
+        "title": "genshin-db",
+        "kind": "other",
+        "url": "https://github.com/theBowja/genshin-db",
+        "note": "Character profiles and descriptions imported from genshin-db data (English and Thai).",
+        "sortOrder": 10
+      }
+    ],
+    "relationships": [],
+    "settings": []
+  }
+}

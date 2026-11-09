@@ -31,3 +31,9 @@ Backups serialize all content collections with a format version. Import validate
 ## 2026-11-06 — Back Office form editing
 
 The Back Office now edits the existing content records through dedicated fields for each collection rather than a JSON textarea. Draft form state may contain numeric input strings until Save or Publish, when one normalization step restores numbers and nullable values before the unchanged Zod/store validation. Reference selectors load records from the same store and retain missing IDs visibly instead of silently dropping them. This preserves existing Firestore documents and the publish workflow while allowing editors to manage timeline breaks and links without writing JSON.
+
+## 2026-11-09 — Character and region seed from genshin-db
+
+`scripts/import-genshin-db.ts` reads the sibling read-only `genshin-db` checkout and writes a version 1 backup snapshot to `data/import/genshin-db-characters-regions.json`. The snapshot goes through the existing add-only Back Office import, so app code and storage paths stay unchanged. The script validates every record with the same Zod schemas and fails without writing output if a record is invalid or a region is unknown.
+
+Record IDs are slugs of the English display name (`kamisato-ayaka`, `nod-krai`), which keeps the existing sample IDs (`venti`, `zhongli`, `mondstadt`, `liyue`, `khaenriah`) valid. All records import as `draft` so nothing reaches the public explorer before review. Each character cites one `genshin-db` source record. Character images hotlink HoYoverse's official icon CDN (`mihoyo_icon`) because the Fandom fields cover few characters; two characters without an icon keep `image: null`. Regions are the eight nations from the data plus Khaenri'ah and Celestia; genshin-db has no nation-level text, so region descriptions start empty. Thai names are stored only when they differ from English, since the Thai localization keeps most names romanized.
