@@ -125,22 +125,19 @@ function EventDialog({
   return (
     <Dialog.Root
       open={event !== null}
-      onOpenChange={(open) => !open && onClose()}
-    >
+      onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
         <Dialog.Overlay className="dialog-overlay" />
         <Dialog.Content
           className="dialog-content"
-          aria-describedby="event-description"
-        >
+          aria-describedby="event-description">
           {event && (
             <>
               <div className="dialog-topline">
                 <span className="eyebrow">The chronicle / {event.era}</span>
                 <Dialog.Close
                   className="icon-button dialog-close"
-                  aria-label="Close event details"
-                >
+                  aria-label="Close event details">
                   <X size={18} />
                 </Dialog.Close>
               </div>
@@ -158,16 +155,14 @@ function EventDialog({
               <p className="dialog-time">{formatEventTime(event)}</p>
               <div className="certainty-detail">
                 <span
-                  className={`certainty-badge certainty-${event.loreStatus}`}
-                >
+                  className={`certainty-badge certainty-${event.loreStatus}`}>
                   {loreLabels[event.loreStatus]}
                 </span>
                 <span>Lore certainty · separate from date precision</span>
               </div>
               <Dialog.Description
                 id="event-description"
-                className="dialog-description"
-              >
+                className="dialog-description">
                 {event.detail}
               </Dialog.Description>
               {event.characterIds.length > 0 && (
@@ -188,8 +183,7 @@ function EventDialog({
                   {relatedEvents.map(({ relation, target }) => (
                     <button
                       key={relation.id}
-                      onClick={() => onSelect(target.id)}
-                    >
+                      onClick={() => onSelect(target.id)}>
                       <span>{relation.relation}</span>
                       <strong>{target.title}</strong>
                       <ArrowUpRight size={15} />
@@ -207,8 +201,7 @@ function EventDialog({
                           <a
                             href={source.url}
                             target="_blank"
-                            rel="noopener noreferrer"
-                          >
+                            rel="noopener noreferrer">
                             {source.title} ↗
                           </a>
                         ) : (
@@ -234,8 +227,7 @@ function EventDialog({
                 <div className="dialog-step">
                   <button
                     disabled={focusIndex === 0}
-                    onClick={() => onSelect(focusEvents[focusIndex - 1].id)}
-                  >
+                    onClick={() => onSelect(focusEvents[focusIndex - 1].id)}>
                     <ChevronLeft size={15} /> Previous
                   </button>
                   <span>
@@ -243,8 +235,7 @@ function EventDialog({
                   </span>
                   <button
                     disabled={focusIndex === focusEvents.length - 1}
-                    onClick={() => onSelect(focusEvents[focusIndex + 1].id)}
-                  >
+                    onClick={() => onSelect(focusEvents[focusIndex + 1].id)}>
                     Next <ChevronRight size={15} />
                   </button>
                 </div>
@@ -296,22 +287,19 @@ function Filters({
         <button
           className={filters.view === "world" ? "active" : ""}
           aria-pressed={filters.view === "world"}
-          onClick={() => setView("world")}
-        >
+          onClick={() => setView("world")}>
           World
         </button>
         <button
           className={filters.view === "character" ? "active" : ""}
           aria-pressed={filters.view === "character"}
-          onClick={() => setView("character")}
-        >
+          onClick={() => setView("character")}>
           Character
         </button>
         <button
           className={filters.view === "place" ? "active" : ""}
           aria-pressed={filters.view === "place"}
-          onClick={() => setView("place")}
-        >
+          onClick={() => setView("place")}>
           Era / Region
         </button>
       </div>
@@ -334,8 +322,7 @@ function Filters({
               onClick={() => {
                 onChange({ ...filters, search: "" });
                 searchRef.current?.focus();
-              }}
-            >
+              }}>
               <X size={16} />
             </button>
           )}
@@ -347,8 +334,7 @@ function Filters({
               value={filters.characterId}
               onChange={(event) =>
                 onChange({ ...filters, characterId: event.target.value })
-              }
-            >
+              }>
               <option value="">Choose a character</option>
               {archive.characters.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -366,8 +352,7 @@ function Filters({
                 value={filters.eraId}
                 onChange={(event) =>
                   onChange({ ...filters, eraId: event.target.value })
-                }
-              >
+                }>
                 <option value="">Any era</option>
                 {archive.eras.map((item) => (
                   <option key={item.id} value={item.id}>
@@ -382,8 +367,7 @@ function Filters({
                 value={filters.regionId}
                 onChange={(event) =>
                   onChange({ ...filters, regionId: event.target.value })
-                }
-              >
+                }>
                 <option value="">Any region</option>
                 {archive.regions.map((item) => (
                   <option key={item.id} value={item.id}>
@@ -403,8 +387,7 @@ function Filters({
                 ...filters,
                 lore: event.target.value as ExplorerFilters["lore"],
               })
-            }
-          >
+            }>
             <option value="all">All levels</option>
             <option value="confirmed">Confirmed</option>
             <option value="inferred">Inferred</option>
@@ -417,8 +400,7 @@ function Filters({
             value={filters.spoilerLevel}
             onChange={(event) =>
               onChange({ ...filters, spoilerLevel: Number(event.target.value) })
-            }
-          >
+            }>
             <option value={0}>0 · spoiler free</option>
             <option value={1}>Level 1</option>
             <option value={2}>Level 2</option>
@@ -470,8 +452,7 @@ function Filters({
         )}
         <button
           onClick={() => onChange(defaultFilters)}
-          disabled={JSON.stringify(filters) === JSON.stringify(defaultFilters)}
-        >
+          disabled={JSON.stringify(filters) === JSON.stringify(defaultFilters)}>
           Clear filters
         </button>
       </div>
@@ -497,22 +478,19 @@ function Filters({
                 <button
                   className={focusMode ? "active" : ""}
                   aria-pressed={focusMode}
-                  onClick={() => onFocusChange(!focusMode)}
-                >
+                  onClick={() => onFocusChange(!focusMode)}>
                   Focus mode {focusMode ? "on" : "off"}
                 </button>
                 <button
                   onClick={() => onStep(-1)}
                   disabled={count === 0}
-                  aria-label="Previous character event"
-                >
+                  aria-label="Previous character event">
                   <ChevronLeft size={16} />
                 </button>
                 <button
                   onClick={() => onStep(1)}
                   disabled={count === 0}
-                  aria-label="Next character event"
-                >
+                  aria-label="Next character event">
                   <ChevronRight size={16} />
                 </button>
               </div>
@@ -675,8 +653,7 @@ function Timeline({
     <section
       className="timeline-section"
       id="timeline"
-      aria-labelledby="timeline-title"
-    >
+      aria-labelledby="timeline-title">
       <div className="section-heading">
         <div>
           <p className="eyebrow">01 / The passage of time</p>
@@ -697,16 +674,14 @@ function Timeline({
             className="icon-button"
             onClick={() => shiftBy(180)}
             aria-label="Move timeline left"
-            title="Move left"
-          >
+            title="Move left">
             <ArrowDownRight className="arrow-left" size={17} />
           </button>
           <button
             className="icon-button"
             onClick={() => shiftBy(-180)}
             aria-label="Move timeline right"
-            title="Move right"
-          >
+            title="Move right">
             <ArrowUpRight size={17} />
           </button>
           <span className="tool-divider" />
@@ -714,8 +689,7 @@ function Timeline({
             className="icon-button"
             onClick={() => applyZoom(1 / 1.3)}
             aria-label="Zoom out"
-            title="Zoom out"
-          >
+            title="Zoom out">
             <Minus size={17} />
           </button>
           <span className="zoom-value" aria-live="polite">
@@ -725,8 +699,7 @@ function Timeline({
             className="icon-button"
             onClick={() => applyZoom(1.3)}
             aria-label="Zoom in"
-            title="Zoom in"
-          >
+            title="Zoom in">
             <Plus size={17} />
           </button>
           <span className="tool-divider" />
@@ -734,8 +707,7 @@ function Timeline({
             className="icon-button"
             onClick={reset}
             aria-label="Reset timeline view"
-            title="Reset view"
-          >
+            title="Reset view">
             <RotateCcw size={16} />
           </button>
         </div>
@@ -758,8 +730,7 @@ function Timeline({
           aria-label="Interactive timeline. Use Left and Right arrows to pan, plus or minus to zoom, Home to reset, and Tab to open events."
           style={
             { height: surfaceHeight, "--axis-y": `${axisY}px` } as CSSProperties
-          }
-        >
+          }>
           <div className="timeline-surface" style={{ width: viewportWidth }}>
             {bands.map((era, index) => (
               <div
@@ -768,8 +739,7 @@ function Timeline({
                 style={{
                   left: screenX(era.start),
                   width: screenX(era.end) - screenX(era.start),
-                }}
-              >
+                }}>
                 <span>{era.name}</span>
               </div>
             ))}
@@ -786,8 +756,7 @@ function Timeline({
               <div
                 className="axis-tick"
                 key={tick}
-                style={{ left: screenX(tick) }}
-              >
+                style={{ left: screenX(tick) }}>
                 <span>
                   {tick === 0
                     ? "Present"
@@ -802,8 +771,7 @@ function Timeline({
                 style={{
                   left: screenX(item.start),
                   width: screenX(item.end) - screenX(item.start),
-                }}
-              >
+                }}>
                 <span>∿</span>
                 <small>{item.label}</small>
               </div>
@@ -812,8 +780,7 @@ function Timeline({
               className="relation-overlay"
               width={viewportWidth}
               height={surfaceHeight}
-              aria-hidden="true"
-            >
+              aria-hidden="true">
               {activeId &&
                 archive.eventRelations
                   .filter(
@@ -857,8 +824,7 @@ function Timeline({
                       "--card-top": `${CARD_TOP + (layout.laneById.get(event.id) ?? 0) * ROW_HEIGHT}px`,
                       "--card-height": `${CARD_HEIGHT}px`,
                     } as CSSProperties
-                  }
-                >
+                  }>
                   <div className={`event-stem stem-${event.accent}`} />
                   <span className={`event-node node-${event.accent}`} />
                   {event.kind === "range" && (
@@ -873,8 +839,7 @@ function Timeline({
                     onMouseEnter={() => setHoveredId(event.id)}
                     onMouseLeave={() => setHoveredId("")}
                     onFocus={() => setHoveredId(event.id)}
-                    onBlur={() => setHoveredId("")}
-                  >
+                    onBlur={() => setHoveredId("")}>
                     {event.image && (
                       <img className="event-image" src={event.image} alt="" />
                     )}
@@ -885,8 +850,7 @@ function Timeline({
                       <strong>{event.title}</strong>
                       <span className="event-summary">{event.summary}</span>
                       <span
-                        className={`certainty-badge certainty-${event.loreStatus}`}
-                      >
+                        className={`certainty-badge certainty-${event.loreStatus}`}>
                         {loreLabels[event.loreStatus]}
                       </span>
                       <span className="event-date">
@@ -1084,8 +1048,7 @@ export default function PublicExplorer() {
         <a
           href="#top"
           className="brand"
-          aria-label="Teyvat Chronicle, back to top"
-        >
+          aria-label="Teyvat Chronicle, back to top">
           <span className="brand-mark">✦</span>
           <span>
             TEYVAT <em>CHRONICLE</em>
@@ -1106,9 +1069,9 @@ export default function PublicExplorer() {
               <Compass size={15} /> An atlas of remembered time
             </p>
             <h1 id="hero-title">
-              Every age leaves
+              Every age
               <br />
-              <i>a trace.</i>
+              leaves <i>a trace.</i>
             </h1>
             <p className="hero-copy">
               Explore the stories, kingdoms, and turning points that shaped
@@ -1130,8 +1093,7 @@ export default function PublicExplorer() {
                         eraId: era.id,
                       });
                       window.location.hash = "explore";
-                    }}
-                  >
+                    }}>
                     {era.name} ↗
                   </button>
                 ))}
@@ -1156,8 +1118,7 @@ export default function PublicExplorer() {
         <section
           className="explorer-panel"
           id="explore"
-          aria-label="Explore the archive"
-        >
+          aria-label="Explore the archive">
           <div className="explorer-panel-head">
             <p className="eyebrow">Choose your path</p>
             <h2>Explore the archive</h2>
@@ -1175,8 +1136,7 @@ export default function PublicExplorer() {
                 onClick={() => {
                   setLoading(true);
                   setReloadKey((key) => key + 1);
-                }}
-              >
+                }}>
                 Try again
               </button>
             </div>

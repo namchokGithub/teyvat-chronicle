@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap");
 @import "tailwindcss";
 
 :root {
-  font-family: "DM Sans", sans-serif;
+  --font-family: "Google Sans", "Noto Sans Thai", sans-serif;
+  font-family: var(--font-family);
   color: #e8e1d1;
   background: #101923;
   font-synthesis: none;
@@ -55,7 +55,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 13px;
-  font-family: "Space Mono", monospace;
+  font-family: var(--font-family);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.21em;
@@ -81,7 +81,7 @@ a {
   gap: 12px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  font-family: "Space Mono", monospace;
+  font-family: var(--font-family);
   font-size: 10px;
   color: #d4d1c9;
   transition: color 0.2s;
@@ -162,7 +162,7 @@ a {
 .hero-content {
   position: relative;
   z-index: 1;
-  max-width: 670px;
+  max-width: 60%;
   animation: archive-reveal 0.55s ease-out both;
 }
 @keyframes archive-reveal {
@@ -177,9 +177,7 @@ a {
 }
 .eyebrow {
   margin: 0;
-  font:
-    11px "Space Mono",
-    monospace;
+  font: 11px var(--font-family);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #d8b77d;
@@ -191,9 +189,7 @@ a {
 }
 .hero h1 {
   margin: 30px 0 24px;
-  font:
-    500 clamp(72px, 8.4vw, 134px)/0.86 "Cormorant Garamond",
-    serif;
+  font: 500 clamp(72px, 8.4vw, 134px)/0.86 var(--font-family);
   letter-spacing: -0.06em;
   color: #eee8da;
 }
@@ -218,9 +214,7 @@ a {
   padding: 17px 19px;
   border: 1px solid #d7b881;
   color: #ead8b6;
-  font:
-    11px "Space Mono",
-    monospace;
+  font: 11px var(--font-family);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition:
@@ -240,9 +234,7 @@ a {
   gap: 14px;
   writing-mode: vertical-rl;
   color: #adb4b2;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   letter-spacing: 0.25em;
 }
 .vertical-line {
@@ -259,9 +251,7 @@ a {
   justify-content: space-between;
   padding-top: 20px;
   border-top: 1px solid #d6cab127;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   color: #9ba9ac;
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -288,9 +278,7 @@ a {
 }
 .section-heading h2 {
   margin: 10px 0 8px;
-  font:
-    500 clamp(50px, 5vw, 78px)/1 "Cormorant Garamond",
-    serif;
+  font: 500 clamp(50px, 5vw, 78px)/1 var(--font-family);
   letter-spacing: -0.045em;
 }
 .section-intro {
@@ -339,9 +327,7 @@ a {
   display: inline-block;
   min-width: 44px;
   text-align: center;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
 }
 .timeline-frame {
   border-top: 1px solid #bdb9ae;
@@ -356,9 +342,7 @@ a {
   gap: 16px;
   padding: 14px clamp(24px, 5vw, 84px);
   color: #59656a;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -409,9 +393,7 @@ a {
   margin: 27px 0 0 32px;
   white-space: nowrap;
   color: #776852;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   letter-spacing: 0.19em;
   text-transform: uppercase;
 }
@@ -440,9 +422,7 @@ a {
   left: -35px;
   width: 90px;
   color: #7c8582;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-align: center;
   white-space: nowrap;
 }
@@ -467,9 +447,7 @@ a {
 .timeline-break > span {
   position: absolute;
   top: calc(var(--axis-y) - 95px);
-  font:
-    42px "Cormorant Garamond",
-    serif;
+  font: 42px var(--font-family);
 }
 .timeline-break small {
   position: absolute;
@@ -478,9 +456,7 @@ a {
   width: 160px;
   transform: translateX(-50%) rotate(-90deg);
   white-space: nowrap;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -615,9 +591,7 @@ a {
   justify-content: space-between;
   align-items: center;
   color: #8e6b43;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -628,9 +602,7 @@ a {
   color: #537e7b;
 }
 .event-card strong {
-  font:
-    500 27px/1.02 "Cormorant Garamond",
-    serif;
+  font: 500 27px/1.02 var(--font-family);
   letter-spacing: -0.01em;
 }
 .event-summary {
@@ -647,9 +619,7 @@ a {
   padding-top: 8px;
   border-top: 1px solid #ddd7ca;
   color: #677479;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
   text-transform: uppercase;
 }
 .timeline-footer {
@@ -678,9 +648,7 @@ a {
   justify-content: space-between;
   gap: 20px;
   padding: 28px clamp(24px, 5vw, 84px);
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: #a0a9a8;
@@ -747,16 +715,12 @@ a {
 }
 .dialog-title {
   margin: 0;
-  font:
-    500 clamp(42px, 6vw, 58px)/1 "Cormorant Garamond",
-    serif;
+  font: 500 clamp(42px, 6vw, 58px)/1 var(--font-family);
 }
 .dialog-time {
   margin: 12px 0 25px;
   color: #896944;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
@@ -770,9 +734,7 @@ a {
   padding-top: 16px;
   border-top: 1px solid #cec5b7;
   color: #8d887d;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-transform: uppercase;
 }
 
@@ -912,18 +874,14 @@ a {
 }
 .bo-brand {
   padding: 0 9px 31px;
-  font:
-    700 10px "Space Mono",
-    monospace;
+  font: 700 10px var(--font-family);
   letter-spacing: 0.12em;
   color: #dfbf89;
   white-space: nowrap;
 }
 .bo-sidebar-label,
 .bo-kicker {
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #967b5d;
@@ -979,9 +937,7 @@ a {
 }
 .bo-mode {
   color: #e4bc7e;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-transform: uppercase;
 }
 .bo-mode.firebase {
@@ -1001,15 +957,11 @@ a {
 }
 .bo-header h1 {
   margin: 8px 0 0;
-  font:
-    500 clamp(48px, 5vw, 70px)/0.95 "Cormorant Garamond",
-    serif;
+  font: 500 clamp(48px, 5vw, 70px)/0.95 var(--font-family);
 }
 .bo-header-mode {
   color: #78817b;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -1068,15 +1020,11 @@ a {
 }
 .bo-stat span {
   color: #706f65;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-transform: uppercase;
 }
 .bo-stat strong {
-  font:
-    500 45px/0.9 "Cormorant Garamond",
-    serif;
+  font: 500 45px/0.9 var(--font-family);
 }
 .bo-guidance {
   display: flex;
@@ -1091,9 +1039,7 @@ a {
   flex: none;
 }
 .bo-guidance strong {
-  font:
-    600 22px "Cormorant Garamond",
-    serif;
+  font: 600 22px var(--font-family);
 }
 .bo-guidance p {
   margin: 8px 0 0;
@@ -1125,9 +1071,7 @@ a {
 .bo-list h2,
 .bo-editor h2 {
   margin: 0;
-  font:
-    500 30px "Cormorant Garamond",
-    serif;
+  font: 500 30px var(--font-family);
 }
 .bo-small-button,
 .bo-secondary,
@@ -1207,9 +1151,7 @@ a {
 .bo-list li small {
   grid-row: 2;
   color: #78817c;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
 }
 .bo-status {
   grid-column: 2;
@@ -1218,9 +1160,7 @@ a {
   padding: 4px 6px;
   border: 1px solid #b5ad9e;
   color: #6b685e;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
   text-transform: uppercase;
 }
 .bo-status.published {
@@ -1268,9 +1208,7 @@ a {
 .bo-reference-field > legend {
   padding: 0 5px;
   color: #665139;
-  font:
-    11px "Space Mono",
-    monospace;
+  font: 11px var(--font-family);
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
@@ -1293,9 +1231,7 @@ a {
   border-radius: 0;
   background: #fcfaf4;
   color: #263139;
-  font:
-    12px/1.45 "DM Sans",
-    sans-serif;
+  font: 12px/1.45 var(--font-family);
 }
 .bo-form-field textarea {
   min-height: 100px;
@@ -1333,9 +1269,7 @@ a {
   padding: 7px 9px;
   border: 1px solid #b7ad9b;
   color: #526a5d;
-  font:
-    11px "Space Mono",
-    monospace;
+  font: 11px var(--font-family);
   text-transform: uppercase;
 }
 .bo-form-note {
@@ -1386,9 +1320,7 @@ a {
 .bo-reference-options small {
   grid-column: 2;
   color: #7b837d;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
 }
 .bo-reference-options p {
   margin: 4px;
@@ -1444,9 +1376,7 @@ a {
 }
 .bo-login-card h1 {
   margin: 10px 0;
-  font:
-    500 55px/1 "Cormorant Garamond",
-    serif;
+  font: 500 55px/1 var(--font-family);
 }
 .bo-login-card p {
   color: #b0bdba;
@@ -1498,9 +1428,7 @@ a {
 }
 .bo-confirm h2 {
   margin: 0;
-  font:
-    500 34px "Cormorant Garamond",
-    serif;
+  font: 500 34px var(--font-family);
 }
 .bo-confirm p {
   color: #5b6867;
@@ -1526,9 +1454,7 @@ a {
 }
 .explorer-panel-head h2 {
   margin: 7px 0 5px;
-  font:
-    500 clamp(46px, 5vw, 70px)/1 "Cormorant Garamond",
-    serif;
+  font: 500 clamp(46px, 5vw, 70px)/1 var(--font-family);
   letter-spacing: -0.04em;
 }
 .explorer-panel-head p:last-child {
@@ -1547,9 +1473,7 @@ a {
   gap: 9px 16px;
   margin-top: 29px;
   color: #acb6b4;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -1579,9 +1503,7 @@ a {
   border-bottom: 3px solid transparent;
   background: transparent;
   color: #5c686a;
-  font:
-    11px "Space Mono",
-    monospace;
+  font: 11px var(--font-family);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -1623,9 +1545,7 @@ a {
   outline: 0;
   background: transparent;
   color: #263139;
-  font:
-    13px "DM Sans",
-    sans-serif;
+  font: 13px var(--font-family);
 }
 .search-field input::-webkit-search-cancel-button {
   display: none;
@@ -1646,9 +1566,7 @@ a {
   min-width: 155px;
   flex: 1 1 155px;
   color: #706c62;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -1660,9 +1578,7 @@ a {
   border-radius: 0;
   background: #faf7ef;
   color: #263139;
-  font:
-    12px "DM Sans",
-    sans-serif;
+  font: 12px var(--font-family);
 }
 .filter-foot {
   display: flex;
@@ -1673,9 +1589,7 @@ a {
   padding: 12px 20px;
   border-top: 1px solid #d0c9bb;
   color: #6c756f;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
 }
 .filter-foot button {
   margin-left: auto;
@@ -1705,9 +1619,7 @@ a {
 }
 .character-profile h3 {
   margin: 4px 0 3px;
-  font:
-    500 34px "Cormorant Garamond",
-    serif;
+  font: 500 34px var(--font-family);
 }
 .character-profile p {
   margin: 0;
@@ -1716,9 +1628,7 @@ a {
 }
 .character-profile > span {
   color: #735b40;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -1739,9 +1649,7 @@ a {
   border: 1px solid #b4aa9a;
   background: #f4eee3;
   color: #4a5554;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
 }
 .focus-controls button.active {
   border-color: #9e7950;
@@ -1762,9 +1670,7 @@ a {
   padding-top: 16px;
   border-top: 1px solid #c8bfb0;
   color: #7b776d;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
 }
 .dialog-step button:hover:not(:disabled) {
   background: #e1d5c4;
@@ -1787,9 +1693,7 @@ a {
   padding: 3px 6px;
   border: 1px solid #9e9b90;
   color: #68695f;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -1826,9 +1730,7 @@ a {
 }
 .dialog-related-events h3 {
   margin: 0 0 7px;
-  font:
-    500 24px "Cormorant Garamond",
-    serif;
+  font: 500 24px var(--font-family);
 }
 .dialog-related-events button {
   display: flex;
@@ -1848,9 +1750,7 @@ a {
 .dialog-related-events button span {
   flex: none;
   color: #8b7660;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
   text-transform: uppercase;
 }
 .dialog-related-events button strong {
@@ -1864,9 +1764,7 @@ a {
 }
 .dialog-sources h3 {
   margin: 0 0 10px;
-  font:
-    500 24px "Cormorant Garamond",
-    serif;
+  font: 500 24px var(--font-family);
 }
 .dialog-sources p {
   margin: 0;
@@ -1894,9 +1792,7 @@ a {
 }
 .dialog-sources li small {
   color: #8b8d82;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
   text-transform: uppercase;
 }
 .copy-link {
@@ -1908,9 +1804,7 @@ a {
   border: 1px solid #a6957b;
   background: transparent;
   color: #5b4c3b;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
   text-transform: uppercase;
 }
 .copy-link:hover {
@@ -1929,9 +1823,7 @@ a {
 .explorer-empty h3,
 .explorer-state h3 {
   margin: 0 0 8px;
-  font:
-    500 30px "Cormorant Garamond",
-    serif;
+  font: 500 30px var(--font-family);
 }
 .explorer-empty p,
 .explorer-state p {
@@ -1962,9 +1854,7 @@ a {
 }
 .undated-records h3 {
   margin: 0 0 4px;
-  font:
-    500 31px "Cormorant Garamond",
-    serif;
+  font: 500 31px var(--font-family);
 }
 .undated-records p {
   margin: 0 0 20px;
@@ -1992,15 +1882,11 @@ a {
 }
 .undated-records button span {
   color: #7a776d;
-  font:
-    9px "Space Mono",
-    monospace;
+  font: 9px var(--font-family);
   text-transform: uppercase;
 }
 .undated-records button strong {
-  font:
-    500 24px "Cormorant Garamond",
-    serif;
+  font: 500 24px var(--font-family);
 }
 .deep-link-error {
   position: fixed;
@@ -2055,9 +1941,7 @@ a {
 }
 .advanced-heading h2 {
   margin: 5px 0 0;
-  font:
-    500 clamp(34px, 4vw, 53px) "Cormorant Garamond",
-    serif;
+  font: 500 clamp(34px, 4vw, 53px) var(--font-family);
 }
 .advanced-heading > p {
   max-width: 280px;
@@ -2125,9 +2009,7 @@ a {
 .advanced-columns h3,
 .story-card h3 {
   margin: 0 0 10px;
-  font:
-    500 32px "Cormorant Garamond",
-    serif;
+  font: 500 32px var(--font-family);
 }
 .advanced-columns p,
 .story-card p,
@@ -2145,9 +2027,7 @@ a {
   display: block;
   margin-bottom: 5px;
   color: #806648;
-  font:
-    10px "Space Mono",
-    monospace;
+  font: 10px var(--font-family);
 }
 .advanced-event {
   display: flex;
@@ -2172,9 +2052,7 @@ a {
   line-height: 1.4;
 }
 .advanced-event strong {
-  font:
-    500 23px "Cormorant Garamond",
-    serif;
+  font: 500 23px var(--font-family);
 }
 .advanced-pickers {
   display: flex;
