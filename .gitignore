@@ -150,6 +150,7 @@ vite.config.ts.timestamp-*
 
 # IDE
 .vscode/
+docs/LOCAL----.md
 
 # OS
 .DS_Store
