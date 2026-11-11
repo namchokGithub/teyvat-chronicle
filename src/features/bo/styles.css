@@ -197,6 +197,46 @@
 .bo-stat strong {
   font: 500 45px/0.9 var(--font-family);
 }
+.bo-timeline-preview,
+.bo-timeline-empty,
+.bo-timeline-note {
+  margin-top: 30px;
+}
+.bo-timeline-preview .timeline-section {
+  padding: 0;
+  background: transparent;
+}
+.bo-timeline-preview .section-heading {
+  padding: 0 0 18px;
+}
+.bo-timeline-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+.bo-timeline-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.bo-timeline-toggle input {
+  accent-color: #9b7753;
+}
+.bo-timeline-empty {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  max-width: 680px;
+  padding: 23px;
+  border: 1px solid #c7c0b2;
+}
+.bo-timeline-empty p,
+.bo-timeline-note {
+  margin: 0;
+  color: #5d625f;
+  font-size: 13px;
+}
 .bo-guidance {
   display: flex;
   gap: 18px;

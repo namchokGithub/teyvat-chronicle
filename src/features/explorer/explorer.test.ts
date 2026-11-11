@@ -136,4 +136,32 @@ describe("published explorer flow", () => {
       eventId: "cataclysm",
     });
   });
+
+  it("keeps drafts out of the public archive but shows them, marked, in the Back Office preview", () => {
+    const timeline = timelineSchema.parse({
+      ...draftTemplate("timelines"),
+      id: "teyvat-history",
+    });
+    const event = eventSchema.parse({
+      ...draftTemplate("events"),
+      id: "unfinished",
+      title: { en: "Unfinished entry" },
+      timelineIds: [timeline.id],
+    });
+    const records = {
+      timelines: [timeline],
+      events: [event],
+      characters: [],
+      eras: [],
+      regions: [],
+      sources: [],
+      relationships: [],
+    };
+
+    expect(buildPublishedArchive(records)).toBeNull();
+    const preview = buildPublishedArchive(records, { includeDrafts: true });
+    expect(preview?.timeline.events).toMatchObject([
+      { id: "unfinished", draft: true },
+    ]);
+  });
 });

@@ -20,6 +20,8 @@ export type TimelineEvent = {
   regionIds: string[];
   sourceIds: string[];
   sortOrder: number;
+  /** Set only in the Back Office preview, which can include drafts. */
+  draft?: boolean;
 };
 
 export type TimelineBreak = {
