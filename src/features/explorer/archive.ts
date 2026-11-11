@@ -12,6 +12,12 @@ import { mockTimeline } from "../../timeline/mock-data";
 import type { TimelineData, TimelineEvent } from "../../timeline/model";
 import { createTimelineProjection } from "../../timeline/projection";
 
+export const loreLabels = {
+  confirmed: "Confirmed",
+  inferred: "Inferred",
+  theory: "Theory",
+} as const;
+
 export type NamedRecord = {
   id: string;
   name: string;
@@ -112,11 +118,16 @@ function publicImage(value: string | null): string | undefined {
   return undefined;
 }
 
+// Public callers get published records only. The Back Office preview passes
+// includeDrafts to see unpublished work in the same timeline view.
 export function buildPublishedArchive(
   records: PublishedRecords,
+  { includeDrafts = false }: { includeDrafts?: boolean } = {},
 ): PublicArchive | null {
+  const visible = (item: { status: "draft" | "published" }) =>
+    includeDrafts || item.status === "published";
   const timelines = records.timelines
-    .filter((item) => item.status === "published")
+    .filter(visible)
     .sort((a, b) => a.sortOrder - b.sortOrder);
   const main =
     timelines.find((item) => item.id === "teyvat-history") ?? timelines[0];
@@ -124,25 +135,18 @@ export function buildPublishedArchive(
 
   // Invalid break geometry should surface as a data error before rendering.
   createTimelineProjection(main.start, main.end, 1840, main.breaks);
-  const eras = records.eras.filter((item) => item.status === "published");
-  const sources = records.sources.filter((item) => item.status === "published");
-  const characters = records.characters.filter(
-    (item) => item.status === "published",
-  );
-  const regions = records.regions.filter((item) => item.status === "published");
-  const relationships = records.relationships.filter(
-    (item) => item.status === "published",
-  );
+  const eras = records.eras.filter(visible);
+  const sources = records.sources.filter(visible);
+  const characters = records.characters.filter(visible);
+  const regions = records.regions.filter(visible);
+  const relationships = records.relationships.filter(visible);
   const publicCharacterIds = new Set(characters.map((item) => item.id));
   const publicEraIds = new Set(eras.map((item) => item.id));
   const publicRegionIds = new Set(regions.map((item) => item.id));
   const publicSourceIds = new Set(sources.map((item) => item.id));
 
   const events: TimelineEvent[] = records.events
-    .filter(
-      (item) =>
-        item.status === "published" && item.timelineIds.includes(main.id),
-    )
+    .filter((item) => visible(item) && item.timelineIds.includes(main.id))
     .map((item) => {
       const linkedCharacters = relationships
         .filter(
@@ -188,6 +192,7 @@ export function buildPublishedArchive(
         regionIds: item.regionIds.filter((id) => publicRegionIds.has(id)),
         sourceIds: item.sourceIds.filter((id) => publicSourceIds.has(id)),
         sortOrder: item.sortOrder,
+        ...(item.status === "draft" ? { draft: true } : {}),
       };
     });
   const publicEventIds = new Set(events.map((item) => item.id));

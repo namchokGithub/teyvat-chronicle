@@ -1150,6 +1150,19 @@ a {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+.draft-badge {
+  display: inline-block;
+  align-self: start;
+  padding: 3px 6px;
+  border: 1px dashed #8e6b43;
+  color: #8e6b43;
+  font: 9px var(--font-family);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.event-card.is-draft {
+  border-style: dashed;
+}
 .certainty-confirmed {
   border-color: #b99660;
   color: #856439;

@@ -42,6 +42,8 @@ import {
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { RecordForm } from "./RecordForm";
+import { buildPublishedArchive } from "../explorer/archive";
+import { Timeline } from "../explorer/Timeline";
 import {
   fieldErrors,
   normalizeFormRecord,
@@ -100,6 +102,95 @@ function errorMessage(error: unknown): string {
   return error instanceof Error
     ? error.message
     : "The action could not be completed.";
+}
+
+function OverviewTimeline({
+  references,
+  onOpenEvent,
+  onOpenTimelines,
+}: {
+  references: Partial<Record<CollectionName, ContentRecord[]>>;
+  onOpenEvent: (id: string) => void;
+  onOpenTimelines: () => void;
+}) {
+  const [includeDrafts, setIncludeDrafts] = useState(true);
+  const loaded = references.timelines !== undefined;
+  const result = useMemo(() => {
+    if (!loaded) return { archive: null, error: "" };
+    const list = <T,>(name: CollectionName) =>
+      (references[name] ?? []) as unknown as T;
+    try {
+      return {
+        archive: buildPublishedArchive(
+          {
+            timelines: list("timelines"),
+            events: list("events"),
+            characters: list("characters"),
+            eras: list("eras"),
+            regions: list("regions"),
+            sources: list("sources"),
+            relationships: list("relationships"),
+          },
+          { includeDrafts },
+        ),
+        error: "",
+      };
+    } catch (cause) {
+      return { archive: null, error: errorMessage(cause) };
+    }
+  }, [loaded, references, includeDrafts]);
+
+  const heading = (
+    <div>
+      <h2 id="timeline-title" className="bo-timeline-title">
+        Timeline preview
+      </h2>
+      <label className="bo-timeline-toggle">
+        <input
+          type="checkbox"
+          checked={includeDrafts}
+          onChange={(event) => setIncludeDrafts(event.target.checked)}
+        />
+        Include drafts
+      </label>
+    </div>
+  );
+
+  if (!loaded)
+    return <p className="bo-timeline-note">Loading timeline preview…</p>;
+  if (!result.archive)
+    return (
+      <div className="bo-timeline-empty">
+        {heading}
+        <p role={result.error ? "alert" : undefined}>
+          {result.error ||
+            (includeDrafts
+              ? "Add a timeline to preview events here."
+              : "No published timeline yet.")}
+        </p>
+        <button className="bo-secondary" onClick={onOpenTimelines}>
+          Open timelines
+        </button>
+      </div>
+    );
+  return (
+    <div className="bo-timeline-preview">
+      <Timeline
+        archive={result.archive}
+        events={result.archive.timeline.events}
+        view="world"
+        onSelect={onOpenEvent}
+        focusCharacterId=""
+        selectedEventId=""
+        heading={heading}
+        footnote={
+          includeDrafts
+            ? "Draft and published records · select a card to edit"
+            : "Published records · select a card to edit"
+        }
+      />
+    </div>
+  );
 }
 
 function Editor({
@@ -440,14 +531,17 @@ function Editor({
           ? `${count} records imported into the local sandbox.`
           : `${count} records imported into Firestore as saved.`,
       );
-      if (section === "dashboard") {
-        const results = await Promise.all(
-          collections.map(
-            async (name) => [name, (await store.list(name)).length] as const,
-          ),
-        );
-        setCounts(Object.fromEntries(results));
-      }
+      // Reload every list so counts, linked-record pickers, and the
+      // overview timeline include the imported records.
+      const results = await Promise.all(
+        collections.map(
+          async (name) => [name, await store.list(name)] as const,
+        ),
+      );
+      setReferences(Object.fromEntries(results));
+      setCounts(
+        Object.fromEntries(results.map(([name, list]) => [name, list.length])),
+      );
     } catch (cause) {
       toast.error(errorMessage(cause));
     } finally {
@@ -597,6 +691,11 @@ function Editor({
                   </button>
                 ))}
               </div>
+              <OverviewTimeline
+                references={references}
+                onOpenEvent={(id) => openSection("events", id)}
+                onOpenTimelines={() => navigate("timelines")}
+              />
               <div className="bo-guidance">
                 <BookOpen size={22} />
                 <div>
