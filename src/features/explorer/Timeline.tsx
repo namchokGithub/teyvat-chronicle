@@ -137,6 +137,7 @@ export function Timeline({
     return () => {
       observer.disconnect();
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
       selection.on(".zoom", null);
       zoomRef.current = null;
     };
@@ -390,7 +391,7 @@ export function Timeline({
                     />
                   )}
                   <button
-                    className={`event-card card-${event.accent}${event.draft ? " is-draft" : ""}`}
+                    className={`event-card card-${event.accent}${event.image ? " has-image" : ""}${event.draft ? " is-draft" : ""}`}
                     onClick={() => onSelect(event.id)}
                     onMouseEnter={() => setHoveredId(event.id)}
                     onMouseLeave={() => setHoveredId("")}
