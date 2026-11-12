@@ -5,7 +5,8 @@ export type TimelineEvent = {
   kind: "point" | "range";
   start: number | null;
   end?: number | null;
-  lane: 0 | 1 | 2;
+  /** Preferred card row, from 0 to the timeline laneCount − 1. */
+  lane: number;
   summary: string;
   detail: string;
   image?: string;
@@ -31,9 +32,12 @@ export type TimelineBreak = {
   width: number;
 };
 
+/** Years are relative to the present: negative is the past, positive the future. */
 export type TimelineData = {
   start: number;
   end: number;
+  /** Card rows reserved before crowded dates add more. */
+  laneCount: number;
   breaks: TimelineBreak[];
   events: TimelineEvent[];
 };

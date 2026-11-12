@@ -26,7 +26,9 @@ import { layoutEventCards } from "../../timeline/layout";
 import type { TimelineEvent } from "../../timeline/model";
 import {
   createTimelineProjection,
+  formatAxisYear,
   formatTimelineYear,
+  timelineTicks,
 } from "../../timeline/projection";
 import { loreLabels, type PublicArchive } from "./archive";
 import type { ViewMode } from "./filter";
@@ -36,6 +38,12 @@ const MIN_ZOOM = 0.72;
 const ROW_HEIGHT = 280;
 const CARD_TOP = 105;
 const CARD_HEIGHT = 250;
+
+/** Starts with the whole axis in view, as far as the minimum zoom allows. */
+function fitTransform(viewportWidth: number): ZoomTransform {
+  const scale = Math.min(3, Math.max(MIN_ZOOM, viewportWidth / CONTENT_WIDTH));
+  return zoomIdentity.scale(scale);
+}
 
 export function Timeline({
   archive,
@@ -88,8 +96,12 @@ export function Timeline({
     [events],
   );
   const layout = useMemo(
-    () => layoutEventCards(dated, projection.x, MIN_ZOOM),
-    [dated, projection],
+    () =>
+      layoutEventCards(dated, projection.x, {
+        laneCount: archive.timeline.laneCount,
+        minZoom: MIN_ZOOM,
+      }),
+    [dated, projection, archive.timeline.laneCount],
   );
   const axisY = CARD_TOP + layout.laneCount * ROW_HEIGHT + 18;
   const surfaceHeight = axisY + 90;
@@ -102,15 +114,16 @@ export function Timeline({
     }
     return ids;
   }, [archive.eventRelations, activeId]);
-  const span = archive.timeline.end - archive.timeline.start;
-  const tickStep =
-    span > 8000 ? 1000 : span > 2500 ? 500 : span > 900 ? 200 : 100;
-  const ticks = Array.from(
-    { length: Math.ceil(span / tickStep) + 1 },
-    (_, index) =>
-      Math.ceil(archive.timeline.start / tickStep) * tickStep +
-      index * tickStep,
-  ).filter((year) => year <= archive.timeline.end);
+  const ticks = useMemo(
+    () =>
+      timelineTicks(
+        archive.timeline.start,
+        archive.timeline.end,
+        archive.timeline.breaks,
+        projection.pixelsPerYear * transform.k,
+      ),
+    [archive.timeline, projection, transform.k],
+  );
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -121,6 +134,11 @@ export function Timeline({
     observer.observe(viewport);
     const behavior = zoom<HTMLDivElement, unknown>()
       .scaleExtent([MIN_ZOOM, 3])
+      // Panning stops at the timeline ends; a narrower axis stays centered.
+      .translateExtent([
+        [0, Number.NEGATIVE_INFINITY],
+        [CONTENT_WIDTH, Number.POSITIVE_INFINITY],
+      ])
       // Plain wheel scrolls the page; Ctrl/⌘ + wheel (and trackpad pinch,
       // which arrives as a Ctrl wheel) zooms. Rejected wheels are not
       // prevented, so the page keeps scrolling.
@@ -149,7 +167,7 @@ export function Timeline({
     zoomRef.current = behavior;
     const selection = select<HTMLDivElement, unknown>(viewport);
     selection.call(behavior);
-    selection.call(behavior.transform, zoomIdentity.translate(-340, 0));
+    selection.call(behavior.transform, fitTransform(viewport.clientWidth));
     return () => {
       observer.disconnect();
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
@@ -178,7 +196,7 @@ export function Timeline({
     if (viewport && behavior)
       select(viewport).call(
         behavior.transform,
-        zoomIdentity.translate(-340, 0),
+        fitTransform(viewport.clientWidth),
       );
   };
   function onViewportKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -327,11 +345,7 @@ export function Timeline({
                 key={tick}
                 style={{ left: screenX(tick) }}
               >
-                <span>
-                  {tick === 0
-                    ? "Present"
-                    : `${Math.abs(tick).toLocaleString("en-US")}y`}
-                </span>
+                <span>{formatAxisYear(tick)}</span>
               </div>
             ))}
             {archive.timeline.breaks.map((item) => (
