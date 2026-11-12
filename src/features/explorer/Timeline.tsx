@@ -121,7 +121,23 @@ export function Timeline({
     observer.observe(viewport);
     const behavior = zoom<HTMLDivElement, unknown>()
       .scaleExtent([MIN_ZOOM, 3])
-      .filter((event) => !(event.target as Element).closest("button"))
+      // Plain wheel scrolls the page; Ctrl/⌘ + wheel (and trackpad pinch,
+      // which arrives as a Ctrl wheel) zooms. Rejected wheels are not
+      // prevented, so the page keeps scrolling.
+      .filter((event) => {
+        if (event.type === "wheel") return event.ctrlKey || event.metaKey;
+        return !event.button && !(event.target as Element).closest("button");
+      })
+      // d3 speeds every Ctrl wheel up 10×, meant for small pinch deltas; a
+      // mouse wheel with Ctrl would then jump about 4× per notch.
+      .wheelDelta((event: WheelEvent) => {
+        const delta =
+          -event.deltaY *
+          (event.deltaMode === 1 ? 0.05 : event.deltaMode ? 1 : 0.002);
+        const pinch =
+          event.ctrlKey && event.deltaMode === 0 && Math.abs(event.deltaY) < 50;
+        return pinch ? delta * 10 : delta;
+      })
       .on("zoom", (event) => {
         latestTransformRef.current = event.transform;
         if (frameRef.current === null)
@@ -269,7 +285,7 @@ export function Timeline({
             <span className="live-dot" /> {archive.timeline.title}
           </span>
           <span>
-            <Grip size={14} /> Drag to explore · scroll to zoom
+            <Grip size={14} /> Drag to explore · Ctrl/⌘ + scroll to zoom
           </span>
         </div>
         <div
