@@ -16,15 +16,12 @@ import {
   sourceSchema,
   relationshipSchema,
 } from "../../content/schema";
-import {
-  buildPublishedArchive,
-  type PublicArchive,
-  type PublishedRecords,
-} from "./archive";
+import type { PublishedRecords } from "./archive";
 
-export async function loadPublishedArchive(
+/** Loads published records once; the explorer builds the archive per timeline. */
+export async function loadPublishedRecords(
   app: FirebaseApp,
-): Promise<PublicArchive | null> {
+): Promise<PublishedRecords> {
   const db = getFirestore(app);
   async function read<T>(
     name: keyof PublishedRecords,
@@ -48,7 +45,7 @@ export async function loadPublishedArchive(
       read("sources", sourceSchema),
       read("relationships", relationshipSchema),
     ]);
-  return buildPublishedArchive({
+  return {
     timelines,
     events,
     characters,
@@ -56,5 +53,5 @@ export async function loadPublishedArchive(
     regions,
     sources,
     relationships,
-  });
+  };
 }

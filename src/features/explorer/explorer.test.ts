@@ -134,6 +134,7 @@ describe("published explorer flow", () => {
     expect(readExplorerUrl(linked)).toEqual({
       filters: { ...filters, spoilerLevel: 0, completedQuestIds: [] },
       eventId: "cataclysm",
+      timelineId: "",
     });
   });
 
@@ -163,5 +164,71 @@ describe("published explorer flow", () => {
     expect(preview?.timeline.events).toMatchObject([
       { id: "unfinished", draft: true },
     ]);
+  });
+
+  it("switches to a chosen published timeline and falls back for unknown or draft ones", () => {
+    const world = timelineSchema.parse({
+      ...draftTemplate("timelines"),
+      id: "teyvat-history",
+      status: "published",
+    });
+    const recent = timelineSchema.parse({
+      ...world,
+      id: "recent-past",
+      title: { en: "Recent Past" },
+      sortOrder: 1,
+    });
+    const hidden = timelineSchema.parse({
+      ...world,
+      id: "unreleased",
+      status: "draft",
+    });
+    const source = sourceSchema.parse({
+      ...draftTemplate("sources"),
+      id: "archon-quest",
+      status: "published",
+      title: "Archon Quest",
+    });
+    const event = eventSchema.parse({
+      ...draftTemplate("events"),
+      id: "recent-event",
+      status: "published",
+      title: { en: "Recent event" },
+      description: { en: "Only on the recent timeline." },
+      timelineIds: [recent.id],
+      sourceIds: [source.id],
+    });
+    const records = {
+      timelines: [world, recent, hidden],
+      events: [event],
+      characters: [],
+      eras: [],
+      regions: [],
+      sources: [source],
+      relationships: [],
+    };
+
+    const fallback = buildPublishedArchive(records, { timelineId: "missing" });
+    expect(fallback?.timeline.id).toBe("teyvat-history");
+    expect(fallback?.timeline.events).toEqual([]);
+    expect(fallback?.timelines.map((item) => item.id)).toEqual([
+      "teyvat-history",
+      "recent-past",
+    ]);
+    expect(
+      buildPublishedArchive(records, { timelineId: "unreleased" })?.timeline.id,
+    ).toBe("teyvat-history");
+
+    const chosen = buildPublishedArchive(records, {
+      timelineId: "recent-past",
+    });
+    expect(chosen?.timeline.title).toBe("Recent Past");
+    expect(chosen?.timeline.events.map((item) => item.id)).toEqual([
+      "recent-event",
+    ]);
+    expect(
+      readExplorerUrl(new URL("https://example.test/?timeline=recent-past"))
+        .timelineId,
+    ).toBe("recent-past");
   });
 });

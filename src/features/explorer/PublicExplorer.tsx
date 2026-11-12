@@ -13,7 +13,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { getFirebaseApp } from "../../lib/firebase";
 import type { TimelineEvent } from "../../timeline/model";
 import { formatTimelineYear } from "../../timeline/projection";
-import { loreLabels, sampleArchive, type PublicArchive } from "./archive";
+import {
+  buildPublishedArchive,
+  loreLabels,
+  sampleArchive,
+  type PublicArchive,
+  type PublishedRecords,
+} from "./archive";
 import { AdvancedExplorer } from "./AdvancedExplorer";
 import {
   createEventIndex,
@@ -477,11 +483,10 @@ export default function PublicExplorer() {
   );
   const [filters, setFilters] = useState<ExplorerFilters>(initialUrl.filters);
   const [eventId, setEventId] = useState(initialUrl.eventId);
-  const [archive, setArchive] = useState<PublicArchive | null>(
-    app ? null : sampleArchive,
-  );
+  const [timelineId, setTimelineId] = useState(initialUrl.timelineId);
+  const [records, setRecords] = useState<PublishedRecords | null>(null);
   const [loading, setLoading] = useState(!!app);
-  const [loadError, setLoadError] = useState("");
+  const [fetchError, setFetchError] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
   const [focusMode, setFocusMode] = useState(true);
 
@@ -489,18 +494,18 @@ export default function PublicExplorer() {
     if (!app) return;
     let live = true;
     import("./firestore")
-      .then(({ loadPublishedArchive }) => loadPublishedArchive(app))
+      .then(({ loadPublishedRecords }) => loadPublishedRecords(app))
       .then((value) => {
         if (live) {
-          setArchive(value);
+          setRecords(value);
           setLoading(false);
-          setLoadError("");
+          setFetchError("");
         }
       })
       .catch((error) => {
         if (live) {
           setLoading(false);
-          setLoadError(
+          setFetchError(
             error instanceof Error
               ? error.message
               : "Could not load the archive.",
@@ -512,6 +517,29 @@ export default function PublicExplorer() {
     };
   }, [app, reloadKey]);
 
+  // Records load once; switching timelines only rebuilds the archive.
+  const built = useMemo((): {
+    archive: PublicArchive | null;
+    error: string;
+  } => {
+    if (!app) return { archive: sampleArchive, error: "" };
+    if (!records) return { archive: null, error: "" };
+    try {
+      return {
+        archive: buildPublishedArchive(records, { timelineId }),
+        error: "",
+      };
+    } catch (error) {
+      return {
+        archive: null,
+        error:
+          error instanceof Error ? error.message : "Could not load the archive.",
+      };
+    }
+  }, [app, records, timelineId]);
+  const archive = built.archive;
+  const loadError = fetchError || built.error;
+
   useEffect(() => {
     const onPopState = () => {
       const next = readExplorerUrl(new URL(window.location.href));
@@ -521,6 +549,7 @@ export default function PublicExplorer() {
         completedQuestIds: current.completedQuestIds,
       }));
       setEventId(next.eventId);
+      setTimelineId(next.timelineId);
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
@@ -587,6 +616,13 @@ export default function PublicExplorer() {
       "",
       writeExplorerUrl(new URL(window.location.href), filters, id),
     );
+  }
+  function changeTimeline(id: string) {
+    setTimelineId(id);
+    setEventId("");
+    const url = new URL(window.location.href);
+    url.searchParams.set("timeline", id);
+    window.history.pushState(null, "", writeExplorerUrl(url, filters, ""));
   }
   function closeEvent() {
     setEventId("");
@@ -738,6 +774,7 @@ export default function PublicExplorer() {
                 : ""
             }
             selectedEventId={eventId}
+            onTimelineChange={changeTimeline}
           />
         )}
         {archive && !loading && !loadError && (

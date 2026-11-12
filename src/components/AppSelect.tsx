@@ -23,6 +23,7 @@ export function AppSelect({
   invalid,
   describedBy,
   required,
+  label,
 }: {
   value: string;
   onValueChange: (value: string) => void;
@@ -30,6 +31,8 @@ export function AppSelect({
   invalid?: boolean;
   describedBy?: string;
   required?: boolean;
+  /** Accessible name when no visible <label> wraps the select. */
+  label?: string;
 }) {
   return (
     <Select
@@ -41,6 +44,7 @@ export function AppSelect({
         aria-invalid={invalid || undefined}
         aria-describedby={describedBy}
         aria-required={required || undefined}
+        aria-label={label}
       >
         <SelectValue />
       </SelectTrigger>

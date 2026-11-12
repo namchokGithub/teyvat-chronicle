@@ -40,6 +40,8 @@ export type EventRelation = {
 };
 export type PublicArchive = {
   timeline: TimelineData & { id: string; title: string };
+  /** Every timeline the reader may switch to, in sort order. */
+  timelines: { id: string; title: string }[];
   characters: NamedRecord[];
   eras: NamedRecord[];
   regions: NamedRecord[];
@@ -50,6 +52,7 @@ export type PublicArchive = {
 
 export const sampleArchive: PublicArchive = {
   timeline: { ...mockTimeline, id: "teyvat-history", title: "World timeline" },
+  timelines: [{ id: "teyvat-history", title: "World timeline" }],
   characters: [
     {
       id: "dainsleif",
@@ -120,9 +123,14 @@ function publicImage(value: string | null): string | undefined {
 
 // Public callers get published records only. The Back Office preview passes
 // includeDrafts to see unpublished work in the same timeline view.
+// timelineId picks the timeline to show; unknown or hidden IDs fall back to
+// the default (teyvat-history, else the lowest sort order).
 export function buildPublishedArchive(
   records: PublishedRecords,
-  { includeDrafts = false }: { includeDrafts?: boolean } = {},
+  {
+    includeDrafts = false,
+    timelineId = "",
+  }: { includeDrafts?: boolean; timelineId?: string } = {},
 ): PublicArchive | null {
   const visible = (item: { status: "draft" | "published" }) =>
     includeDrafts || item.status === "published";
@@ -130,7 +138,9 @@ export function buildPublishedArchive(
     .filter(visible)
     .sort((a, b) => a.sortOrder - b.sortOrder);
   const main =
-    timelines.find((item) => item.id === "teyvat-history") ?? timelines[0];
+    timelines.find((item) => item.id === timelineId) ??
+    timelines.find((item) => item.id === "teyvat-history") ??
+    timelines[0];
   if (!main) return null;
 
   // Invalid break geometry should surface as a data error before rendering.
@@ -222,6 +232,10 @@ export function buildPublishedArchive(
       breaks: main.breaks,
       events,
     },
+    timelines: timelines.map((item) => ({
+      id: item.id,
+      title: item.title.en || item.id,
+    })),
     characters: characters.map((item) => ({
       id: item.id,
       name: item.name.en,

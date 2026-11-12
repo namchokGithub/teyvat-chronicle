@@ -1,3 +1,4 @@
+import { AppSelect } from "@/components/AppSelect";
 import { select } from "d3-selection";
 import {
   zoom,
@@ -54,6 +55,7 @@ export function Timeline({
   selectedEventId,
   heading,
   footnote,
+  onTimelineChange,
 }: {
   archive: PublicArchive;
   events: TimelineEvent[];
@@ -65,6 +67,8 @@ export function Timeline({
   heading?: ReactNode;
   /** Replaces the data note in the footer. */
   footnote?: string;
+  /** Shows a timeline picker when the archive offers more than one. */
+  onTimelineChange?: (id: string) => void;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const zoomRef = useRef<ZoomBehavior<HTMLDivElement, unknown> | null>(null);
@@ -230,7 +234,8 @@ export function Timeline({
     <section
       className="timeline-section"
       id="timeline"
-      aria-labelledby="timeline-title">
+      aria-labelledby="timeline-title"
+    >
       <div className="section-heading">
         {heading ?? (
           <div>
@@ -253,14 +258,16 @@ export function Timeline({
             className="icon-button"
             onClick={() => shiftBy(180)}
             aria-label="Move timeline left"
-            title="Move left">
+            title="Move left"
+          >
             <ArrowDownRight className="arrow-left" size={17} />
           </button>
           <button
             className="icon-button"
             onClick={() => shiftBy(-180)}
             aria-label="Move timeline right"
-            title="Move right">
+            title="Move right"
+          >
             <ArrowUpRight size={17} />
           </button>
           <span className="tool-divider" />
@@ -268,7 +275,8 @@ export function Timeline({
             className="icon-button"
             onClick={() => applyZoom(1 / 1.3)}
             aria-label="Zoom out"
-            title="Zoom out">
+            title="Zoom out"
+          >
             <Minus size={17} />
           </button>
           <span className="zoom-value" aria-live="polite">
@@ -278,7 +286,8 @@ export function Timeline({
             className="icon-button"
             onClick={() => applyZoom(1.3)}
             aria-label="Zoom in"
-            title="Zoom in">
+            title="Zoom in"
+          >
             <Plus size={17} />
           </button>
           <span className="tool-divider" />
@@ -286,16 +295,32 @@ export function Timeline({
             className="icon-button"
             onClick={reset}
             aria-label="Reset timeline view"
-            title="Reset view">
+            title="Reset view"
+          >
             <RotateCcw size={16} />
           </button>
         </div>
       </div>
       <div className="timeline-frame">
         <div className="timeline-meta">
-          <span>
-            <span className="live-dot" /> {archive.timeline.title}
-          </span>
+          {onTimelineChange && archive.timelines.length > 1 ? (
+            <div className="timeline-picker">
+              <span className="live-dot" />
+              <AppSelect
+                label="Timeline"
+                value={archive.timeline.id}
+                onValueChange={onTimelineChange}
+                options={archive.timelines.map((item) => ({
+                  value: item.id,
+                  label: item.title,
+                }))}
+              />
+            </div>
+          ) : (
+            <span>
+              <span className="live-dot" /> {archive.timeline.title}
+            </span>
+          )}
           <span>
             <Grip size={14} /> Drag to explore · Ctrl/⌘ + scroll to zoom
           </span>
@@ -309,7 +334,8 @@ export function Timeline({
           aria-label="Interactive timeline. Use Left and Right arrows to pan, plus or minus to zoom, Home to reset, and Tab to open events."
           style={
             { height: surfaceHeight, "--axis-y": `${axisY}px` } as CSSProperties
-          }>
+          }
+        >
           <div className="timeline-surface" style={{ width: viewportWidth }}>
             {bands.map((era, index) => (
               <div
@@ -318,7 +344,8 @@ export function Timeline({
                 style={{
                   left: screenX(era.start),
                   width: screenX(era.end) - screenX(era.start),
-                }}>
+                }}
+              >
                 <span>{era.name}</span>
               </div>
             ))}
@@ -335,7 +362,8 @@ export function Timeline({
               <div
                 className="axis-tick"
                 key={tick}
-                style={{ left: screenX(tick) }}>
+                style={{ left: screenX(tick) }}
+              >
                 <span>{formatAxisYear(tick)}</span>
               </div>
             ))}
@@ -346,7 +374,8 @@ export function Timeline({
                 style={{
                   left: screenX(item.start),
                   width: screenX(item.end) - screenX(item.start),
-                }}>
+                }}
+              >
                 <span>∿</span>
                 <small>{item.label}</small>
               </div>
@@ -355,7 +384,8 @@ export function Timeline({
               className="relation-overlay"
               width={viewportWidth}
               height={surfaceHeight}
-              aria-hidden="true">
+              aria-hidden="true"
+            >
               {activeId &&
                 archive.eventRelations
                   .filter(
@@ -399,7 +429,8 @@ export function Timeline({
                       "--card-top": `${CARD_TOP + (layout.laneById.get(event.id) ?? 0) * ROW_HEIGHT}px`,
                       "--card-height": `${CARD_HEIGHT}px`,
                     } as CSSProperties
-                  }>
+                  }
+                >
                   <div className={`event-stem stem-${event.accent}`} />
                   <span className={`event-node node-${event.accent}`} />
                   {event.kind === "range" && (
@@ -414,7 +445,8 @@ export function Timeline({
                     onMouseEnter={() => setHoveredId(event.id)}
                     onMouseLeave={() => setHoveredId("")}
                     onFocus={() => setHoveredId(event.id)}
-                    onBlur={() => setHoveredId("")}>
+                    onBlur={() => setHoveredId("")}
+                  >
                     {event.image && (
                       <img className="event-image" src={event.image} alt="" />
                     )}
@@ -425,7 +457,8 @@ export function Timeline({
                       <strong>{event.title}</strong>
                       <span className="event-summary">{event.summary}</span>
                       <span
-                        className={`certainty-badge certainty-${event.loreStatus}`}>
+                        className={`certainty-badge certainty-${event.loreStatus}`}
+                      >
                         {loreLabels[event.loreStatus]}
                       </span>
                       {event.draft && (
