@@ -93,11 +93,11 @@ export function formatTimelineYear(year: number): string {
   return year < 0 ? `${amount} years ago` : `${amount} years after present`;
 }
 
-/** Short signed label for the axis: −5,000 · Present · +1,000. */
+/** Short axis label: −5,000 · Present · 1,000 (only the past is signed). */
 export function formatAxisYear(year: number): string {
   if (year === 0) return "Present";
   const amount = Math.abs(year).toLocaleString("en-US");
-  return year < 0 ? `\u2212${amount}` : `+${amount}`;
+  return year < 0 ? `\u2212${amount}` : amount;
 }
 
 /**
