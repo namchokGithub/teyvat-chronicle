@@ -241,12 +241,13 @@ export function Timeline({
       reset();
     }
   }
-  const bands = archive.eras.filter(
-    (era): era is typeof era & { start: number; end: number } =>
-      era.start !== null &&
-      era.start !== undefined &&
-      era.end !== null &&
-      era.end !== undefined,
+  // An era with no known start began before records: its band runs from the
+  // axis start (the Unknown zone's edge when there is one). Eras with no
+  // known end are not drawn.
+  const bands = archive.eras.flatMap((era) =>
+    era.end === null || era.end === undefined
+      ? []
+      : [{ ...era, start: era.start ?? archive.timeline.start, end: era.end }],
   );
 
   return (
