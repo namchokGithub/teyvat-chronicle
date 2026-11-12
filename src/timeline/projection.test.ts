@@ -36,7 +36,7 @@ describe("sample timeline placement", () => {
     expect(formatTimelineYear(0)).toBe("Present");
     expect(formatTimelineYear(1000)).toBe("1,000 years after present");
     expect(formatAxisYear(-5000)).toBe("\u22125,000");
-    expect(formatAxisYear(1000)).toBe("+1,000");
+    expect(formatAxisYear(1000)).toBe("1,000");
   });
 
   it("spaces round-number ticks by zoom and skips compressed intervals", () => {
