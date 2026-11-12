@@ -9,15 +9,22 @@ export type CardLayout = {
 export function layoutEventCards(
   events: TimelineEvent[],
   x: (year: number) => number,
-  minZoom = 0.72,
-  cardWidth = 240,
-  gap = 24,
+  {
+    laneCount = 3,
+    minZoom = 0.72,
+    cardWidth = 240,
+    gap = 24,
+  }: {
+    laneCount?: number;
+    minZoom?: number;
+    cardWidth?: number;
+    gap?: number;
+  } = {},
 ): CardLayout {
-  const lastRight = [
-    Number.NEGATIVE_INFINITY,
-    Number.NEGATIVE_INFINITY,
-    Number.NEGATIVE_INFINITY,
-  ];
+  const lastRight: number[] = Array.from(
+    { length: Math.max(1, laneCount) },
+    () => Number.NEGATIVE_INFINITY,
+  );
   const laneById = new Map<string, number>();
   const dated = events
     .filter(

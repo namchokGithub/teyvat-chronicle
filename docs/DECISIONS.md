@@ -61,3 +61,9 @@ After the `owners/<uid>` check passes, the uid is remembered in `localStorage`. 
 ## 2026-11-11 — Timeline preview in the Back Office overview
 
 The Back Office overview renders the same `Timeline` component as the public explorer (moved to `src/features/explorer/Timeline.tsx`) so the preview always matches public layout and projection. It is built with `buildPublishedArchive(records, { includeDrafts: true })` from the lists the editor already loaded, so it adds no Firestore reads. The option defaults to off: public callers still receive published records only. In the preview, draft events carry `draft: true` and show a dashed card with a "Draft" badge; an "Include drafts" switch shows the published-only view. Selecting a card opens that event in the editor instead of the public detail dialog.
+
+## 2026-11-12 — Signed years, adaptive ticks, and timeline lanes
+
+Lore years are relative to the present: negative values are the past, `0` is the present, and positive values are the future. Cards and dialogs read "500 years ago" or "1,000 years after present"; the axis uses short signed labels (`−5,000`, `Present`, `+1,000`). Earlier labels used the absolute value, so past and future years looked identical. Back Office year fields state this convention.
+
+Axis ticks are round numbers (1, 2, or 5 × 10ⁿ years) chosen so labels stay at least 90 px apart at the current zoom, and ticks inside a compressed break are skipped. The timeline's `laneCount` now sets the reserved card rows, and an event's preferred lane may use any of them; crowded dates still add rows. Panning stops at the timeline ends, and the view starts with the whole axis fitted to the viewport (within the minimum zoom). Event dates outside a linked timeline still render at the nearest edge, so the Back Office warns after such a save rather than blocking it.

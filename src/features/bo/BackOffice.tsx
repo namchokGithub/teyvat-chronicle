@@ -21,13 +21,18 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ZodError } from "zod";
+import { ZodError, type z } from "zod";
 import {
   collectionLabels,
   draftTemplate,
   recordTitle,
 } from "../../content/templates";
-import { type CollectionName, type ContentRecord } from "../../content/schema";
+import {
+  type CollectionName,
+  type ContentRecord,
+  type eventSchema,
+  type timelineSchema,
+} from "../../content/schema";
 import {
   FirestoreContentStore,
   LocalContentStore,
@@ -102,6 +107,29 @@ function errorMessage(error: unknown): string {
   return error instanceof Error
     ? error.message
     : "The action could not be completed.";
+}
+
+type EventRecord = z.infer<typeof eventSchema>;
+type TimelineRecord = z.infer<typeof timelineSchema>;
+
+/** Titles of linked timelines whose start–end range does not hold the event dates. */
+function outsideTimelines(
+  event: EventRecord,
+  timelines: TimelineRecord[],
+): string[] {
+  const { start, end } = event.time;
+  if (start === null) return [];
+  const last = end ?? start;
+  return timelines
+    .filter(
+      (item) =>
+        event.timelineIds.includes(item.id) &&
+        (start < item.start || last > item.end),
+    )
+    .map(
+      (item) =>
+        `"${item.title.en || item.id}" (${item.start.toLocaleString("en-US")} to ${item.end.toLocaleString("en-US")})`,
+    );
 }
 
 function OverviewTimeline({
@@ -470,6 +498,16 @@ function Editor({
             ? "Record moved to draft."
             : "Record saved.",
       );
+      if (section === "events") {
+        const outside = outsideTimelines(
+          saved as EventRecord,
+          (references.timelines ?? []) as TimelineRecord[],
+        );
+        if (outside.length)
+          toast.warning(
+            `Dates fall outside ${outside.join(", ")}. The card will sit at the timeline edge.`,
+          );
+      }
       window.scrollTo({ top: 0 });
     } catch (cause) {
       if (cause instanceof ZodError) showErrors(fieldErrors(cause));

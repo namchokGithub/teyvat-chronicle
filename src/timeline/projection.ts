@@ -4,6 +4,8 @@ import type { TimelineBreak } from "./model";
 export type TimelineProjection = {
   x: (time: number) => number;
   width: number;
+  /** Scale of the uncompressed parts of the axis, before zoom. */
+  pixelsPerYear: number;
 };
 
 /** Compresses quiet periods without changing event order or event dates. */
@@ -70,6 +72,7 @@ export function createTimelineProjection(
 
   return {
     width,
+    pixelsPerYear: ordinaryPixelsPerYear,
     x(time: number) {
       const clamped = Math.max(start, Math.min(end, time));
       const segment =
@@ -83,7 +86,41 @@ export function createTimelineProjection(
   };
 }
 
+// Years are relative to the present: negative is the past, positive the future.
 export function formatTimelineYear(year: number): string {
   if (year === 0) return "Present";
-  return `${Math.abs(year).toLocaleString("en-US")} years ago`;
+  const amount = Math.abs(year).toLocaleString("en-US");
+  return year < 0 ? `${amount} years ago` : `${amount} years after present`;
+}
+
+/** Short signed label for the axis: −5,000 · Present · +1,000. */
+export function formatAxisYear(year: number): string {
+  if (year === 0) return "Present";
+  const amount = Math.abs(year).toLocaleString("en-US");
+  return year < 0 ? `\u2212${amount}` : `+${amount}`;
+}
+
+/**
+ * Round-number axis ticks at least `minGap` pixels apart at the given scale.
+ * Ticks inside a compressed break are skipped; its edges stay labelled.
+ */
+export function timelineTicks(
+  start: number,
+  end: number,
+  breaks: TimelineBreak[],
+  pixelsPerYear: number,
+  minGap = 90,
+): number[] {
+  const minimum = Math.max(1, minGap / pixelsPerYear);
+  const magnitude = 10 ** Math.floor(Math.log10(minimum));
+  const step =
+    [1, 2, 5, 10]
+      .map((factor) => factor * magnitude)
+      .find((value) => value >= minimum) ?? 10 * magnitude;
+  const ticks: number[] = [];
+  for (let year = Math.ceil(start / step) * step; year <= end; year += step) {
+    if (!breaks.some((item) => year > item.start && year < item.end))
+      ticks.push(year);
+  }
+  return ticks;
 }

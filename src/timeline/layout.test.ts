@@ -42,4 +42,16 @@ describe("timeline card placement", () => {
       }
     }
   });
+
+  it("reserves the timeline's lane count and honors a preferred lane inside it", () => {
+    const projection = createTimelineProjection(-1000, 0, 1840, []);
+    const event = { ...mockTimeline.events[0], start: -500, end: null };
+    const layout = layoutEventCards(
+      [{ ...event, id: "far-row", lane: 4 }],
+      projection.x,
+      { laneCount: 6 },
+    );
+    expect(layout.laneCount).toBe(6);
+    expect(layout.laneById.get("far-row")).toBe(4);
+  });
 });

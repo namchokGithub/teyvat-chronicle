@@ -6,6 +6,7 @@ const imageBase = import.meta.env.BASE_URL;
 export const mockTimeline: TimelineData = {
   start: -5600,
   end: 100,
+  laneCount: 3,
   breaks: [
     {
       start: -4050,

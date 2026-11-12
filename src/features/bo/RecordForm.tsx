@@ -62,6 +62,9 @@ function ImagePreview({ src }: { src: string }) {
   );
 }
 
+const YEAR_HINT =
+  "Negative = years before present (\u2212500 = 500 years ago). 0 = present.";
+
 export function RecordForm({
   collection,
   value,
@@ -351,6 +354,7 @@ export function RecordForm({
               {input("Start year", ["start"], {
                 type: "number",
                 required: true,
+                hint: YEAR_HINT,
               })}
               {input("End year", ["end"], { type: "number", required: true })}
               {input("Lane count", ["laneCount"], {
@@ -389,6 +393,7 @@ export function RecordForm({
                 <div className="bo-form-grid">
                   {input("Start year", ["breaks", index, "start"], {
                     type: "number",
+                    hint: YEAR_HINT,
                   })}
                   {input("End year", ["breaks", index, "end"], {
                     type: "number",
@@ -480,7 +485,10 @@ export function RecordForm({
                 />
               </label>
               {text(["time", "type"]) !== "unknown" &&
-                input("Start year", ["time", "start"], { type: "number" })}
+                input("Start year", ["time", "start"], {
+                  type: "number",
+                  hint: YEAR_HINT,
+                })}
               {text(["time", "type"]) !== "unknown" &&
                 input("End year (required for range)", ["time", "end"], {
                   type: "number",
@@ -548,7 +556,10 @@ export function RecordForm({
                 ["display", "lineStyle"],
                 ["solid", "dashed"],
               )}
-              {input("Preferred lane", ["display", "lane"], { type: "number" })}
+              {input("Preferred lane", ["display", "lane"], {
+                type: "number",
+                hint: "Row from 0 up to the timeline's lane count − 1.",
+              })}
             </div>
           </fieldset>
           <fieldset className="bo-form-group">
@@ -584,7 +595,10 @@ export function RecordForm({
           {localized("Name", ["name"], false, true)}
           {localized("Description", ["description"], true)}
           <div className="bo-form-grid">
-            {input("Start year (optional)", ["start"], { type: "number" })}
+            {input("Start year (optional)", ["start"], {
+              type: "number",
+              hint: YEAR_HINT,
+            })}
             {input("End year (optional)", ["end"], { type: "number" })}
             {sortOrder()}
           </div>
