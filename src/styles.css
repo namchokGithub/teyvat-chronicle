@@ -476,6 +476,36 @@ a {
   text-align: center;
   white-space: nowrap;
 }
+.unknown-zone {
+  position: absolute;
+  top: 77px;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  padding-bottom: 14px;
+  border-right: 1px dashed #9f846e;
+  background: repeating-linear-gradient(
+    135deg,
+    #8e6b4314 0 2px,
+    transparent 2px 10px
+  );
+  color: #775d47;
+  overflow: hidden;
+  pointer-events: none;
+}
+.unknown-zone strong {
+  font: 500 11px var(--font-family);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.unknown-zone small {
+  font: 9px var(--font-family);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
 .timeline-break {
   position: absolute;
   top: 77px;

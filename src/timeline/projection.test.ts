@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { mockTimeline } from "./mock-data";
 import {
+  axisBreaks,
   createTimelineProjection,
+  spreadAcross,
   formatAxisYear,
   formatTimelineYear,
   timelineTicks,
@@ -69,5 +71,22 @@ describe("sample timeline placement", () => {
     expect(
       timelineTicks(-50000, 0, [], (1840 / 50000) * 0.72).length,
     ).toBeLessThanOrEqual(1840 / 90 + 1);
+  });
+
+  it("collapses years before the Unknown boundary into a fixed-width zone", () => {
+    const timeline = {
+      start: -20000,
+      breaks: [{ start: -4000, end: -3000, width: 60, label: "Gap" }],
+      unknownZone: { before: -6000, width: 240 },
+    };
+    const projection = createTimelineProjection(
+      timeline.start,
+      0,
+      1840,
+      axisBreaks(timeline),
+    );
+    expect(projection.x(-6000) - projection.x(-20000)).toBeCloseTo(240);
+    const spread = spreadAcross(3, projection.x(-20000), 240);
+    expect(spread).toEqual([40, 120, 200]);
   });
 });

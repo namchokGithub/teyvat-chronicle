@@ -1,4 +1,5 @@
 import MiniSearch from "minisearch";
+import { compareEvents } from "../../timeline/layout";
 import type { TimelineEvent } from "../../timeline/model";
 import type { PublicArchive } from "./archive";
 
@@ -118,9 +119,5 @@ export function selectEvents(
         return false;
       return true;
     })
-    .sort(
-      (a, b) =>
-        (a.start ?? Number.POSITIVE_INFINITY) -
-          (b.start ?? Number.POSITIVE_INFINITY) || a.sortOrder - b.sortOrder,
-    );
+    .sort(compareEvents);
 }

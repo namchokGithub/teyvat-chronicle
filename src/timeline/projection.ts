@@ -93,6 +93,40 @@ export function formatTimelineYear(year: number): string {
   return year < 0 ? `${amount} years ago` : `${amount} years after present`;
 }
 
+/**
+ * Breaks for the projection, with the Unknown zone as a leading break from
+ * the timeline start to its boundary.
+ */
+export function axisBreaks(timeline: {
+  start: number;
+  breaks: TimelineBreak[];
+  unknownZone?: { before: number; width: number };
+}): TimelineBreak[] {
+  const zone = timeline.unknownZone;
+  if (!zone) return timeline.breaks;
+  return [
+    {
+      start: timeline.start,
+      end: zone.before,
+      width: zone.width,
+      label: "Unknown",
+    },
+    ...timeline.breaks,
+  ];
+}
+
+export function formatUnknownZone(before: number): string {
+  return `Unknown · over ${Math.abs(before).toLocaleString("en-US")} years ago`;
+}
+
+/** Evenly spaced positions for `count` cards across a zone. */
+export function spreadAcross(count: number, left: number, width: number) {
+  return Array.from(
+    { length: count },
+    (_, index) => left + ((index + 0.5) * width) / count,
+  );
+}
+
 /** Short axis label: −5,000 · Present · 1,000 (only the past is signed). */
 export function formatAxisYear(year: number): string {
   if (year === 0) return "Present";

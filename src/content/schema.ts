@@ -37,11 +37,27 @@ export const timelineSchema = base
     end: z.number(),
     laneCount: z.number().int().min(1).max(12),
     breaks: z.array(timelineBreakSchema),
+    // Years before this collapse into one "Unknown" zone of fixed width.
+    // null turns the zone off; records saved before it existed get -6000.
+    unknownBefore: z.number().nullable().default(-6000),
+    unknownWidth: z.number().int().min(80).max(1200).default(240),
     sortOrder: z.number().int(),
   })
   .refine((item) => item.end > item.start, {
     message: "Timeline end must follow its start",
   })
+  .refine(
+    (item) =>
+      item.unknownBefore === null ||
+      item.unknownBefore <= item.start ||
+      (item.unknownBefore < item.end &&
+        item.breaks.every((entry) => entry.start >= item.unknownBefore!)),
+    {
+      message:
+        "The unknown boundary must be before the timeline end, and breaks must start after it",
+      path: ["unknownBefore"],
+    },
+  )
   .refine(
     (item) => {
       const sorted = [...item.breaks].sort((a, b) => a.start - b.start);
@@ -57,7 +73,8 @@ export const timelineSchema = base
 
 export const eventTimeSchema = z
   .object({
-    type: z.enum(["exact", "approximate", "unknown"]),
+    // ancient: older than the timeline's unknown boundary, year not known.
+    type: z.enum(["exact", "approximate", "unknown", "ancient"]),
     start: z.number().nullable(),
     end: z.number().nullable(),
     unit: z.literal("year"),
@@ -66,11 +83,12 @@ export const eventTimeSchema = z
   })
   .refine(
     (time) =>
-      time.type === "unknown"
+      time.type === "unknown" || time.type === "ancient"
         ? time.start === null && time.end === null
         : time.start !== null,
     {
-      message: "Unknown time must have no dates; known time needs a start",
+      message:
+        "Unknown or ancient time must have no dates; known time needs a start",
     },
   )
   .refine(

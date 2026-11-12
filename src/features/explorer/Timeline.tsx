@@ -23,10 +23,13 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
-import { layoutEventCards } from "../../timeline/layout";
+import { compareEvents, layoutEventCards } from "../../timeline/layout";
 import type { TimelineEvent } from "../../timeline/model";
 import {
+  axisBreaks,
   createTimelineProjection,
+  formatUnknownZone,
+  spreadAcross,
   formatAxisYear,
   formatTimelineYear,
   timelineTicks,
@@ -83,29 +86,45 @@ export function Timeline({
         archive.timeline.start,
         archive.timeline.end,
         CONTENT_WIDTH,
-        archive.timeline.breaks,
+        axisBreaks(archive.timeline),
       ),
     [archive],
   );
-  const dated = useMemo(
-    () =>
-      events.filter(
-        (event): event is TimelineEvent & { start: number } =>
-          event.start !== null,
-      ),
-    [events],
+  const zone = archive.timeline.unknownZone;
+  // Content x for every card on the axis. Unknown-zone cards are spread
+  // evenly across the zone in chronological order instead of by year.
+  const positions = useMemo(() => {
+    const result = new Map<string, number>();
+    const zoned = events.filter((event) => event.ancient).sort(compareEvents);
+    if (zone) {
+      const spread = spreadAcross(
+        zoned.length,
+        projection.x(archive.timeline.start),
+        zone.width,
+      );
+      zoned.forEach((event, index) => result.set(event.id, spread[index]));
+    }
+    for (const event of events)
+      if (!event.ancient && event.start !== null)
+        result.set(event.id, projection.x(event.start));
+    return result;
+  }, [events, zone, projection, archive.timeline.start]);
+  const placed = useMemo(
+    () => events.filter((event) => positions.has(event.id)),
+    [events, positions],
   );
   const undated = useMemo(
-    () => events.filter((event) => event.start === null),
-    [events],
+    () => events.filter((event) => !positions.has(event.id)),
+    [events, positions],
   );
   const layout = useMemo(
     () =>
-      layoutEventCards(dated, projection.x, {
+      layoutEventCards(placed, projection.x, {
         laneCount: archive.timeline.laneCount,
         minZoom: MIN_ZOOM,
+        positions,
       }),
-    [dated, projection, archive.timeline.laneCount],
+    [placed, projection, positions, archive.timeline.laneCount],
   );
   const axisY = CARD_TOP + layout.laneCount * ROW_HEIGHT + 18;
   const surfaceHeight = axisY + 90;
@@ -123,10 +142,10 @@ export function Timeline({
       timelineTicks(
         archive.timeline.start,
         archive.timeline.end,
-        archive.timeline.breaks,
+        axisBreaks(archive.timeline),
         projection.pixelsPerYear * transform.k,
-      ),
-    [archive.timeline, projection, transform.k],
+      ).filter((year) => !zone || year >= zone.before),
+    [archive.timeline, projection, transform.k, zone],
   );
 
   useEffect(() => {
@@ -367,6 +386,20 @@ export function Timeline({
                 <span>{formatAxisYear(tick)}</span>
               </div>
             ))}
+            {zone && (
+              <div
+                className="unknown-zone"
+                style={{
+                  left: screenX(archive.timeline.start),
+                  width: screenX(zone.before) - screenX(archive.timeline.start),
+                }}
+              >
+                <strong>Unknown</strong>
+                <small>
+                  Over {Math.abs(zone.before).toLocaleString("en-US")} years ago
+                </small>
+              </div>
+            )}
             {archive.timeline.breaks.map((item) => (
               <div
                 className="timeline-break"
@@ -394,15 +427,11 @@ export function Timeline({
                       relation.toId === activeId,
                   )
                   .map((relation) => {
-                    const from = dated.find(
-                      (event) => event.id === relation.fromId,
-                    );
-                    const to = dated.find(
-                      (event) => event.id === relation.toId,
-                    );
-                    if (!from || !to) return null;
-                    const x1 = screenX(from.start);
-                    const x2 = screenX(to.start);
+                    const from = positions.get(relation.fromId);
+                    const to = positions.get(relation.toId);
+                    if (from === undefined || to === undefined) return null;
+                    const x1 = transform.applyX(from);
+                    const x2 = transform.applyX(to);
                     const curveY =
                       axisY - 44 - Math.min(70, Math.abs(x2 - x1) / 9);
                     return (
@@ -413,10 +442,10 @@ export function Timeline({
                     );
                   })}
             </svg>
-            {dated.map((event) => {
-              const x = screenX(event.start);
+            {placed.map((event) => {
+              const x = transform.applyX(positions.get(event.id) ?? 0);
               const rangeWidth =
-                event.end !== null && event.end !== undefined
+                !event.ancient && event.end !== null && event.end !== undefined
                   ? screenX(event.end) - x
                   : 0;
               return (
@@ -465,8 +494,11 @@ export function Timeline({
                         <span className="draft-badge">Draft</span>
                       )}
                       <span className="event-date">
-                        {formatTimelineYear(event.start)}
-                        {event.end !== null &&
+                        {event.start === null && zone
+                          ? formatUnknownZone(zone.before)
+                          : formatTimelineYear(event.start ?? 0)}
+                        {!event.ancient &&
+                          event.end !== null &&
                           event.end !== undefined &&
                           " — range"}
                       </span>

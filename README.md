@@ -12,6 +12,8 @@ Phase 4 interaction work adds character focus, related event navigation, stable 
 
 Phase 5 code adds a relationship view, character comparison, a chronological story reader, and spoiler filters. The Back Office can download a JSON backup; the local sandbox can import only new records from a validated backup. With Firebase configured, the signed-in owner can also import new records into Firestore; the import writes every record or none. Spoiler labels remain open work.
 
+The timeline header can switch between published timelines. Showing several timelines stacked on one shared axis is planned as Phase 6 and has not started.
+
 ## Run locally
 
 Requires Node.js and pnpm.

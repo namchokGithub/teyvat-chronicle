@@ -10,7 +10,10 @@ import {
 } from "../../content/schema";
 import { mockTimeline } from "../../timeline/mock-data";
 import type { TimelineData, TimelineEvent } from "../../timeline/model";
-import { createTimelineProjection } from "../../timeline/projection";
+import {
+  axisBreaks,
+  createTimelineProjection,
+} from "../../timeline/projection";
 
 export const loreLabels = {
   confirmed: "Confirmed",
@@ -143,8 +146,22 @@ export function buildPublishedArchive(
     timelines[0];
   if (!main) return null;
 
+  // The Unknown zone applies only when the timeline reaches past its boundary.
+  const unknownZone =
+    main.unknownBefore !== null && main.start < main.unknownBefore
+      ? { before: main.unknownBefore, width: main.unknownWidth }
+      : undefined;
+  const inZone = (time: { type: string; start: number | null }) =>
+    !!unknownZone &&
+    (time.type === "ancient" ||
+      (time.start !== null && time.start < unknownZone.before));
   // Invalid break geometry should surface as a data error before rendering.
-  createTimelineProjection(main.start, main.end, 1840, main.breaks);
+  createTimelineProjection(
+    main.start,
+    main.end,
+    1840,
+    axisBreaks({ start: main.start, breaks: main.breaks, unknownZone }),
+  );
   const eras = records.eras.filter(visible);
   const sources = records.sources.filter(visible);
   const characters = records.characters.filter(visible);
@@ -203,6 +220,7 @@ export function buildPublishedArchive(
         sourceIds: item.sourceIds.filter((id) => publicSourceIds.has(id)),
         sortOrder: item.sortOrder,
         ...(item.status === "draft" ? { draft: true } : {}),
+        ...(inZone(item.time) ? { ancient: true } : {}),
       };
     });
   const publicEventIds = new Set(events.map((item) => item.id));
@@ -229,6 +247,7 @@ export function buildPublishedArchive(
       start: main.start,
       end: main.end,
       laneCount: main.laneCount,
+      unknownZone,
       breaks: main.breaks,
       events,
     },

@@ -231,4 +231,88 @@ describe("published explorer flow", () => {
         .timelineId,
     ).toBe("recent-past");
   });
+
+  it("places ancient and pre-boundary events in the Unknown zone, oldest first", () => {
+    const { unknownBefore, unknownWidth, ...legacy } = timelineSchema.parse({
+      ...draftTemplate("timelines"),
+      id: "teyvat-history",
+      status: "published",
+      start: -9000,
+    });
+    // Records saved before the zone existed get the -6000 default.
+    const timeline = timelineSchema.parse(legacy);
+    expect([unknownBefore, unknownWidth]).toEqual([-6000, 240]);
+    expect(timeline.unknownBefore).toBe(-6000);
+    const source = sourceSchema.parse({
+      ...draftTemplate("sources"),
+      id: "archon-quest",
+      status: "published",
+      title: "Archon Quest",
+    });
+    const base = eventSchema.parse({
+      ...draftTemplate("events"),
+      id: "recent",
+      status: "published",
+      title: { en: "Recent" },
+      description: { en: "A dated event." },
+      timelineIds: [timeline.id],
+      sourceIds: [source.id],
+      time: {
+        ...draftTemplate("events").time,
+        type: "approximate",
+        start: -500,
+      },
+    });
+    const ancient = eventSchema.parse({
+      ...base,
+      id: "first-light",
+      sortOrder: 1,
+      time: { ...base.time, type: "ancient", start: null, end: null },
+    });
+    const old = eventSchema.parse({
+      ...base,
+      id: "old-war",
+      time: { ...base.time, start: -8000 },
+    });
+    const records = {
+      timelines: [timeline],
+      events: [base, ancient, old],
+      characters: [],
+      eras: [],
+      regions: [],
+      sources: [source],
+      relationships: [],
+    };
+    const archive = buildPublishedArchive(records);
+    expect(archive?.timeline.unknownZone).toEqual({
+      before: -6000,
+      width: 240,
+    });
+    if (!archive) return;
+    const events = selectEvents(
+      archive,
+      defaultFilters,
+      createEventIndex(archive),
+    );
+    expect(events.map((item) => [item.id, !!item.ancient])).toEqual([
+      ["first-light", true],
+      ["old-war", true],
+      ["recent", false],
+    ]);
+
+    // Without a zone (timeline starts after the boundary) the ancient event
+    // has no place on the axis and is listed as time unknown.
+    const late = buildPublishedArchive({
+      ...records,
+      timelines: [timelineSchema.parse({ ...timeline, start: -1000 })],
+      events: [base, ancient],
+    });
+    expect(late?.timeline.unknownZone).toBeUndefined();
+    expect(
+      late?.timeline.events.find((item) => item.id === "first-light"),
+    ).toMatchObject({ start: null });
+    expect(
+      late?.timeline.events.find((item) => item.id === "first-light")?.ancient,
+    ).toBeUndefined();
+  });
 });

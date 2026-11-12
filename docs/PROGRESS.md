@@ -12,6 +12,7 @@
 | [Phase 3 — Public Explorer](#phase-3--public-explorer)               | In progress | ค้นหา กรอง และ deep link ได้ในโค้ด; รอข้อมูลจริงและตรวจหน้าจอ           |
 | [Phase 4 — Interaction & Polish](#phase-4--interaction--polish)      | In progress | focus/relationship และจัดแถว card ในโค้ดแล้ว; รอตรวจภาพและข้อมูลจริง    |
 | [Phase 5 — Advanced Lore Features](#phase-5--advanced-lore-features) | In progress | เครื่องมือสำรวจและ JSON backup ในโค้ดพร้อม; รอข้อมูลจริงและตรวจ UI      |
+| [Phase 6 — Stacked Multi-Timeline](#phase-6--stacked-multi-timeline) | Not started | แสดงหลาย timeline ซ้อนเป็นแถบบนแกนเวลาเดียว (วางแผนแล้ว ยังไม่เริ่ม)    |
 
 ## Phase 1 — Foundation & Timeline Engine
 
@@ -86,3 +87,33 @@
 - [ ] กำหนดชื่อระดับ spoiler และ quest catalog จริงให้สัมพันธ์กับ Archon Quest/Version ก่อนใส่ข้อมูล lore จริง
 - [ ] ทดสอบการอ่านข้อมูลที่มี spoiler กับ Firebase จริง รวมถึงสิทธิ์และประสิทธิภาพของข้อมูลจำนวนมาก
 - [ ] ถ้าต้องการนำเข้า Firebase หรือเขียนทับข้อมูลเดิม ให้กำหนดนโยบาย conflict, preview และ recovery ก่อนเปิดใช้งาน
+
+## Phase 6 — Stacked Multi-Timeline
+
+**สถานะ:** Not started (วางแผนไว้ 2026-11-12 ยังไม่อนุมัติให้เริ่ม)
+
+ปัจจุบันสลับดูได้ทีละ timeline (`?timeline=<id>`) Phase นี้คือแสดงหลาย timeline พร้อมกัน: แต่ละ timeline เป็นแถบแนวนอนของตัวเอง ใช้แกนเวลาเดียวกัน ซูม/แพนพร้อมกัน ไม่ต้องเปลี่ยน schema ใน Firestore (timeline มี `start`, `end`, `breaks`, `laneCount` อยู่แล้ว)
+
+**ข้อตัดสินใจที่ยืนยันแล้ว**
+
+1. **ช่วงเวลาไม่เท่ากัน:** แกนใช้ช่วงรวม `min(start)…max(end)`; ส่วนที่อยู่นอกช่วงของแต่ละแถบแสดงจาง
+2. **Break:** ใช้เฉพาะช่วงที่**ทุก** timeline ที่เลือกบีบตรงกัน (intersection) เพื่อไม่ให้ event ของแถบอื่นถูกบีบหาย
+3. **Event ที่ผูกหลาย timeline:** การ์ดอยู่ในแถบแรกตาม sort order; แถบอื่นแสดงเป็นจุดบอกตำแหน่งที่คลิกเปิด event เดียวกันได้
+4. **การ์ด:** โหมดซ้อนแถบใช้การ์ดย่อ (ชื่อ + วันที่ + lore badge) คลิกเปิดรายละเอียดเดิม; โหมดเดี่ยวยังใช้การ์ดเต็ม
+5. **สเกลต่างกันมาก:** ไม่ใช้ log scale; มีปุ่ม Focus ต่อแถบ ซูมให้ช่วงของแถบนั้นพอดีจอ
+
+**ขั้นที่ 1 — ซ้อนแถบพื้นฐาน**
+
+- [ ] `projection.ts`: helper รวมช่วงเวลา, หา break ที่ทุกแถบมีตรงกัน, และคำนวณ transform ให้ช่วงหนึ่งพอดีจอ (focus) พร้อม focused tests
+- [ ] `archive.ts`: สร้าง archive หลาย timeline (แต่ละแถบมี events ของตัวเอง, กำหนดแถบหลักของ event ที่ผูกหลาย timeline) โดยคงค่าเริ่มต้น published-only; เพิ่ม test ใน `explorer.test.ts`
+- [ ] `layout.ts`: จัดแถวแยกต่อแถบตาม `laneCount` ของแต่ละ timeline และขนาดการ์ดย่อ
+- [ ] `Timeline.tsx`: โหมด stacked — หัวแถบ (ชื่อ, Focus, ซ่อน), พื้นจางนอกช่วง, การ์ดย่อ, จุดบอกตำแหน่ง event ที่ซ้ำ; ใช้แกน, tick และ era band ร่วมกัน
+- [ ] ตัวเลือก timeline เป็นแบบเลือกได้หลายอัน; URL `?timelines=a,b` และยังอ่าน `?timeline=a` เดิมได้
+- [ ] BO Overview ใช้โหมด stacked ได้ (รวม draft ตามสวิตช์เดิม)
+- [ ] ตรวจหน้าจอ 360px/1280px, keyboard และประสิทธิภาพเมื่อมีหลายแถบ
+
+**ขั้นที่ 2 — ต่อยอด**
+
+- [ ] เส้นความสัมพันธ์ (relation overlay) ลากข้ามแถบได้
+- [ ] เพิ่มสีประจำ timeline ใน schema และฟอร์ม BO สำหรับแถบและหัวแถบ
+- [ ] (ทางเลือก) บีบช่วงว่างที่ไม่มี event ในทุกแถบอัตโนมัติ
