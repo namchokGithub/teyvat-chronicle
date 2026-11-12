@@ -258,9 +258,12 @@ describe("published explorer flow", () => {
       timelineIds: [timeline.id],
       sourceIds: [source.id],
       time: {
-        ...draftTemplate("events").time,
         type: "approximate",
         start: -500,
+        end: null,
+        unit: "year",
+        reference: "main_story",
+        confidence: "medium",
       },
     });
     const ancient = eventSchema.parse({

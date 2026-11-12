@@ -613,7 +613,7 @@ export function RecordForm({
           <div className="bo-form-grid">
             {input("Start year (optional)", ["start"], {
               type: "number",
-              hint: YEAR_HINT,
+              hint: `${YEAR_HINT} Leave empty if it began before records; the band then starts at the Unknown zone.`,
             })}
             {input("End year (optional)", ["end"], { type: "number" })}
             {sortOrder()}
