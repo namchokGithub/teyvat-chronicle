@@ -638,8 +638,23 @@ a {
   color: #537e7b;
 }
 .event-card strong {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  flex: none;
+  overflow: hidden;
   font: 500 27px/1.02 var(--font-family);
   letter-spacing: -0.01em;
+}
+/* Image cards leave no room for the summary; the full text is in the detail view. */
+.event-card.has-image strong {
+  -webkit-line-clamp: 1;
+}
+.event-card.has-image .event-summary {
+  display: none;
+}
+.event-card-body > :not(.event-summary) {
+  flex: none;
 }
 .event-summary {
   display: -webkit-box;
