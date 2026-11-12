@@ -142,6 +142,7 @@ function OverviewTimeline({
   onOpenTimelines: () => void;
 }) {
   const [includeDrafts, setIncludeDrafts] = useState(true);
+  const [timelineId, setTimelineId] = useState("");
   const loaded = references.timelines !== undefined;
   const result = useMemo(() => {
     if (!loaded) return { archive: null, error: "" };
@@ -159,14 +160,14 @@ function OverviewTimeline({
             sources: list("sources"),
             relationships: list("relationships"),
           },
-          { includeDrafts },
+          { includeDrafts, timelineId },
         ),
         error: "",
       };
     } catch (cause) {
       return { archive: null, error: errorMessage(cause) };
     }
-  }, [loaded, references, includeDrafts]);
+  }, [loaded, references, includeDrafts, timelineId]);
 
   const heading = (
     <div>
@@ -211,6 +212,7 @@ function OverviewTimeline({
         focusCharacterId=""
         selectedEventId=""
         heading={heading}
+        onTimelineChange={setTimelineId}
         footnote={
           includeDrafts
             ? "Draft and published records · select a card to edit"

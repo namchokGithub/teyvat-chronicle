@@ -8,6 +8,7 @@ import {
 export function readExplorerUrl(url: URL): {
   filters: ExplorerFilters;
   eventId: string;
+  timelineId: string;
 } {
   const view = url.searchParams.get("view");
   const lore = url.searchParams.get("lore");
@@ -27,6 +28,7 @@ export function readExplorerUrl(url: URL): {
       completedQuestIds: [],
     },
     eventId: url.searchParams.get("event") ?? "",
+    timelineId: url.searchParams.get("timeline") ?? "",
   };
 }
 

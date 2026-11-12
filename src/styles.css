@@ -390,6 +390,20 @@ a {
   align-items: center;
   gap: 9px;
 }
+.timeline-picker {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+.timeline-picker .app-select-trigger {
+  min-width: 180px;
+  max-width: min(320px, 60vw);
+  height: 30px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
 .live-dot {
   width: 6px;
   height: 6px;
