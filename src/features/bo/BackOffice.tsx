@@ -117,15 +117,21 @@ function outsideTimelines(
   event: EventRecord,
   timelines: TimelineRecord[],
 ): string[] {
-  const { start, end } = event.time;
-  if (start === null) return [];
+  const { start, end, type } = event.time;
+  const hasZone = (item: TimelineRecord) =>
+    item.unknownBefore !== null && item.start < item.unknownBefore;
   const last = end ?? start;
   return timelines
-    .filter(
-      (item) =>
-        event.timelineIds.includes(item.id) &&
-        (start < item.start || last > item.end),
-    )
+    .filter((item) => {
+      if (!event.timelineIds.includes(item.id)) return false;
+      // Ancient events need an Unknown zone; dated ones older than the
+      // boundary sit in the zone, so only the end of the axis can be passed.
+      if (type === "ancient") return !hasZone(item);
+      if (start === null || last === null) return false;
+      const early =
+        start < item.start && !(hasZone(item) && start < item.unknownBefore!);
+      return early || last > item.end;
+    })
     .map(
       (item) =>
         `"${item.title.en || item.id}" (${item.start.toLocaleString("en-US")} to ${item.end.toLocaleString("en-US")})`,
@@ -507,7 +513,9 @@ function Editor({
         );
         if (outside.length)
           toast.warning(
-            `Dates fall outside ${outside.join(", ")}. The card will sit at the timeline edge.`,
+            (saved as EventRecord).time.type === "ancient"
+              ? `${outside.join(", ")} has no Unknown zone, so this event is listed under "Time unknown".`
+              : `Dates fall outside ${outside.join(", ")}. The card will sit at the timeline edge.`,
           );
       }
       window.scrollTo({ top: 0 });

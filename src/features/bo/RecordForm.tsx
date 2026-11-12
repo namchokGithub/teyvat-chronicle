@@ -86,6 +86,8 @@ export function RecordForm({
     onChange(existing ? updated : applyAutoId(collection, value, updated));
   };
   const text = (path: FieldPath) => String(read(path) ?? "");
+  // unknown and ancient events carry no year, so year fields and ranges hide.
+  const noYear = ["unknown", "ancient"].includes(text(["time", "type"]));
 
   /** Wrapper class, data path, ARIA state, and message for one field. */
   function fieldState(path: FieldPath, baseClass: string, required = false) {
@@ -362,6 +364,15 @@ export function RecordForm({
                 required: true,
                 hint: "1–12; cards may use extra rows when dates are crowded.",
               })}
+              {input("Unknown before (year)", ["unknownBefore"], {
+                type: "number",
+                hint: "Older years collapse into one Unknown zone. Leave empty to turn it off.",
+              })}
+              {input("Unknown zone width (px)", ["unknownWidth"], {
+                type: "number",
+                required: true,
+                hint: "80–1200. Widen it when the zone holds many cards.",
+              })}
               {sortOrder()}
             </div>
           </fieldset>
@@ -458,7 +469,7 @@ export function RecordForm({
                     {
                       value: "range",
                       label: "range",
-                      disabled: text(["time", "type"]) === "unknown",
+                      disabled: noYear,
                     },
                   ]}
                 />
@@ -469,7 +480,7 @@ export function RecordForm({
                   value={text(["time", "type"])}
                   onValueChange={(precision) => {
                     let next = setField(value, ["time", "type"], precision);
-                    if (precision === "unknown") {
+                    if (precision === "unknown" || precision === "ancient") {
                       next = setField(next, ["time", "start"], null);
                       next = setField(next, ["time", "end"], null);
                       next = setField(next, ["type"], "point");
@@ -478,18 +489,23 @@ export function RecordForm({
                     }
                     onChange(next);
                   }}
-                  options={["exact", "approximate", "unknown"].map((item) => ({
-                    value: item,
-                    label: item,
-                  }))}
+                  options={[
+                    { value: "exact", label: "exact" },
+                    { value: "approximate", label: "approximate" },
+                    { value: "unknown", label: "unknown (no year)" },
+                    {
+                      value: "ancient",
+                      label: "ancient (before the Unknown boundary)",
+                    },
+                  ]}
                 />
               </label>
-              {text(["time", "type"]) !== "unknown" &&
+              {!noYear &&
                 input("Start year", ["time", "start"], {
                   type: "number",
                   hint: YEAR_HINT,
                 })}
-              {text(["time", "type"]) !== "unknown" &&
+              {!noYear &&
                 input("End year (required for range)", ["time", "end"], {
                   type: "number",
                 })}

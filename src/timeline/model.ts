@@ -12,7 +12,7 @@ export type TimelineEvent = {
   image?: string;
   imageAlt?: string;
   accent: "gold" | "violet" | "teal";
-  precision: "approximate" | "exact" | "unknown";
+  precision: "approximate" | "exact" | "unknown" | "ancient";
   loreStatus: "confirmed" | "inferred" | "theory";
   spoilerLevel?: number;
   requiredQuestIds?: string[];
@@ -23,6 +23,11 @@ export type TimelineEvent = {
   sortOrder: number;
   /** Set only in the Back Office preview, which can include drafts. */
   draft?: boolean;
+  /**
+   * Placed in the timeline's Unknown zone: older than its boundary, either
+   * with no year (precision "ancient") or with a year before the boundary.
+   */
+  ancient?: boolean;
 };
 
 export type TimelineBreak = {
@@ -38,6 +43,8 @@ export type TimelineData = {
   end: number;
   /** Card rows reserved before crowded dates add more. */
   laneCount: number;
+  /** Years before `before` collapse into one fixed-width "Unknown" zone. */
+  unknownZone?: { before: number; width: number };
   breaks: TimelineBreak[];
   events: TimelineEvent[];
 };

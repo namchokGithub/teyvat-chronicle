@@ -52,7 +52,14 @@ export function normalizeFormRecord(
   let result = draft;
   const numberFields: FieldPath[] =
     collection === "timelines"
-      ? [["start"], ["end"], ["laneCount"], ["sortOrder"]]
+      ? [
+          ["start"],
+          ["end"],
+          ["laneCount"],
+          ["unknownBefore"],
+          ["unknownWidth"],
+          ["sortOrder"],
+        ]
       : collection === "events"
         ? [
             ["time", "start"],
@@ -71,7 +78,8 @@ export function normalizeFormRecord(
       continue;
     const nullable =
       (collection === "events" && path[0] === "time") ||
-      (collection === "eras" && (path[0] === "start" || path[0] === "end"));
+      (collection === "eras" && (path[0] === "start" || path[0] === "end")) ||
+      (collection === "timelines" && path[0] === "unknownBefore");
     result = setField(
       result,
       path,

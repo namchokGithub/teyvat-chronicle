@@ -26,6 +26,8 @@ export function draftTemplate(collection: CollectionName): ContentRecord {
         end: 0,
         laneCount: 3,
         breaks: [],
+        unknownBefore: -6000,
+        unknownWidth: 240,
         sortOrder: 0,
       } as ContentRecord;
     case "events":

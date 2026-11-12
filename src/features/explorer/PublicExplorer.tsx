@@ -12,7 +12,10 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getFirebaseApp } from "../../lib/firebase";
 import type { TimelineEvent } from "../../timeline/model";
-import { formatTimelineYear } from "../../timeline/projection";
+import {
+  formatTimelineYear,
+  formatUnknownZone,
+} from "../../timeline/projection";
 import {
   buildPublishedArchive,
   loreLabels,
@@ -31,8 +34,14 @@ import {
 import { Timeline } from "./Timeline";
 import { readExplorerUrl, writeExplorerUrl } from "./url";
 
-function formatEventTime(event: TimelineEvent): string {
-  if (event.start === null) return "Time unknown";
+function formatEventTime(
+  event: TimelineEvent,
+  unknownBefore: number | undefined,
+): string {
+  if (event.start === null)
+    return event.ancient && unknownBefore !== undefined
+      ? formatUnknownZone(unknownBefore)
+      : "Time unknown";
   const range =
     event.end !== null && event.end !== undefined
       ? ` — ${formatTimelineYear(event.end)}`
@@ -126,7 +135,7 @@ function EventDialog({
               <Dialog.Title className="dialog-title">
                 {event.title}
               </Dialog.Title>
-              <p className="dialog-time">{formatEventTime(event)}</p>
+              <p className="dialog-time">{formatEventTime(event, archive.timeline.unknownZone?.before)}</p>
               <div className="certainty-detail">
                 <span
                   className={`certainty-badge certainty-${event.loreStatus}`}>

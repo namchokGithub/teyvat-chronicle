@@ -250,7 +250,11 @@ export function AdvancedExplorer({
               </span>
               <h3>{story.title}</h3>
               <p>{story.summary}</p>
-              <p>{story.start === null ? "Time unknown" : story.era}</p>
+              <p>
+                {story.start === null && !story.ancient
+                  ? "Time unknown"
+                  : story.era}
+              </p>
               <div className="story-actions">
                 <button
                   disabled={currentStoryIndex <= 0}
